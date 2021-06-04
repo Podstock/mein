@@ -1,7 +1,7 @@
 <div class="flex flex-row items-center justify-between py-4 text-gray-500">
-    <hr class="w-full mr-2">
-        {{ __('Or') }}
-    <hr class="w-full ml-2">
+    <hr class="w-2/5">
+        <div class="w-3/5 text-center">{{ __('Alternativer Login') }}</div>
+    <hr class="w-2/5">
 </div>
 
 <div class="flex items-center justify-center">
