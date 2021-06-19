@@ -34,6 +34,14 @@ class Submission extends Component
         $this->talk->record = true;
     }
 
+    public function delete()
+    {
+        // dump($this->talk);
+        $this->authorize('delete', $this->talk);
+        $this->talk->delete();
+        return redirect()->to(route('mytalks'));
+    }
+
     public function submit()
     {
         if ($this->talk->id)

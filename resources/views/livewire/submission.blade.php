@@ -100,10 +100,10 @@
                     @endif
                     @if($talk->id)
                     <div class="flex justify-between px-4 py-3 bg-gray-50 sm:px-6">
-                        <button wire:click="delete"
+                        <a wire:click="delete" onclick="confirm('Confirm delete?') || event.stopImmediatePropagation()"
                             class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
-                           Löschen 
-                        </button>
+                            Löschen
+                        </a>
                         <button type="submit"
                             class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                             Speichern
