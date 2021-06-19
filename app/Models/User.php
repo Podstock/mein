@@ -75,4 +75,9 @@ class User extends Authenticatable
 
         return $this->getPhotoUrl();
     }
+
+    public function talks()
+    {
+        return $this->hasMany(Talk::class);
+    }
 }
