@@ -36,7 +36,7 @@
                             <x-jet-checkbox name="terms" id="terms"/>
 
                             <div class="ml-2">
-                                {!! __('Ich akzeptiere die :terms_of_service und :privacy_policy', [
+                                {!! __('Ich akzeptiere den :terms_of_service und die :privacy_policy', [
                                         'terms_of_service' => '<a target="_blank" href="https://podstock.de/code_of_conduct.html" class="underline text-sm text-gray-600 hover:text-gray-900">'.__('Terms of Service').'</a>',
                                         'privacy_policy' => '<a target="_blank" href="https://podstock.de/datenschutz.html" class="underline text-sm text-gray-600 hover:text-gray-900">'.__('Privacy Policy').'</a>',
                                 ]) !!}
