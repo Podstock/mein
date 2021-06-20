@@ -11,6 +11,7 @@ class Talk extends Model
 
     protected $casts = [
         'user_id' => 'integer',
+        'record' => 'boolean',
     ];
 
     const TYPE_LIVESTREAM = 1;
@@ -31,10 +32,10 @@ class Talk extends Model
     public static function getTypes($key = null)
     {
         $options = [
-            self::TYPE_LIVESTREAM => 'Livestream (audio only)',
+            self::TYPE_LIVESTREAM => 'Livestream - Audio',
             self::TYPE_WORKSHOP => 'Workshop',
-            self::TYPE_RECORDING_AUDIO => 'Aufzeichnung (audio only)',
-            self::TYPE_RECORDING_VIDEO => 'Aufzeichnung Video',
+            self::TYPE_RECORDING_AUDIO => 'Aufzeichnung - Audio',
+            self::TYPE_RECORDING_VIDEO => 'Aufzeichnung - Video',
         ];
 
         if ($key !== null) {
@@ -59,5 +60,10 @@ class Talk extends Model
         }
 
         return $options;
+    }
+
+    public function getTypeNameAttribute()
+    {
+        return $this->getTypes($this->type);
     }
 }

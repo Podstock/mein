@@ -1,9 +1,9 @@
 <div>
-    @if(!$talks)
+    @if($talks->isEmpty())
     <div class="mx-auto space-y-6 mt-8">
         <div class="flex justify-center">Keine Einreichungen vorhanden</div>
         <div class="flex justify-center">
-            <x-action-link class="flex items-center justify-center" href="{{ route('submission') }}">Neue Einreichung
+            <x-action-link class="flex items-center justify-center" href="{{ route('submission') }}">Etwas einreichen
             </x-action-link>
         </div>
     </div>
@@ -21,7 +21,7 @@
                                 </th>
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Wann
+                                    Art
                                 </th>
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -37,10 +37,12 @@
                             <tr>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center">
-                                        <div class="flex-shrink-0 h-10 w-10">
-                                            <img class="h-10 w-10 rounded-full"
-                                                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60"
+                                        <div class="flex-shrink-0 h-12 w-12">
+                                        @if($talk->logo)
+                                            <img class="h-12 w-12 rounded-full"
+                                                src="/storage/small/{{$talk->logo}}"
                                                 alt="">
+                                        @endif
                                         </div>
                                         <div class="ml-4">
                                             <div class="text-sm font-medium text-gray-900">
@@ -50,7 +52,7 @@
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900">{{$talk->wishtime}}</div>
+                                    <div class="text-sm text-gray-900">{{$talk->TypeName}}</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <span
@@ -83,7 +85,7 @@
                                 class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
                                 Angenommen
                             </span>
-                            Wir haben deine Einreichung angenommen. Du musst diese nun bestätigen.
+                            Wir haben deine Einreichung angenommen. Du musst diese nun noch bestätigen.
                         </li>
                         <li>
                             <span

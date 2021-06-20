@@ -33,7 +33,7 @@
                         </div>
                         <!-- Recording -->
                         <div class="col-span-6 sm:col-span-4">
-                            <x-jet-label for="talk.record" value="{{ __('Darf aufgezeichnet werden') }}" />
+                            <x-jet-label for="talk.record" value="{{ __('Darf aufgezeichnet und auf Youtube veröffentlicht werden') }}" />
                             <x-jet-checkbox id="talk.record" wire:model.defer="talk.record" />
                             <x-jet-input-error for="talk.record" class="mt-2" />
                         </div>
@@ -81,16 +81,22 @@
                                 Logo
                             </label>
                             <div class="mt-1 flex items-center space-x-5">
-                                <span class="inline-block h-12 w-12 rounded-full overflow-hidden bg-gray-100">
+                                <span class="inline-block h-20 w-20 rounded-full overflow-hidden bg-gray-100">
+                                    @if($logo_validated)
+                                    <img class="h-20 w-20" src="{{ $logo->temporaryUrl() }}">
+                                    @else
+                                    @if($talk->logo)
+                                    <img class="h-20 w-20"src="/storage/small/{{ $talk->logo }}">
+                                    @else
                                     <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
                                         <path
                                             d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
                                     </svg>
+                                    @endif
+                                    @endif
                                 </span>
-                                <button type="button"
-                                    class="bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                                    Logo hochladen
-                                </button>
+                                <input type="file" wire:model="logo">
+                                @error('logo') <span class="error">{{ $message }}</span> @enderror
                             </div>
                         </div>
                     </div>
@@ -100,10 +106,10 @@
                     @endif
                     @if($talk->id)
                     <div class="flex justify-between px-4 py-3 bg-gray-50 sm:px-6">
-                        <a wire:click="delete" onclick="confirm('Confirm delete?') || event.stopImmediatePropagation()"
+                        <button type="button" wire:click="delete" onclick="confirm('Confirm delete?') || event.stopImmediatePropagation()"
                             class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                             Löschen
-                        </a>
+                    </button>
                         <button type="submit"
                             class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                             Speichern

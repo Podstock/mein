@@ -2,17 +2,22 @@
 
 namespace App\Http\Livewire;
 
+use App\Facades\Image;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 use App\Models\Talk;
 use App\Rules\TalkType;
 use App\Rules\TalkWishtime;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Submission extends Component
 {
     use AuthorizesRequests;
+    use WithFileUploads;
     public Talk $talk;
+    public $logo;
+    public $logo_validated;
 
     protected function rules()
     {
@@ -22,21 +27,35 @@ class Submission extends Component
             'talk.wishtime' => ['required', new TalkWishtime],
             'talk.description' => 'required|min:25|string',
             'talk.comment' => 'nullable|string',
-            'talk.record' => 'required|boolean'
+            'talk.record' => 'required|boolean',
         ];
     }
 
     public function mount(Talk $talk)
     {
         $this->talk = $talk;
-        $this->talk->type = Talk::TYPE_LIVESTREAM;
-        $this->talk->wishtime = Talk::WISHTIME_DAY2_1;
-        $this->talk->record = true;
+        if (!$this->talk->id) {
+            $this->talk->type = Talk::TYPE_LIVESTREAM;
+            $this->talk->wishtime = Talk::WISHTIME_DAY2_1;
+            $this->talk->record = true;
+        } else {
+            $this->authorize('view', $this->talk);
+        }
+        $this->logo_validated = false;
+    }
+
+    public function updatedLogo()
+    {
+        $this->logo_validated = false;
+        $this->validate([
+            'logo' => 'image|mimes:jpg,png,jpeg,gif|max:5120', // 5MB Max
+        ]);
+
+        $this->logo_validated = true;
     }
 
     public function delete()
     {
-        // dump($this->talk);
         $this->authorize('delete', $this->talk);
         $this->talk->delete();
         return redirect()->to(route('mytalks'));
@@ -50,6 +69,14 @@ class Submission extends Component
             $this->authorize('create', Talk::class);
 
         $this->validate();
+
+        if (isset($this->logo)) {
+            $path = $this->logo->store('logos', 'public');
+            Image::resize_copy(storage_path('app/public/' . $path), storage_path('app/public/medium/' . $path), 512);
+            Image::resize_copy(storage_path('app/public/' . $path), storage_path('app/public/small/' . $path), 256);
+            Image::resize_copy(storage_path('app/public/' . $path), storage_path('app/public/tiny/' . $path), 128);
+            $this->talk->logo = $path;
+        }
 
         $this->talk->user_id = auth()->user()->id;
         $this->talk->save();

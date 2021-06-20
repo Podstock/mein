@@ -2,11 +2,14 @@
 
 namespace Tests\Feature;
 
+use App\Facades\Image;
 use App\Http\Livewire\Mytalks;
 use App\Http\Livewire\Submission;
 use App\Models\Talk;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 use Tests\TestCase;
 
@@ -33,6 +36,10 @@ class TalkTest extends TestCase
 
         //Success - create
         $this->signIn();
+        Storage::fake('public');
+        $file = UploadedFile::fake()->image('logo.png');
+
+        Image::shouldReceive('resize_copy')->once();
 
         Livewire::test(Submission::class)
             ->set('talk.name', 'test')
@@ -40,13 +47,16 @@ class TalkTest extends TestCase
             ->set('talk.wishtime', Talk::WISHTIME_DAY2_1)
             ->set('talk.record', true)
             ->set('talk.description', 'Lorem ipsum 1234 Lorem Ipsum')
+            ->set('logo', $file)
             ->call('submit')
             ->assertHasNoErrors()
             ->assertRedirect(route('mytalks'));
 
+        $talk = Talk::first();
+
+        Storage::disk('public')->assertExists($talk->logo);
         $this->assertDatabaseHas('talks', ['name' => 'test']);
 
-        $talk = Talk::first();
 
         //Success - edit
         Livewire::test(Submission::class, [$talk])
@@ -70,11 +80,8 @@ class TalkTest extends TestCase
 
         //Failed - validation
         Livewire::test(Submission::class)
-            ->set('talk.wishtime', '1x.2.2020')
+            ->set('talk.wishtime', 500)
             ->call('submit')
             ->assertHasErrors('talk.wishtime');
-
-
     }
-
 }
