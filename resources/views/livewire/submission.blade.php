@@ -33,7 +33,8 @@
                         </div>
                         <!-- Recording -->
                         <div class="col-span-6 sm:col-span-4">
-                            <x-jet-label for="talk.record" value="{{ __('Darf aufgezeichnet und auf Youtube veröffentlicht werden') }}" />
+                            <x-jet-label for="talk.record"
+                                value="{{ __('Darf aufgezeichnet und auf Youtube veröffentlicht werden') }}" />
                             <x-jet-checkbox id="talk.record" wire:model.defer="talk.record" />
                             <x-jet-input-error for="talk.record" class="mt-2" />
                         </div>
@@ -86,7 +87,7 @@
                                     <img class="h-20 w-20" src="{{ $logo->temporaryUrl() }}">
                                     @else
                                     @if($talk->logo)
-                                    <img class="h-20 w-20"src="/storage/small/{{ $talk->logo }}">
+                                    <img class="h-20 w-20" src="/storage/small/{{ $talk->logo }}">
                                     @else
                                     <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
                                         <path
@@ -96,8 +97,20 @@
                                     @endif
                                 </span>
                                 <input type="file" wire:model="logo">
-                                <div wire:loading wire:target="logo">Uploading...</div>
-                                @error('logo') <span class="error">{{ $message }}</span> @enderror
+                                <div class="flex" wire:loading wire:target="logo">
+                                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-green-700"
+                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                            stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor"
+                                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                        </path>
+                                    </svg>
+                                    <div>
+                                    Uploading...
+                                    </div>
+                                </div>
+                                @error('logo') <span class="text-red-600">{{ $message }}</span> @enderror
                             </div>
                         </div>
                     </div>
@@ -107,10 +120,11 @@
                     @endif
                     @if($talk->id)
                     <div class="flex justify-between px-4 py-3 bg-gray-50 sm:px-6">
-                        <button type="button" wire:click="delete" onclick="confirm('Confirm delete?') || event.stopImmediatePropagation()"
+                        <button type="button" wire:click="delete"
+                            onclick="confirm('Confirm delete?') || event.stopImmediatePropagation()"
                             class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                             Löschen
-                    </button>
+                        </button>
                         <button type="submit" wire:loading.attr="disabled" wire:target="logo"
                             class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                             Speichern

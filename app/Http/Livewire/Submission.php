@@ -70,7 +70,7 @@ class Submission extends Component
 
         $this->validate();
 
-        if (isset($this->logo)) {
+        if ($this->logo_validated && isset($this->logo)) {
             $path = $this->logo->store('logos', 'public');
             Image::resize_copy(storage_path('app/public/' . $path), storage_path('app/public/medium/' . $path), 512);
             Image::resize_copy(storage_path('app/public/' . $path), storage_path('app/public/small/' . $path), 256);
