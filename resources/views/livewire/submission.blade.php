@@ -96,6 +96,7 @@
                                     @endif
                                 </span>
                                 <input type="file" wire:model="logo">
+                                <div wire:loading wire:target="logo">Uploading...</div>
                                 @error('logo') <span class="error">{{ $message }}</span> @enderror
                             </div>
                         </div>
@@ -110,14 +111,14 @@
                             class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                             Löschen
                     </button>
-                        <button type="submit"
+                        <button type="submit" wire:loading.attr="disabled" wire:target="logo"
                             class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                             Speichern
                         </button>
                     </div>
                     @else
                     <div class="text-right px-4 py-3 bg-gray-50 sm:px-6">
-                        <button type="submit"
+                        <button type="submit" wire:loading.attr="disabled" wire:target="logo"
                             class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                             Jetzt Einreichen
                         </button>
