@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return redirect(route('dashboard'));
+    return redirect(route('mytalks'));
 });
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
@@ -27,8 +27,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/talks/my', function () {
         return view('talk.myindex');
     })->name('mytalks');
-
-    // Route::get('/talks/my', Mytalks::class)->name('mytalks');
 
     Route::get('/talks/submission', Submission::class)->name('submission');
     Route::get('/talks/submission/{talk}', Submission::class)->name('submission.edit');
