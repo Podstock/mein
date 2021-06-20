@@ -7,7 +7,9 @@ class Image
     public static function resize_copy(string $file, string $dst, int $width)
     {
         $info = pathinfo($file);
-        mkdir(pathinfo($dst)['dirname'], 0755, true);
+        $dir = pathinfo($dst)['dirname'];
+        if (!is_dir($dir))
+            mkdir($dir, 0755, true);
         $ext = strtolower($info['extension']);
 
         $image = imagecreatefromstring(file_get_contents($file));
