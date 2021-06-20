@@ -3,6 +3,7 @@
 /public/storage
 /public/css/app.css
 /storage/*.key
+/tools/images
 /vendor
 .env
 .env.backup

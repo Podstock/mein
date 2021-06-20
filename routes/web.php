@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Livewire\Submission;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,6 +18,15 @@ Route::get('/', function () {
     return redirect(route('dashboard'));
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+
+    Route::get('/talks/my', function () {
+        return view('talk.myindex');
+    })->name('mytalks');
+
+    Route::get('/talks/submission', Submission::class)->name('submission');
+    Route::get('/talks/submission/{talk}', Submission::class)->name('submission.edit');
+});
