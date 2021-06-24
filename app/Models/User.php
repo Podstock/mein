@@ -29,7 +29,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'nickname', 'password',
     ];
 
     /**
@@ -79,5 +79,19 @@ class User extends Authenticatable
     public function talks()
     {
         return $this->hasMany(Talk::class);
+    }
+
+    public function getNicknameAttribute()
+    {
+        if (!empty($this->attributes['nickname']))
+            return $this->attributes['nickname'];
+
+        $accs = $this->connectedAccounts()->get();
+        foreach ($accs as $acc) {
+            if ($acc->nickname)
+                return $acc->nickname;
+        }
+
+        return preg_replace('/[^A-Za-z0-9-_]/', '', $this->attributes['name']);
     }
 }
