@@ -34,12 +34,14 @@ class TalkTest extends TestCase
             ->call('submit')
             ->assertForbidden();
 
+        //SignIn
+        $user = $this->signIn();
+
         //Success - create
-        $this->signIn();
         Storage::fake('public');
         $file = UploadedFile::fake()->image('logo.png');
 
-        Image::shouldReceive('resize_copy')->once();
+        Image::shouldReceive('resize_copy')->times(3);
 
         Livewire::test(Submission::class)
             ->set('talk.name', 'test')
@@ -57,7 +59,6 @@ class TalkTest extends TestCase
         Storage::disk('public')->assertExists($talk->logo);
         $this->assertDatabaseHas('talks', ['name' => 'test']);
 
-
         //Success - edit
         Livewire::test(Submission::class, [$talk])
             ->set('talk.name', 'test2')
@@ -65,12 +66,18 @@ class TalkTest extends TestCase
             ->assertRedirect(route('mytalks'));
         $this->assertDatabaseHas('talks', ['name' => 'test2']);
 
-        //Failed - delete (not allowed)
+        //Failed - view (not allowed)
         $other_talk = Talk::factory(['name' => 'secret_talk'])->create();
         Livewire::test(Submission::class, [$other_talk])
-            ->call('delete')
             ->assertForbidden();
-        $this->assertDatabaseHas('talks', ['name' => 'secret_talk']);
+
+        //Failed - delete (not allowed)
+        $l = Livewire::test(Submission::class, [$talk]);
+        $this->signIn(); //Bad user
+        $l->call('delete');
+        $l->assertForbidden();
+        $this->assertDatabaseHas('talks', ['name' => 'test2']);
+        $this->signIn($user);
 
         //Success - delete
         Livewire::test(Submission::class, [$talk])
