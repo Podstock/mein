@@ -33,6 +33,15 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         return view('talk.myindex');
     })->name('mytalks');
 
+    Route::get(
+        '/user/workadventure/login',
+        function () {
+            return redirect(
+                "https://play.wa.podstock.de/podstock/" . auth()->user()->uuid
+            );
+        }
+    );
+
     Route::get('/talks/submission', Submission::class)->name('submission');
     Route::get('/talks/submission/{talk}', Submission::class)->name('submission.edit');
 });

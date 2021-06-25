@@ -62,10 +62,19 @@ class UserTest extends TestCase
 
     public function test_card()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
         $user = User::factory()->create();
         $this->get('/user/card/' . $user->id)
             ->assertStatus(200)
             ->assertSee($user->name);
+    }
+
+    public function test_world_login_redirect()
+    {
+        $this->get('/user/workadventure/login')->assertStatus(302);
+
+        $user = $this->signIn();
+        $this->get('/user/workadventure/login')
+            ->assertRedirect("https://play.wa.podstock.de/podstock/".$user->uuid);
     }
 }
