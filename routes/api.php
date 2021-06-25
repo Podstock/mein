@@ -19,7 +19,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/uuid/{uuid}', function ($uuid) {
+Route::get('/user/uuid/{uuid}', function ($uuid) {
     $user = User::where('uuid', $uuid)->firstOrFail();
     return ['username' => $user->nickname, 'uuid' => $user->uuid];
+});
+
+Route::get('/user/card_url/{uuid}', function ($uuid) {
+    $user = User::where('uuid', $uuid)->firstOrFail();
+    return route('user_card', $user->id);
 });

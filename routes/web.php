@@ -2,6 +2,7 @@
 
 use App\Http\Livewire\Mytalks;
 use App\Http\Livewire\Submission;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,6 +19,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return redirect(route('mytalks'));
 });
+
+Route::get('/user/card/{user}', function (User $user) {
+    return view('user.card', ['user' => $user]);
+})->name('user_card');
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/dashboard', function () {

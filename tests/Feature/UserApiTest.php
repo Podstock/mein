@@ -19,8 +19,17 @@ class UserApiTest extends TestCase
 
         $user = User::factory(['uuid' => $uuid, 'nickname' => 'test'])->create();
 
-        $this->get('/api/uuid/' . $uuid)
+        $this->get('/api/user/uuid/' . $uuid)
             ->assertStatus(200)
             ->assertExactJson(['username' => 'test', 'uuid' => $uuid]);
+    }
+
+    public function test_api_card_url()
+    {
+        $uuid = 'c8ae8c4e-dbd9-4858-a49d-26c8a2fc7e3b';
+        $user = User::factory(['uuid' => $uuid, 'nickname' => 'test'])->create();
+        $this->get('/api/user/card_url/' . $uuid)
+            ->assertStatus(200)
+            ->assertSee($user->id);
     }
 }
