@@ -21,6 +21,6 @@ class UserApiTest extends TestCase
 
         $this->get('/api/uuid/' . $uuid)
             ->assertStatus(200)
-            ->assertExactJson(['username' => 'test']);
+            ->assertExactJson(['username' => 'test', 'uuid' => $uuid]);
     }
 }

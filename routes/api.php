@@ -21,5 +21,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/uuid/{uuid}', function ($uuid) {
     $user = User::where('uuid', $uuid)->firstOrFail();
-    return ['username' => $user->nickname];
+    return ['username' => $user->nickname, 'uuid' => $user->uuid];
 });
