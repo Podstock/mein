@@ -20,6 +20,7 @@ class UserApiTest extends TestCase
         $user = User::factory(['uuid' => $uuid, 'nickname' => 'test'])->create();
 
         $this->get('/api/uuid/' . $uuid)
-            ->assertStatus(200);
+            ->assertStatus(200)
+            ->assertExactJson(['username' => 'test']);
     }
 }
