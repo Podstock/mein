@@ -21,7 +21,8 @@
     </div>
 
     <footer>
-        <div class="flex justify-center text-sm text-grey mt-12 border-t pt-4" aria-label="version">mein.podstock.de
+        <div class="flex justify-center text-sm text-grey mt-16 border-t pt-4" aria-label="version" x-data="app">
+            mein.podstock.de v<span x-html="version"></span>
         </div>
         <div class="flex justify-center text-sm text-grey mt-2">
             <a class="no-underline text-grey-darker hover:underline px-1"

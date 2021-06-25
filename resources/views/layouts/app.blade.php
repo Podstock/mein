@@ -40,12 +40,13 @@
     </div>
 
     <footer>
-        <div class="flex justify-center text-sm text-grey mt-16 border-t pt-4" aria-label="version">mein.podstock.de
+        <div class="flex justify-center text-sm text-grey mt-16 border-t pt-4" aria-label="version" x-data="app">
+            mein.podstock.de v<span x-html="version"></span>
         </div>
         <div class="flex justify-center text-sm text-grey mt-2">
             <a class="no-underline text-grey-darker hover:underline px-1"
-                href="https://www.podstock.de/code_of_conduct.html" target="_blank" rel="noopener">Verhaltenskodex</a><span
-                aria-hidden="true"> | </span>
+                href="https://www.podstock.de/code_of_conduct.html" target="_blank"
+                rel="noopener">Verhaltenskodex</a><span aria-hidden="true"> | </span>
             <a class="no-underline text-grey-darker hover:underline px-1"
                 href="https://www.podstock.de/datenschutz.html" target="_blank" rel="noopener">Datenschutz</a><span
                 aria-hidden="true"> | </span>
