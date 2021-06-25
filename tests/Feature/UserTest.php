@@ -59,4 +59,13 @@ class UserTest extends TestCase
             $user->fresh()->uuid
         );
     }
+
+    public function test_card()
+    {
+        $this->withoutExceptionHandling();
+        $user = User::factory()->create();
+        $this->get('/user/card/' . $user->id)
+            ->assertStatus(200)
+            ->assertSee($user->name);
+    }
 }
