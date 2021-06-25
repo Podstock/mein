@@ -10,6 +10,8 @@ use JoelButcher\Socialstream\SetsProfilePhotoFromUrl;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Str;
+
 
 class User extends Authenticatable
 {
@@ -93,5 +95,15 @@ class User extends Authenticatable
         }
 
         return preg_replace('/[^A-Za-z0-9-_]/', '', $this->attributes['name']);
+    }
+
+    public function getUuidAttribute()
+    {
+        if (!empty($this->attributes['uuid']))
+            return $this->attributes['uuid'];
+
+        $this->attributes['uuid'] = Str::uuid();
+        $this->save();
+        return $this->attributes['uuid'];
     }
 }

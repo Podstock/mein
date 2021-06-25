@@ -2,18 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Facades\Image;
-use App\Http\Livewire\Mytalks;
-use App\Http\Livewire\Submission;
 use App\Models\ConnectedAccount;
-use App\Models\Talk;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
-use Livewire\Livewire;
 use Tests\TestCase;
+use Illuminate\Support\Str;
 
 class UserTest extends TestCase
 {
@@ -23,7 +16,7 @@ class UserTest extends TestCase
     {
         // User with direct nickname
         $user = User::factory(['nickname' => 'test'])->create();
-        $this->assertTrue($user->nickname === 'test');
+        $this->assertEquals('test', $user->nickname);
 
         // User with empty nickname but social account nickname
         $user = User::factory()->create();
@@ -31,16 +24,39 @@ class UserTest extends TestCase
             'user_id' => $user->id,
             'nickname' => 'test2'
         ])->create();
-        $this->assertTrue($user->nickname === 'test2');
+        $this->assertEquals('test2', $user->nickname);
         $user->nickname = "test";
         $user->save();
-        $this->assertTrue($user->fresh()->nickname === 'test');
+        $this->assertEquals('test', $user->fresh()->nickname);
 
         // User with empty nickname and empty social account nickname
         $user = User::factory()->create(['name' => 'My @_ \Username-']);
         ConnectedAccount::factory([
             'user_id' => $user->id,
         ])->create();
-        $this->assertTrue($user->nickname === 'My_Username-');
+        $this->assertEquals('My_Username-', $user->nickname);
+    }
+
+    public function test_uuid()
+    {
+        // Empty uuid
+        Str::createUuidsUsing(function () {
+            return '9b682c22-c549-4cf1-9de6-00ef2cd13868';
+        });
+        $user = User::factory()->create();
+        $this->assertEquals('9b682c22-c549-4cf1-9de6-00ef2cd13868', $user->uuid);
+        $this->assertDatabaseHas(
+            'users',
+            ['uuid' => '9b682c22-c549-4cf1-9de6-00ef2cd13868']
+        );
+
+        // Saved uuid (should not overriden)
+        Str::createUuidsUsing(function () {
+            return 'fd57749b-ecc0-4a17-a299-5183924a115b';
+        });
+        $this->assertEquals(
+            '9b682c22-c549-4cf1-9de6-00ef2cd13868',
+            $user->fresh()->uuid
+        );
     }
 }
