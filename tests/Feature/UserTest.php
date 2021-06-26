@@ -77,4 +77,23 @@ class UserTest extends TestCase
         $this->get('/user/workadventure/login')
             ->assertRedirect("https://play.wa.podstock.de/podstock/".$user->uuid);
     }
+
+    public function test_roles()
+    {
+        $user = $this->signIn();
+        $this->assertFalse($user->isAdmin());
+        $this->assertFalse($user->isOrga());
+
+        // Test Admin
+        $user->role = User::ROLE_ADMIN;
+        $user->save();
+        $this->assertTrue($user->isAdmin());
+        $this->assertFalse($user->isOrga());
+
+        // Test Orga
+        $user->role = User::ROLE_ORGA;
+        $user->save();
+        $this->assertFalse($user->isAdmin());
+        $this->assertTrue($user->isOrga());
+    }
 }

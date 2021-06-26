@@ -25,6 +25,35 @@ class User extends Authenticatable
     use SetsProfilePhotoFromUrl;
     use TwoFactorAuthenticatable;
 
+    const ROLE_USER = 0;
+    const ROLE_ORGA = 1;
+    const ROLE_ADMIN = 99;
+
+    public static function getRole($key = null)
+    {
+        $options = [
+            self::ROLE_USER => 'User',
+            self::ROLE_ORGA => 'Orga',
+            self::ROLE_ADMIN => 'Admin',
+        ];
+
+        if ($key !== null) {
+            return $options[$key];
+        }
+
+        return $options;
+    }
+
+    public function isAdmin()
+    {
+        return $this->role === self::ROLE_ADMIN;
+    }
+
+    public function isOrga()
+    {
+        return $this->role === self::ROLE_ORGA;
+    }
+
     /**
      * The attributes that are mass assignable.
      *
@@ -53,6 +82,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'role' => 'integer'
     ];
 
     /**

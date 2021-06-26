@@ -2,6 +2,7 @@
 
 use App\Http\Livewire\Mytalks;
 use App\Http\Livewire\Submission;
+use App\Models\Page;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
@@ -21,9 +22,16 @@ Route::get('/', function () {
 });
 
 Route::get('/user/card/{user}', function (User $user) {
-    $avatar = '/storage/tiny/'.$user->profile_photo_path;
+    $avatar = '/storage/tiny/' . $user->profile_photo_path;
     return view('user.card', ['user' => $user, 'avatar' => $avatar]);
 })->name('user_card');
+
+Route::get(
+    '/page/{page:slug}',
+    function (Page $page) {
+        return view('page', ['page' => $page]);
+    }
+);
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/dashboard', function () {
