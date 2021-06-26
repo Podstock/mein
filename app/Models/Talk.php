@@ -48,7 +48,7 @@ class Talk extends Model
     public static function getWishtimes($key = null)
     {
         $options = [
-            self::WISHTIME_DAY2_1 => 'SA 14.08. - Morgens',
+            self::WISHTIME_DAY2_1 => 'Sa 14.08. - Morgens',
             self::WISHTIME_DAY2_2 => 'Sa 14.08. - Nachmittags',
             self::WISHTIME_DAY2_3 => 'Sa 14.08. - Abends',
             self::WISHTIME_DAY3_1 => 'So 15.08. - Morgens',
