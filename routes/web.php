@@ -21,7 +21,8 @@ Route::get('/', function () {
 });
 
 Route::get('/user/card/{user}', function (User $user) {
-    return view('user.card', ['user' => $user]);
+    $avatar = '/storage/tiny/'.$user->profile_photo_path;
+    return view('user.card', ['user' => $user, 'avatar' => $avatar]);
 })->name('user_card');
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
