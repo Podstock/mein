@@ -1,6 +1,6 @@
 <x-empty-layout>
     <div class="space-y-3">
-        <img class="mx-auto h-40 w-40 rounded-full xl:w-56 xl:h-56" src="{{$avatar}}" alt="">
+        <img class="mx-auto h-32 w-32 rounded-full" src="{{$avatar}}" aria-hidden="true">
         <div class="text-center">
             <div class="font-medium text-lg leading-6 space-y-1">
                 <h3 class="text-gray-800">{{$user->name}}</h3>
@@ -9,7 +9,8 @@
 
             <ul class="flex justify-center space-x-5 mt-2">
                 <li>
-                    <a href="#" class="text-gray-500 hover:text-gray-400">
+                    @if (!empty($user->twitter))
+                    <a href="https://twitter.com/{{$user->twitter}}" class="text-gray-500 hover:text-gray-400" target="_blank">
                         <span class="sr-only">Twitter</span>
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                             <path
@@ -17,6 +18,7 @@
                             </path>
                         </svg>
                     </a>
+                    @endif
                 </li>
             </ul>
         </div>

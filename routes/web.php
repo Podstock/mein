@@ -22,7 +22,7 @@ Route::get('/', function () {
 });
 
 Route::get('/user/card/{user}', function (User $user) {
-    $avatar = '/storage/tiny/' . $user->profile_photo_path;
+    $avatar = '/storage/small/' . $user->profile_photo_path;
     return view('user.card', ['user' => $user, 'avatar' => $avatar]);
 })->name('user_card');
 
