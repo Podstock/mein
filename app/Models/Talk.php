@@ -66,4 +66,10 @@ class Talk extends Model
     {
         return $this->getTypes($this->type);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(\App\Models\User::class);
+    }
+
 }

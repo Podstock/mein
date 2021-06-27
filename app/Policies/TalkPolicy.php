@@ -10,6 +10,12 @@ class TalkPolicy
 {
     use HandlesAuthorization;
 
+    public function before(User $user, $ability)
+    {
+        if ($user->isAdmin() || $user->isOrga())
+            return true;
+    }
+
     /**
      * Determine whether the user can view any models.
      *
@@ -67,5 +73,4 @@ class TalkPolicy
     {
         return $user->id === $talk->user_id;
     }
-
 }
