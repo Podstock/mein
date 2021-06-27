@@ -18,6 +18,7 @@ class Talk extends Model
     const TYPE_WORKSHOP = 2;
     const TYPE_RECORDING_AUDIO = 3;
     const TYPE_RECORDING_VIDEO = 4;
+    const TYPE_LIVESTREAM_VIDEO = 5;
 
     const WISHTIME_DAY1_1 = 10;
     const WISHTIME_DAY1_2 = 20;
@@ -33,7 +34,8 @@ class Talk extends Model
     {
         $options = [
             self::TYPE_LIVESTREAM => 'Livestream - Audio',
-            self::TYPE_WORKSHOP => 'Workshop',
+            self::TYPE_LIVESTREAM_VIDEO => 'Livestream - Video',
+            self::TYPE_WORKSHOP => 'Workshop Audio/Video',
             self::TYPE_RECORDING_AUDIO => 'Aufzeichnung - Audio',
             self::TYPE_RECORDING_VIDEO => 'Aufzeichnung - Video',
         ];
