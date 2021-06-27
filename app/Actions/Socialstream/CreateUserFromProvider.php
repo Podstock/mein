@@ -2,6 +2,7 @@
 
 namespace App\Actions\Socialstream;
 
+use App\Jobs\ProfileImages;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use JoelButcher\Socialstream\Contracts\CreatesConnectedAccounts;
@@ -52,6 +53,7 @@ class CreateUserFromProvider implements CreatesUserFromProvider
                 $user->switchConnectedAccount(
                     $this->createsConnectedAccounts->create($user, $provider, $providerUser)
                 );
+                ProfileImages::dispatch($user);
             });
         });
     }

@@ -3,6 +3,7 @@
 namespace App\Actions\Fortify;
 
 use App\Facades\Image;
+use App\Jobs\ProfileImages;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -30,10 +31,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
 
         if (isset($input['photo'])) {
             $user->updateProfilePhoto($input['photo']);
-            $path = $user->profile_photo_path;
-            Image::resize_copy(storage_path('app/public/' . $path), storage_path('app/public/medium/' . $path), 512);
-            Image::resize_copy(storage_path('app/public/' . $path), storage_path('app/public/small/' . $path), 256);
-            Image::resize_copy(storage_path('app/public/' . $path), storage_path('app/public/tiny/' . $path), 128);
+            ProfileImages::dispatch($user);
         }
 
         if (
