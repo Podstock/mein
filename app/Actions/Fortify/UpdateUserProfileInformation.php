@@ -24,24 +24,30 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             'nickname' => ['nullable', 'string', 'max:14', 'alpha_dash'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:2048'],
+            'sendegate' => ['nullable', 'string', 'regex:/^\S*$/u'],
+            'twitter' => ['nullable', 'string', 'regex:/^\S*$/u']
         ])->validateWithBag('updateProfileInformation');
 
         if (isset($input['photo'])) {
             $user->updateProfilePhoto($input['photo']);
             $path = $user->profile_photo_path;
-            Image::resize_copy(storage_path('app/public/'.$path), storage_path('app/public/medium/'.$path), 512);
-            Image::resize_copy(storage_path('app/public/'.$path), storage_path('app/public/small/'.$path), 256);
-            Image::resize_copy(storage_path('app/public/'.$path), storage_path('app/public/tiny/'.$path), 128);
+            Image::resize_copy(storage_path('app/public/' . $path), storage_path('app/public/medium/' . $path), 512);
+            Image::resize_copy(storage_path('app/public/' . $path), storage_path('app/public/small/' . $path), 256);
+            Image::resize_copy(storage_path('app/public/' . $path), storage_path('app/public/tiny/' . $path), 128);
         }
 
-        if ($input['email'] !== $user->email &&
-            $user instanceof MustVerifyEmail) {
+        if (
+            $input['email'] !== $user->email &&
+            $user instanceof MustVerifyEmail
+        ) {
             $this->updateVerifiedUser($user, $input);
         } else {
             $user->forceFill([
                 'name' => $input['name'],
                 'email' => $input['email'],
-                'nickname' => $input['nickname']
+                'nickname' => $input['nickname'],
+                'sendegate' => $input['sendegate'],
+                'twitter' => $input['twitter']
             ])->save();
         }
     }

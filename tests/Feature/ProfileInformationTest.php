@@ -29,7 +29,10 @@ class ProfileInformationTest extends TestCase
         Livewire::test(UpdateProfileInformationForm::class)
             ->set('state', [
                 'name' => 'Test Name',
-                'email' => 'test@example.com', 'nickname' => 'test'
+                'email' => 'test@example.com', 
+                'nickname' => 'test',
+                'twitter' => '',
+                'sendegate' => ''
             ])
             ->call('updateProfileInformation');
 
