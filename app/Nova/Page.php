@@ -45,7 +45,7 @@ class Page extends Resource
         return [
             ID::make(__('ID'), 'id')->sortable(),
             Text::make(__('Title'), 'title')->rules('required'),
-            Trix::make(__('Inhalt'), 'body')->rules('required'),
+            Trix::make(__('Inhalt'), 'body')->rules('required')->withFiles('public', '/pages'),
             Slug::make('Slug')->from('Title'),
             Text::make('URL', function () {
                 return "https://mein.podstock.de/page/" . $this->slug;
