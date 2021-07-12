@@ -113,6 +113,16 @@ class User extends Authenticatable
         return $this->hasMany(Talk::class);
     }
 
+    public function tent()
+    {
+        return $this->hasOne(Tent::class);
+    }
+    
+    public function projects()
+    {
+        return $this->hasMany(Project::class);
+    }
+
     public function getNicknameAttribute()
     {
         if (!empty($this->attributes['nickname']))
