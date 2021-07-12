@@ -4,7 +4,7 @@ namespace App\Nova;
 
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Markdown;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -44,8 +44,8 @@ class Camping extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            Number::make('number'),
-            Text::make('description'),
+            Number::make('number')->rules('required'),
+            Markdown::make('description')->rules('required')->alwaysShow(),
             Image::make('image')->disk('public')->path('tents')
         ];
     }
