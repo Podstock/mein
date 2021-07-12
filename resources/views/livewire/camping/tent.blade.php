@@ -20,7 +20,7 @@
         <div class="text-center mt-2">
             <button wire:click="delete" type="button"
                 class="mt-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
-                Neues Zelt wählen
+                Anderes Zelt wählen
             </button>
         </div>
     </div>
