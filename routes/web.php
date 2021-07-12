@@ -42,6 +42,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         return view('talk.myindex');
     })->name('mytalks');
 
+    Route::get('/camping', function () {
+        return view('camping.index');
+    })->name('camping');
+
     Route::get(
         '/user/workadventure/login',
         function () {

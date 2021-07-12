@@ -15,6 +15,7 @@ class Submission extends Component
 {
     use AuthorizesRequests;
     use WithFileUploads;
+
     public Talk $talk;
     public $logo;
     public $logo_validated;
