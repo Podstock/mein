@@ -38,6 +38,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         return view('dashboard');
     })->name('dashboard');
 
+    Route::get('/merch-sticker', function(){
+        return view('merch');
+    })->name('merch');
+
     Route::get('/talks/my', function () {
         return view('talk.myindex');
     })->name('mytalks');
