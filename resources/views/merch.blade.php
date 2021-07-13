@@ -19,7 +19,7 @@
                                             <a href="https://www.deutschepost.de/de/b/briefe-adressieren-an-packstation.html"
                         target="_blank">Versandbedingungen
                         der Post</a>
-                       <p>Kalkuliere am besten mit einer Menge zwischen 50 - max. 300 Stickern. <br />Bitte keine Buttons oder anderer Merch.</p>
+                       <p>Kalkuliere am besten mit einer Menge zwischen 50 und max. 300 Stickern. <br />Bitte keine Buttons oder anderer Merch.</p>
                     </div>
                     
                 </div>
