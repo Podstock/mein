@@ -14,7 +14,7 @@ class Tent extends Component
     {        
         $this->mytent = auth()->user()->tent;
         if (empty($this->mytent))
-            $this->tents = ModelsTent::whereNull('user_id')->get();
+            $this->tents = ModelsTent::whereNull('user_id')->whereVisible(true)->get();
     }
 
     public function mount()

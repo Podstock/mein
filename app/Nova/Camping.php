@@ -7,6 +7,9 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Markdown;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Image;
+use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Camping extends Resource
@@ -43,10 +46,13 @@ class Camping extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make(__('ID'), 'id')->sortable(),
-            Number::make('number')->rules('required'),
+            Number::make('number')->rules('required','unique:tents,number,{{resourceId}}'),
+            Text::make('title')->rules('required'),
+            BelongsTo::make('User')->nullable(),
             Markdown::make('description')->rules('required')->alwaysShow(),
-            Image::make('image')->disk('public')->path('tents')
+            Image::make('image')->disk('public')->path('tents')->creationRules('required'),
+            Image::make('image_inside')->disk('public')->path('tents_inside'),
+            Boolean::make('visible')->default(true),
         ];
     }
 

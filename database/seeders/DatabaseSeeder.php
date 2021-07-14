@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         $user = User::factory()->make();
         $user->email = 'podstock@example.net';
         $user->password = Hash::make('1234');
+        $user->role = 1;
         $user->save();
     }
 }
