@@ -23,6 +23,7 @@
                         </svg>
                         <span>{{ __('Wegweiser') }}</span>
                     </x-jet-nav-link>
+                    @endif
                     <x-jet-nav-link href="{{ route('camping') }}" :active="request()->routeIs('camping')">
 
                         <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="campground"
@@ -34,7 +35,6 @@
                         </svg>
                         <span>{{ __('Zelten') }}</span>
                     </x-jet-nav-link>
-                    @endif
                     <x-jet-nav-link href="{{ route('mytalks') }}" :active="request()->is('talks/*')">
 
                         <svg aria-hidden="true" focusable="false" data-prefix="fad" data-icon="signal-stream"
@@ -202,14 +202,14 @@
             <x-jet-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                 {{ __('Wegweiser') }}
             </x-jet-responsive-nav-link>
+            @endif
             <x-jet-responsive-nav-link href="{{ route('camping') }}" :active="request()->routeIs('camping')">
                 {{ __('Zelten') }}
             </x-jet-responsive-nav-link>
-            @endif
             <x-jet-responsive-nav-link href="{{ route('mytalks') }}" :active="request()->is('talks/*')">
                 {{ __('Call for Podcasts') }}
             </x-jet-responsive-nav-link>
-            <x-jet-responsive-nav-link href="{{ route('merch') }}" :active="request()->routeIs('camping')">
+            <x-jet-responsive-nav-link href="{{ route('merch') }}" :active="request()->routeIs('merch')">
                 {{ __('Merch/Sticker') }}
             </x-jet-responsive-nav-link>
         </div>
