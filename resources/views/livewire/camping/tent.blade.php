@@ -11,12 +11,16 @@
                 </div>
                 <div class="flex-1 min-w-0">
                     <span class="absolute inset-0" aria-hidden="true"></span>
+                    <p class="font-bold text-gray-900">{{$mytent->title}}</p>
                     <p class="text-sm font-medium text-gray-900">
                         {!! Str::markdown($mytent->description) !!}
                     </p>
                 </div>
             </div>
         </div>
+        @if(!empty($mytent->image_inside))
+        <img width="256px" src="/storage/{{$mytent->image_inside}}" alt="" class="mx-auto mt-2" aria-hidden="true">
+        @endif
         <div class="text-center mt-2">
             <button wire:click="delete" type="button"
                 class="mt-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
@@ -36,6 +40,7 @@
             </div>
             <div class="flex-1 min-w-0">
                 <span class="absolute inset-0" aria-hidden="true"></span>
+                <p class="font-bold text-gray-900">{{$tent->title}}</p>
                 <p class="text-sm font-medium text-gray-900">
                     {!! Str::markdown($tent->description) !!}
                 </p>
