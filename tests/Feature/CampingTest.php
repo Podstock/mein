@@ -27,7 +27,20 @@ class CampingTest extends TestCase
         $user = $this->signIn();
         $project = Project::factory(['user_id' => $user->id])->create();
         Livewire::test(CampingProject::class, ['project' => $project])
-            ->call('save');
+            ->set('project.url', 'podstock.de')
+            ->call('save')
+            ->assertHasNoErrors();
+
+        Livewire::test(CampingProject::class, ['project' => $project])
+            ->set('project.url', 'http://podstock.de')
+            ->call('save')
+            ->assertHasNoErrors();
+
+        Livewire::test(CampingProject::class, ['project' => $project])
+            ->set('project.url', '')
+            ->call('save')
+            ->assertSet('project.url', '')
+            ->assertHasErrors();
 
         Livewire::test(CampingProject::class, ['project' => $project])
             ->call('delete');
