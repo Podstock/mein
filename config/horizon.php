@@ -151,7 +151,7 @@ return [
     |
     */
 
-    'memory_limit' => 128,
+    'memory_limit' => 256,
 
     /*
     |--------------------------------------------------------------------------
@@ -169,7 +169,7 @@ return [
             'connection' => 'redis',
             'queue' => ['default'],
             'balance' => 'auto',
-            'maxProcesses' => 1,
+            'maxProcesses' => 3,
             'memory' => 256,
             'tries' => 1,
             'nice' => 0,
@@ -180,6 +180,7 @@ return [
         'production' => [
             'supervisor-1' => [
                 'maxProcesses' => 10,
+                'minProcesses' => 3,
                 'balanceMaxShift' => 1,
                 'balanceCooldown' => 3,
             ],
