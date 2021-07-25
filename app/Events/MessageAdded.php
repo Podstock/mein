@@ -32,7 +32,7 @@ class MessageAdded implements ShouldBroadcast
         $this->message['body'] = Str::markdown($message->body);
         $this->message['user'] = Arr::only(
             $message->user->toArray(),
-            ['name', 'profile_photo_url']
+            ['name', 'nickname', 'profile_photo_url']
         );
     }
 

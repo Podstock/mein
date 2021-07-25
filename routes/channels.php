@@ -24,6 +24,7 @@ Broadcast::channel('users.{room}', function ($user, Room $room) {
         return [
             'id' => $user->id,
             'name' => $user->name,
+            'nickname' => $user->nickname,
             'image' => $user->ProfilePhotoUrl,
             'hand' => false,
             'type' => $user->is_speaker($room->id) ? 'speaker' : 'listener'

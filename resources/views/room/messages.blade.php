@@ -13,7 +13,7 @@
                 </span>
                 <div class="ml-4">
                     <p class="text-sm font-medium text-gray-900 truncate">{{$message->user->name}}
-                        <span class="text-gray-500">@nickname</span></p>
+                        <span class="text-gray-500">{{'@'.$message->user->nickname}}</span></p>
                     <p>
                         {!! Str::markdown($message->body) !!}
                     </p>
@@ -35,7 +35,7 @@
                     <div class="ml-4">
                         <p class="text-sm font-medium text-gray-900 truncate">
                             <span x-text="message.user.name"></span>
-                            <span class="text-gray-500">@nickname</span></p>
+                            <span x-html="'@'+message.user.nickname" class="text-gray-500"></span></p>
                         <p x-html="message.body"></p>
                     </div>
                 </div>
@@ -46,7 +46,7 @@
 
 
 <!-- add -->
-<div class="bg-gray-50 px-4 py-6 sm:px-6">
+<div x-data="" class="bg-gray-50 px-4 py-6 sm:px-6">
     <div class="flex space-x-3">
         <div class="flex-shrink-0">
             <img class="h-10 w-10 rounded-full" src="{{auth()->user()->profilePhotoUrl}}" alt="">
@@ -56,6 +56,7 @@
                 <div>
                     <label for="comment" class="sr-only">About</label>
                     <textarea wire:model.defer="body" id="comment" name="body" rows="3"
+                        x-on:keydown.enter="$event.shiftKey ? '' : $refs.submit.click()"
                         class="shadow-sm block w-full focus:ring-blue-500 focus:border-blue-500 sm:text-sm border border-gray-300 rounded-md"
                         placeholder="Add a comment"></textarea>
                 </div>
@@ -74,7 +75,7 @@
                             You can use markdown
                         </span>
                     </a>
-                    <button type="submit"
+                    <button type="submit" x-ref="submit"
                         class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                         Comment
                     </button>

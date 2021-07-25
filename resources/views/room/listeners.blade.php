@@ -28,7 +28,7 @@
 
                             <div>
                                 <div class="text-xs font-medium">
-                                    <h3 x-text="user.name"></h3>
+                                    <h3 x-text="user.nickname"></h3>
                                 </div>
                             </div>
                         </div>
