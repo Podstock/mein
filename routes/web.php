@@ -3,6 +3,7 @@
 use App\Http\Livewire\Mytalks;
 use App\Http\Livewire\Submission;
 use App\Models\Page;
+use App\Models\Room;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
@@ -38,7 +39,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         return view('dashboard');
     })->name('dashboard');
 
-    Route::get('/merch-sticker', function(){
+    Route::get('/merch-sticker', function () {
         return view('merch');
     })->name('merch');
 
@@ -58,6 +59,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
             );
         }
     );
+
+    Route::get('/room/{room:slug}', function (Room $room) {
+        return view('room.index', ['room' => $room]);
+    });
 
     Route::get('/talks/submission', Submission::class)->name('submission');
     Route::get('/talks/submission/{talk}', Submission::class)->name('submission.edit');

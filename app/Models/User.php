@@ -117,7 +117,7 @@ class User extends Authenticatable
     {
         return $this->hasOne(Tent::class);
     }
-    
+
     public function projects()
     {
         return $this->hasMany(Project::class);
@@ -145,5 +145,20 @@ class User extends Authenticatable
         $this->attributes['uuid'] = Str::uuid();
         $this->save();
         return $this->attributes['uuid'];
+    }
+
+    public function rooms()
+    {
+        return $this->belongsToMany(Room::class)->withPivot('role');
+    }
+
+    public function is_speaker($room_id)
+    {
+        $role = (int)$this->rooms()
+            ->whereRoomId($room_id)->first()?->pivot->role;
+        if ($role >= Room::SPEAKER)
+            return true;
+
+        return false;
     }
 }

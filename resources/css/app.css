@@ -7,3 +7,12 @@
     @apply text-2xl;
   }
 }
+
+/* [x-cloak] { display: none !important; } */
+[x-cloak] {
+    height: auto;
+    width: auto;
+    visibility: hidden;
+    position: absolute;
+    z-index: -1;
+}
