@@ -22,7 +22,6 @@
                         erreicht
                         uns unter <a class="text-green-800" href="mailto:mail@podstock.de">mail@podstock.de</a> oder auf Twitter unter <a class="text-green-800" href="https://twitter.com/PodstockDE">@PodstockDE</a>.
                     </p>
-                    <p class="font-bold mt-2">Einreichungsschluss ist der 24.07.2021</p>
                 </div>
 
             </div>
