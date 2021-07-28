@@ -14,6 +14,10 @@ class Talk extends Model
         'record' => 'boolean',
     ];
 
+    const STATUS_SUBMITTED = 0;
+    const STATUS_ACCEPTED = 10;
+    const STATUS_CONFIRMED = 20;
+
     const TYPE_LIVESTREAM = 1;
     const TYPE_WORKSHOP = 2;
     const TYPE_RECORDING_AUDIO = 3;
@@ -64,6 +68,21 @@ class Talk extends Model
         return $options;
     }
 
+    public static function getStatus($key = null)
+    {
+        $options = [
+            self::STATUS_SUBMITTED => 'Eingereicht',
+            self::STATUS_ACCEPTED => 'Angenommen',
+            self::STATUS_CONFIRMED => 'Bestätigt',
+        ];
+
+        if ($key !== null) {
+            return $options[$key];
+        }
+
+        return $options;
+    }
+
     public function getTypeNameAttribute()
     {
         return $this->getTypes($this->type);
@@ -74,4 +93,8 @@ class Talk extends Model
         return $this->belongsTo(\App\Models\User::class);
     }
 
+    public function schedule()
+    {
+        return $this->hasOne(Schedule::class);
+    }
 }

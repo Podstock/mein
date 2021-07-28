@@ -2,32 +2,30 @@
 
 namespace App\Nova;
 
-use App\Models\Talk as ModelsTalk;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Illuminate\Support\Str;
 
-class Talk extends Resource
+class Schedule extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \App\Models\Talk::class;
+    public static $model = \App\Models\Schedule::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
+    public function title()
+    {
+        return $this->day . ' ' . $this->time;
+    }
 
     /**
      * The columns that should be searched.
@@ -35,7 +33,7 @@ class Talk extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'day', 'time'
     ];
 
     /**
@@ -47,23 +45,22 @@ class Talk extends Resource
     public function fields(Request $request)
     {
         return [
-            Text::make('Name')->displayUsing(function ($value) {
-                return Str::limit($value, 30);
-            })->onlyOnIndex(),
-            Text::make('Name')->hideFromIndex(),
+            Text::make('day')->rules('required')->sortable(),
+            Text::make('time')->rules('required')->sortable(),
 
-            Select::make('Wishtime')
-                ->options(ModelsTalk::getWishtimes())
-                ->displayUsingLabels(),
+            BelongsTo::make('Room')->nullable()->searchable()->exceptOnForms(),
+            BelongsTo::make('Talk')->nullable()->searchable()->exceptOnForms(),
 
-            Select::make('Status')
-                ->options(ModelsTalk::getStatus())
-                ->displayUsingLabels(),
-
-            BelongsTo::make('Schedule')->exceptOnForms()->sortable(),
-            Textarea::make('description')->hideFromIndex()->alwaysShow(),
-            Textarea::make('comment')->hideFromIndex()->alwaysShow(),
-            BelongsTo::make('user')->searchable()->nullable()
+            Select::make('Room', 'room_id')
+                ->searchable()
+                ->options(\App\Models\Room::all()->pluck('slug', 'id'))
+                ->displayUsingLabels()
+                ->onlyOnForms(),
+            Select::make('Talk', 'talk_id')
+                ->searchable()
+                ->options(\App\Models\Talk::all()->pluck('name', 'id'))
+                ->displayUsingLabels()
+                ->onlyOnForms(),
         ];
     }
 
