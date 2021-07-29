@@ -16,9 +16,9 @@ class Schedule extends Model
     public static function getDay($key = null)
     {
         $options = [
-            self::DAY1 => '13.08.',
-            self::DAY2 => '14.08.',
-            self::DAY3 => '15.08.',
+            self::DAY1 => 'Fr 13.08.',
+            self::DAY2 => 'Sa 14.08.',
+            self::DAY3 => 'So 15.08.',
         ];
 
         if ($key !== null) {
