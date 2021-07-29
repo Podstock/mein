@@ -17,23 +17,26 @@
         @foreach ($schedules as $schedule)
         <div class="my-1 px-1 w-full sm:w-1/2 lg:my-4 lg:px-2 mb-6">
             <article
-                class="overflow-hidden rounded-lg shadow-md h-full bg-white px-4 py-2">
-                <header class="pb-2">
+                class="flex flex-col justify-between overflow-hidden rounded-lg shadow-md h-full bg-white px-4 py-2">
+                <div>
                     <h1 class="text-lg">
-                        <div class="text-black font-bold">{{Str::limit($schedule->time, 5, '')}}
+                        <div class="text-black font-bold sm:line-clamp-1 hover:line-clamp-none">
                             {{$schedule->talk?->name}}</div>
-                        <div class="text-gray-700">{{$schedule->room?->title}}</div>
+                        <div class="text-gray-700"><span
+                                class="text-gray-500 font-bold">{{Str::limit($schedule->time, 5, '')}}h</span>
+                            {{$schedule->room?->title}}</div>
                     </h1>
-                </header>
-                @if($schedule->talk?->description)
-                <div class="text-black py-2 prose">
-                    @if(!empty($schedule->talk?->logo))
-                    <img class="h-20 float-left mr-4" src="/storage/small/{{$schedule->talk->logo}}" />
+                    @if($schedule->talk?->description)
+                    <div class="text-black py-2  mt-2">
+                        @if(!empty($schedule->talk?->logo))
+                        <img class="h-20 float-left sm:float-none lg:float-left mr-4 sm:mb-4" src="/storage/small/{{$schedule->talk->logo}}" />
+                        @endif
+                        <span class="sm:line-clamp-6 hover:line-clamp-none prose leading-6">
+                        {!!Str::markdown($schedule->talk->description)!!}
+                        </span>
+                    </div>
                     @endif
-
-                    {!!Str::markdown($schedule->talk->description)!!}
                 </div>
-                @endif
                 <div class="w-full flex flex-wrap items-center justify-end px-2 py-2">
                     @if(!empty($schedule->talk?->user))
                     <a href="/teilnehmerinnen/#{{$schedule->talk?->user->id}}"
@@ -44,8 +47,7 @@
                     @endif
                 </div>
 
-                <footer class="flex justify-between content-end">
-                </footer>
+
             </article>
         </div>
         @endforeach
