@@ -5,6 +5,7 @@ namespace App\Nova;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -47,6 +48,7 @@ class Schedule extends Resource
         return [
             Text::make('day')->rules('required')->sortable(),
             Text::make('time')->rules('required')->sortable(),
+            Boolean::make('pause')->hideFromIndex(),
 
             BelongsTo::make('Room')->nullable()->searchable()->exceptOnForms(),
             BelongsTo::make('Talk')->nullable()->searchable()->exceptOnForms(),

@@ -15,6 +15,9 @@
     <div class="flex flex-wrap -mx-1 lg:-mx-4">
 
         @foreach ($schedules as $schedule)
+        @if($schedule->pause)
+        <div class="my-4 py-2 w-full text-lg font-bold text-center border-t-2 border-b-2">{{$schedule->talk?->name}}</div>
+        @else
         <div class="my-1 px-1 w-full sm:w-1/2 lg:my-4 lg:px-2 mb-6">
             <article
                 class="flex flex-col justify-between overflow-hidden rounded-lg shadow-md h-full bg-white px-4 py-2">
@@ -50,6 +53,7 @@
 
             </article>
         </div>
+        @endif
         @endforeach
     </div>
 
