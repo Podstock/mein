@@ -2,7 +2,7 @@ const defaultTheme = require("tailwindcss/defaultTheme");
 const colors = require("tailwindcss/colors");
 
 module.exports = {
-    mode: 'jit',
+    mode: "jit",
     purge: [
         "./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php",
         "./vendor/laravel/jetstream/**/*.blade.php",
@@ -18,6 +18,16 @@ module.exports = {
             colors: {
                 green: colors.lime,
             },
+            typography: {
+                tight: {
+                    css: {
+                        p: {
+                            marginTop: '0.5em',
+                            marginBottom: '0.5em',
+                        },
+                    },
+                },
+            },
         },
     },
 
@@ -30,6 +40,6 @@ module.exports = {
     plugins: [
         require("@tailwindcss/forms"),
         require("@tailwindcss/typography"),
-        require('@tailwindcss/line-clamp'),
+        require("@tailwindcss/line-clamp"),
     ],
 };

@@ -31,7 +31,7 @@
                         @if(!empty($schedule->talk?->logo))
                         <img class="h-20 float-left sm:float-none lg:float-left mr-4 sm:mb-4" src="/storage/small/{{$schedule->talk->logo}}" />
                         @endif
-                        <span class="sm:line-clamp-6 hover:line-clamp-none prose leading-6">
+                        <span class="sm:line-clamp-6 hover:line-clamp-none prose prose-tight leading-6">
                         {!!Str::markdown($schedule->talk->description)!!}
                         </span>
                     </div>
