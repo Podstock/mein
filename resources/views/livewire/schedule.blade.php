@@ -26,7 +26,7 @@
                     </h1>
                 </header>
                 @if($schedule->talk?->description)
-                <div class="text-black py-2">
+                <div class="text-black py-2 prose">
                     @if(!empty($schedule->talk?->logo))
                     <img class="h-20 float-left mr-4" src="/storage/small/{{$schedule->talk->logo}}" />
                     @endif
