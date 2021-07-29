@@ -32,7 +32,7 @@
                     <div class="text-black py-2  mt-2">
                         @if(!empty($schedule->talk?->logo))
                         <img class="h-20 float-left sm:float-none lg:float-left mr-4 sm:mb-4"
-                            src="/storage/small/{{$schedule->talk->logo}}" />
+                            src="/storage/small/{{$schedule->talk->logo}}" aria-hidden="true" />
                         @endif
                         <span class="sm:line-clamp-6 hover:line-clamp-none prose prose-tight leading-6">
                             {!!Str::markdown($schedule->talk->description)!!}
@@ -45,7 +45,7 @@
                     <a href="/teilnehmerinnen/#{{$schedule->talk?->user->id}}"
                         class="flex items-center mb-2 rounded-full pr-3 h-10">
                         <img class="rounded-full float-left h-10 w-10"
-                            src="{{$schedule->talk->user->profilePhotoUrl}}" />
+                            src="{{$schedule->talk->user->profilePhotoUrl}}" aria-hidden="true" />
                         <span class="ml-2 text-sm">{{'@'.$schedule->talk->user->nickname}}</span>
                     </a>
                     @endif

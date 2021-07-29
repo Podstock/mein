@@ -9,6 +9,25 @@ class Schedule extends Model
 {
     use HasFactory;
 
+    const DAY1 = 'day1';
+    const DAY2 = 'day2';
+    const DAY3 = 'day3';
+
+    public static function getDay($key = null)
+    {
+        $options = [
+            self::DAY1 => '13.08.',
+            self::DAY2 => '14.08.',
+            self::DAY3 => '15.08.',
+        ];
+
+        if ($key !== null) {
+            return $options[$key];
+        }
+
+        return $options;
+    }
+
 
     public function room()
     {

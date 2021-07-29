@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\TalkAccepted;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,6 +13,7 @@ class Talk extends Model
     protected $casts = [
         'user_id' => 'integer',
         'record' => 'boolean',
+        'status' => 'integer'
     ];
 
     const STATUS_SUBMITTED = 0;
@@ -33,6 +35,19 @@ class Talk extends Model
     const WISHTIME_DAY3_1 = 70;
     const WISHTIME_DAY3_2 = 80;
     const WISHTIME_DAY3_3 = 90;
+
+    protected static function booted()
+    {
+        static::updated(function ($talk) {
+            if (
+                $talk->status === self::STATUS_ACCEPTED &&
+                (int)$talk->getOriginal('status') === self::STATUS_SUBMITTED
+            ) {
+                $talk->user->notify(new TalkAccepted($talk));
+            }
+        });
+    }
+
 
     public static function getTypes($key = null)
     {
