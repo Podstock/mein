@@ -34,6 +34,10 @@ Route::get(
     }
 );
 
+Route::get('/fahrplan', App\Http\Livewire\Schedule::class);
+
+
+/* AUTH Routes */
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
