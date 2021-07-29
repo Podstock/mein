@@ -44,7 +44,7 @@
                     @if(!empty($schedule->talk?->user))
                     <a href="/teilnehmerinnen/#{{$schedule->talk?->user->id}}"
                         class="flex items-center mb-2 rounded-full pr-3 h-10">
-                        <img class="rounded-full float-left h-full" src="{{$schedule->talk->user->profilePhotoUrl}}" />
+                        <img class="rounded-full float-left h-10 w-10" src="{{$schedule->talk->user->profilePhotoUrl}}" />
                         <span class="ml-2 text-sm">{{'@'.$schedule->talk->user->nickname}}</span>
                     </a>
                     @endif
