@@ -15,7 +15,7 @@ class Schedule extends Component
     {
         $this->schedules = ModelsSchedule::with(['talk', 'room', 'talk.user'])
             ->where(['day' => 'day' . $this->day])
-            ->get();
+            ->get()->sortBy('time');
 
         if (auth()->user())
             return view('livewire.schedule');
