@@ -18,6 +18,19 @@
         @if($schedule->pause)
         <div class="my-4 py-2 w-full text-lg font-bold text-center border-t-2 border-b-2">
             {{Str::limit($schedule->time, 5, '')}}h {{$schedule->talk?->name}}</div>
+        @elseif($schedule->talk?->status == App\Models\Talk::STATUS_ACCEPTED)
+        <div class="my-1 px-1 w-full sm:w-1/2 lg:my-4 lg:px-2 mb-6">
+            <article
+                class="flex flex-col justify-between overflow-hidden rounded-lg shadow-md h-full bg-white px-4 py-2">
+                <div>
+                    <div class="text-gray-700 text-base"><span
+                            class="text-gray-500 font-bold">{{Str::limit($schedule->time, 5, '')}}h</span>
+                        {{$schedule->room?->title}}</div>
+                    <div class="text-black text-lg font-bold sm:line-clamp-1 hover:line-clamp-none">
+                        Reserviert</div>
+                </div>
+            </article>
+        </div>
         @else
         <div class="my-1 px-1 w-full sm:w-1/2 lg:my-4 lg:px-2 mb-6">
             <article
@@ -42,16 +55,13 @@
                 </div>
                 <div class="w-full flex flex-wrap items-center justify-end px-2 py-2">
                     @if(!empty($schedule->talk?->user))
-                    <a href="/teilnehmerinnen/#{{$schedule->talk?->user->id}}"
-                        class="flex items-center mb-2 rounded-full pr-3 h-10">
-                        <img class="rounded-full float-left h-10 w-10"
-                            src="{{$schedule->talk->user->profilePhotoUrl}}" aria-hidden="true" />
+                    <span class="flex items-center mb-2 rounded-full pr-3 h-10">
+                        <img class="rounded-full float-left h-10 w-10" src="{{$schedule->talk->user->profilePhotoUrl}}"
+                            aria-hidden="true" />
                         <span class="ml-2 text-sm">{{'@'.$schedule->talk->user->nickname}}</span>
-                    </a>
+                    </span>
                     @endif
                 </div>
-
-
             </article>
         </div>
         @endif

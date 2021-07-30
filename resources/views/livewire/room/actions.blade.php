@@ -77,7 +77,7 @@
                     </button>
                 </div>
                 <div>
-                    <button wire:click="$emit('toggleChat')" type="button" title="Chat/Rooms"
+                    <button wire:click="$emit('toggleChat')" type="button" title="Chat/Next/Rooms"
                         class="{{ $chat ? 'bg-gray-700' : '' }} text-gray-300 hover:bg-gray-700 hover:text-white group block px-2 py-2 text-base font-medium rounded-md">
                         <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="screen-users"
                             class="h-9 w-9 mx-auto" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
