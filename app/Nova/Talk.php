@@ -60,6 +60,10 @@ class Talk extends Resource
                 ->options(ModelsTalk::getStatus())
                 ->displayUsingLabels(),
 
+            Select::make('Type')
+                ->options(ModelsTalk::getTypes())
+                ->displayUsingLabels()->rules('required'),
+
             BelongsTo::make('Schedule')->exceptOnForms()->sortable(),
             Textarea::make('description')->hideFromIndex()->alwaysShow(),
             Textarea::make('comment')->hideFromIndex()->alwaysShow(),
