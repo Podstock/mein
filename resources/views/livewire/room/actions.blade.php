@@ -1,7 +1,7 @@
 <div class="fixed inset-x-0 bottom-0">
     <div class="bg-gray-600 h-20">
         <div class="mx-auto py-1 px-3 sm:px-6 lg:px-8">
-            <div class="flex items-center flex-wrap justify-center space-x-16">
+            <div class="flex items-center justify-center space-x-8 sm:space-x-16">
                 <div>
                     <div class="inline-flex relative">
                         <button wire:click="raiseHand()" type="button"
@@ -14,7 +14,7 @@
                             </svg>
                             <!-- <div class="text-gray-300 text-sm text-center">Hand</div> -->
                         </button>
-                        <span class="">
+                        <span>
                             <button type="button"
                                 class="block rounded-md px-1 py-2 h-14 text-sm font-medium text-gray-300 hover:bg-gray-700 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
                                 id="option-menu-button" aria-expanded="true" aria-haspopup="true">
@@ -28,7 +28,7 @@
                                 </svg>
                             </button>
 
-                            <div class="absolute right-0 -mt-32 w-14 ring-opacity-5 focus:outline-none" role="menu"
+                            <div class="hidden absolute right-0 -mt-32 w-14 ring-opacity-5 focus:outline-none" role="menu"
                                 aria-orientation="vertical" aria-labelledby="option-menu-button" tabindex="-1">
                                 <div class="flex space-x-2">
                                     <button type="button"
@@ -59,22 +59,31 @@
                 <div x-data="stream_webrtc">
                     <button type="button" @click="toggle_listen" :class="isListening ? 'text-red-400' : 'text-gray-300'"
                         class="hover:bg-gray-700 group items-center px-2 py-2 text-base font-medium rounded-md block">
-                        <svg class="h-12 w-12 mx-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                        <svg class="hidden h-12 w-12 mx-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                             fill="currentColor">
                             <path fill-rule="evenodd"
                                 d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
                                 clip-rule="evenodd" />
                         </svg>
+
+                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="headset"
+                            class="h-12 w-12 mx-auto" role="img" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 512 512">
+                            <path fill="currentColor"
+                                d="M191.1 224c0-17.72-14.34-32.04-32-32.04L144 192c-35.34 0-64 28.66-64 64.08v47.79C80 339.3 108.7 368 144 368H160c17.66 0 32-14.36 32-32.06L191.1 224zM256 0C112.9 0 4.583 119.1 .0208 256L0 296C0 309.3 10.75 320 23.1 320S48 309.3 48 296V256c0-114.7 93.34-207.8 208-207.8C370.7 48.2 464 141.3 464 256v144c0 22.09-17.91 40-40 40h-110.7C305 425.7 289.7 416 272 416H241.8c-23.21 0-44.5 15.69-48.87 38.49C187 485.2 210.4 512 239.1 512H272c17.72 0 33.03-9.711 41.34-24H424c48.6 0 88-39.4 88-88V256C507.4 119.1 399.1 0 256 0zM368 368c35.34 0 64-28.7 64-64.13V256.1C432 220.7 403.3 192 368 192l-16 0c-17.66 0-32 14.34-32 32.04L320 335.9C320 353.7 334.3 368 352 368H368z">
+                            </path>
+                        </svg>
                         <!-- <div class="text-gray-300 text-sm text-center">Join as listener</div> -->
                     </button>
                 </div>
                 <div>
-                    <button wire:click="$emit('toggleChat')" type="button" title="Chat"
+                    <button wire:click="$emit('toggleChat')" type="button" title="Chat/Rooms"
                         class="{{ $chat ? 'bg-gray-700' : '' }} text-gray-300 hover:bg-gray-700 hover:text-white group block px-2 py-2 text-base font-medium rounded-md">
-                        <svg class="h-9 w-9 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="screen-users"
+                            class="h-9 w-9 mx-auto" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+                            <path fill="currentColor"
+                                d="M96 64h448v160c24.62 0 47 9.625 64 25V49.63c0-27.38-21.5-49.63-48-49.63h-480c-26.5 0-48 22.25-48 49.63v199.4c17-15.38 39.38-25 64-25V64zM256.2 320c0 35.26 28.57 63.85 63.79 63.98C355.2 383.8 383.8 355.3 383.8 320S355.2 256.2 320 256C284.8 256.2 256.2 284.7 256.2 320zM343.8 416h-47.5C256.4 416 224 449.5 224 490.7C224 502.4 233.3 512 244.8 512h150.3C406.7 512 416 502.4 416 490.7C416 449.5 383.6 416 343.8 416zM567.8 416h-47.5C480.4 416 448 449.5 448 490.7C448 502.4 457.3 512 468.8 512h150.3C630.7 512 640 502.4 640 490.7C640 449.5 607.6 416 567.8 416zM480.2 320c0 35.26 28.57 63.85 63.79 63.98C579.2 383.8 607.8 355.3 607.8 320S579.2 256.2 544 256C508.8 256.2 480.2 284.7 480.2 320zM32.21 320c0 35.26 28.57 63.85 63.79 63.98C131.2 383.8 159.8 355.3 159.8 320S131.2 256.2 96 256C60.78 256.2 32.21 284.7 32.21 320zM119.8 416h-47.5C32.42 416 0 449.5 0 490.7C0 502.4 9.34 512 20.83 512h150.3C182.7 512 192 502.4 192 490.7C192 449.5 159.6 416 119.8 416z">
+                            </path>
                         </svg>
                         {{-- <div class="text-gray-300 text-sm text-center">Chat</div> --}}
                     </button>

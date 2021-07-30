@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-empty-layout>
     <audio id="audio" autoplay></audio>
     <div class="flex">
         <main class="w-full">
@@ -7,4 +7,4 @@
         <livewire:room.chat :room="$room" />
     </div>
     <livewire:room.actions :room="$room" />
-</x-app-layout>
+</x-empty-layout>

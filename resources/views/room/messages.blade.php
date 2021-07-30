@@ -57,7 +57,7 @@
                     <label for="comment" class="sr-only">About</label>
                     <textarea wire:model.defer="body" id="comment" name="body" rows="3"
                         x-on:keydown.enter="$event.shiftKey ? '' : $refs.submit.click()"
-                        class="shadow-sm block w-full focus:ring-blue-500 focus:border-blue-500 sm:text-sm border border-gray-300 rounded-md"
+                        class="shadow-sm block w-full focus:ring-green-600 focus:border-green-600 sm:text-sm border border-gray-300 rounded-md"
                         placeholder="Add a comment"></textarea>
                 </div>
                 <div class="mt-3 flex items-center justify-between">
