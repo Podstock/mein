@@ -11,8 +11,16 @@
     <!-- Styles -->
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 
+    @livewireStyles
+
     <!-- Scripts -->
     <script src="{{ mix('js/app.js') }}" defer></script>
+
+    @auth
+    <script>
+        window.user_id = {{ auth()->user()->id }}
+    </script>
+    @endauth
 
     <!-- PWA -->
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=yyL6zP5339">

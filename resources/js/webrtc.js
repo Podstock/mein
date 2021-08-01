@@ -71,7 +71,7 @@ export default () => ({
                 const sd = pc.localDescription;
                 const json = JSON.stringify(sd);
 
-                axios.post("/webrtc/sdp", json);
+                axios.post("/webrtc/"+window.room_id+"/sdp", json);
             }
         };
 
@@ -155,7 +155,7 @@ export default () => ({
 
     toggle_listen() {
         if (this.isListening) {
-            axios.get("/webrtc/disconnect").then(() => {
+            axios.get("/webrtc/"+window.room_id+"/disconnect").then(() => {
                 this.isListening = false;
             });
             return;

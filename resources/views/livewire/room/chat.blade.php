@@ -1,4 +1,4 @@
-<div x-data="{messages: []}" @message.window="messages.push($event.detail.msg)" x-show="$wire.show" x-cloak
+<div x-data="{messages: []}" @chatmessage.window="messages.push($event.detail.msg)" x-show="$wire.show" x-cloak
     x-init="document.querySelectorAll('.chat').forEach(c => { c.scrollTop = c.scrollHeight})"
     @resize.window="document.querySelectorAll('.chat').forEach(c => { c.scrollTop = c.scrollHeight})">
 
@@ -56,7 +56,7 @@
         document.addEventListener("DOMContentLoaded", () => {
         Echo.private("chat.{{$room->id}}")
             .listen('MessageAdded', (e) => {
-                var event = new CustomEvent("message", {
+                let event = new CustomEvent("chatmessage", {
                     detail: {msg: e.message},
                 });
                 window.dispatchEvent(event);

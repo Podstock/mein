@@ -2,6 +2,7 @@
 
 use App\Http\Livewire\Mytalks;
 use App\Http\Livewire\Submission;
+use App\Models\BaresipWebrtc;
 use App\Models\Page;
 use App\Models\Room;
 use App\Models\User;
@@ -64,10 +65,17 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         }
     );
 
-    Route::get('/room/{room:slug}', function (Room $room) {
-        return view('room.index', ['room' => $room]);
+    Route::post('/webrtc/{room}/sdp', function (Room $room) {
+        $room->baresip->inc_users();
+        BaresipWebrtc::sdp($room->baresip->id, request()->getContent());
     });
 
+    Route::get('/webrtc/{room}/disconnect', function (Room $room) {
+        $room->baresip->dec_users();
+        BaresipWebrtc::disconnect($room->baresip->id);
+    });
+
+    Route::get('/room/{room:slug}', App\Http\Livewire\Room\Index::class);
     Route::get('/talks/submission', Submission::class)->name('submission');
     Route::get('/talks/submission/{talk}', Submission::class)->name('submission.edit');
 });

@@ -2,9 +2,14 @@
 
 namespace Tests\Feature;
 
+use App\Events\WebrtcSDP;
+use App\Models\Baresip;
+use App\Models\BaresipWebrtc;
 use App\Models\Room;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Event;
+use PhpMqtt\Client\Facades\MQTT;
 use Tests\TestCase;
 
 class RoomTest extends TestCase
@@ -47,5 +52,50 @@ class RoomTest extends TestCase
             ['channel_name' => 'private-chat.' . $room->id]
         );
         $response->assertStatus(200);
+    }
+
+    /** @test */
+    public function webrtc_room_test()
+    {
+        $user = $this->signIn();
+        $room = Room::factory(['slug' => 'test'])->create();
+        $baresip = Baresip::factory(['room_id' => $room->id])->create();
+
+        //Laravel Echo Auth
+        $this->post(
+            '/broadcasting/auth',
+            ['channel_name' => 'private-webrtc.sdp.' . $user->id]
+        )->assertStatus(200);
+
+        //WebRTC Connect - SDP offer
+        MQTT::shouldReceive('publish')->once()->with(
+            "/baresip/$baresip->id/command/",
+            '{"command":"webrtc_sdp","params":"' . $user->id
+                . ',{\"sdp\":\"test\"}","token":"' . $user->id . '"}'
+        );
+        $this->json('post', '/webrtc/' . $room->id . '/sdp', ['sdp' => 'test'])
+            ->assertStatus(200);
+
+        $this->assertDatabaseHas('baresips', ['users_count' => 1]);
+
+        //WebRTC - SDP answer
+        Event::fake();
+        BaresipWebrtc::sdp_answer('{"param": "webrtc,sdp,' . $user->id . ',{\"type\":\"answer\"}"}');
+        Event::assertDispatched(function (WebrtcSDP $event) use ($user) {
+            return (string)$event->broadcastOn() === "private-webrtc.sdp." . $user->id &&
+                $event->sdp->type === 'answer';
+        });
+
+        //WebRTC - Disconnect
+        MQTT::shouldReceive('publish')->once()->with(
+            "/baresip/$baresip->id/command/",
+            '{"command":"webrtc_disconnect","params":"' . $user->id
+                . '","token":"' . $user->id . '"}'
+        );
+
+        $this->get('/webrtc/' . $room->id . '/disconnect')
+            ->assertStatus(200);
+
+        $this->assertDatabaseHas('baresips', ['users_count' => 0]);
     }
 }

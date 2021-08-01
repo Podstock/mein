@@ -41,4 +41,9 @@ class Room extends Model
     {
         return $this->belongsToMany(User::class)->withPivot('role');
     }
+
+    public function baresip()
+    {
+        return $this->hasOne(Baresip::class);
+    }
 }

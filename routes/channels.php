@@ -31,3 +31,7 @@ Broadcast::channel('users.{room}', function ($user, Room $room) {
         ];
     }
 });
+
+Broadcast::channel('webrtc.sdp.{id}', function ($user, $id) {
+    return (int) $user->id === (int) $id;
+});

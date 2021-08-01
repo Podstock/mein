@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Baresip;
 use App\Models\Room;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -31,6 +32,7 @@ class DatabaseSeeder extends Seeder
         $user->save();
 
         $room = Room::factory(['slug' => 'test'])->create();
+        Baresip::factory(['room_id' => $room->id])->create();
         $room->users()->attach($user->id, ['role' => Room::SPEAKER]);
     }
 }
