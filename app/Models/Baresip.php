@@ -20,4 +20,9 @@ class Baresip extends Model
         $this->users_count--;
         $this->save();
     }
+
+    public function room()
+    {
+        return $this->belongsTo(Room::class);
+    }
 }
