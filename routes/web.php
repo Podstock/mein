@@ -35,7 +35,7 @@ Route::get(
     }
 );
 
-Route::get('/fahrplan', App\Http\Livewire\Schedule::class);
+Route::get('/fahrplan', App\Http\Livewire\Schedule::class)->name('fahrplan');
 
 
 /* AUTH Routes */
