@@ -26,23 +26,27 @@ class BaresipWebrtc
 
     public static function disconnect($id)
     {
+        if (empty($id))
+            return;
         BaresipWebrtc::command($id, 'disconnect');
     }
 
     public static function sdp($id, $params)
     {
+        if (empty($id))
+            return;
         BaresipWebrtc::command($id, 'sdp', $params);
     }
 
     public static function sdp_answer($message)
     {
-            $json = json_decode($message);
-            if (empty($json->param))
-                return;
-            $param = explode(',', $json->param, 4);
-            $user_id = $param[2];
-            $sdp = json_decode($param[3]);
-            WebrtcSDP::dispatch($user_id, $sdp);
+        $json = json_decode($message);
+        if (empty($json->param))
+            return;
+        $param = explode(',', $json->param, 4);
+        $user_id = $param[2];
+        $sdp = json_decode($param[3]);
+        WebrtcSDP::dispatch($user_id, $sdp);
     }
 
     public static function listen()

@@ -73,7 +73,7 @@ class RoomTest extends TestCase
             '{"command":"webrtc_sdp","params":"' . $user->id
                 . ',{\"sdp\":\"test\"}","token":"' . $user->id . '"}'
         );
-        $this->json('post', '/webrtc/' . $room->id . '/sdp', ['sdp' => 'test'])
+        $this->json('post', '/webrtc/' . $room->slug . '/sdp', ['sdp' => 'test'])
             ->assertStatus(200);
 
         $this->assertDatabaseHas('baresips', ['users_count' => 1]);
@@ -93,7 +93,7 @@ class RoomTest extends TestCase
                 . '","token":"' . $user->id . '"}'
         );
 
-        $this->get('/webrtc/' . $room->id . '/disconnect')
+        $this->get('/webrtc/' . $room->slug . '/disconnect')
             ->assertStatus(200);
 
         $this->assertDatabaseHas('baresips', ['users_count' => 0]);

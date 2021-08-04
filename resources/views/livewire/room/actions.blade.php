@@ -2,7 +2,7 @@
     <div class="bg-gray-600 h-20">
         <div class="mx-auto py-1 px-3 sm:px-6 lg:px-8">
             <div class="flex items-center justify-center space-x-8 sm:space-x-16">
-                <div>
+                <div x-data x-show="$wire.handVisible" x-cloak>
                     <div class="inline-flex relative">
                         <button wire:click="raiseHand()" type="button"
                             class="text-gray-300 hover:bg-gray-700 hover:text-white block px-2 py-2 text-base font-medium rounded-md">
@@ -14,7 +14,7 @@
                             </svg>
                             <!-- <div class="text-gray-300 text-sm text-center">Hand</div> -->
                         </button>
-                        <span>
+                        <span class="hidden">
                             <button type="button"
                                 class="block rounded-md px-1 py-2 h-14 text-sm font-medium text-gray-300 hover:bg-gray-700 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
                                 id="option-menu-button" aria-expanded="true" aria-haspopup="true">
@@ -28,8 +28,9 @@
                                 </svg>
                             </button>
 
-                            <div class="hidden absolute right-0 -mt-32 w-14 ring-opacity-5 focus:outline-none" role="menu"
-                                aria-orientation="vertical" aria-labelledby="option-menu-button" tabindex="-1">
+                            <div class="hidden absolute right-0 -mt-32 w-14 ring-opacity-5 focus:outline-none"
+                                role="menu" aria-orientation="vertical" aria-labelledby="option-menu-button"
+                                tabindex="-1">
                                 <div class="flex space-x-2">
                                     <button type="button"
                                         class="text-gray-500 bg-gray-200 hover:bg-gray-700 hover:text-white group block px-2 py-2 text-base font-medium rounded-md">
@@ -56,24 +57,15 @@
                         </span>
                     </div>
                 </div>
-                <div x-data="stream_webrtc">
-                    <button type="button" @click="toggle_listen" :class="isListening ? 'text-red-400' : 'text-gray-300'"
-                        class="hover:bg-gray-700 group items-center px-2 py-2 text-base font-medium rounded-md block">
-                        <svg class="hidden h-12 w-12 mx-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                <div>
+                    <button type="button" wire:click="$emit('toggleListen')"
+                        class="hover:bg-gray-700 text-gray-300 group items-center px-2 py-2 text-base font-medium rounded-md block">
+                        <svg class="h-12 w-12 mx-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                             fill="currentColor">
                             <path fill-rule="evenodd"
                                 d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
                                 clip-rule="evenodd" />
                         </svg>
-
-                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="headset"
-                            class="h-12 w-12 mx-auto" role="img" xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 512 512">
-                            <path fill="currentColor"
-                                d="M191.1 224c0-17.72-14.34-32.04-32-32.04L144 192c-35.34 0-64 28.66-64 64.08v47.79C80 339.3 108.7 368 144 368H160c17.66 0 32-14.36 32-32.06L191.1 224zM256 0C112.9 0 4.583 119.1 .0208 256L0 296C0 309.3 10.75 320 23.1 320S48 309.3 48 296V256c0-114.7 93.34-207.8 208-207.8C370.7 48.2 464 141.3 464 256v144c0 22.09-17.91 40-40 40h-110.7C305 425.7 289.7 416 272 416H241.8c-23.21 0-44.5 15.69-48.87 38.49C187 485.2 210.4 512 239.1 512H272c17.72 0 33.03-9.711 41.34-24H424c48.6 0 88-39.4 88-88V256C507.4 119.1 399.1 0 256 0zM368 368c35.34 0 64-28.7 64-64.13V256.1C432 220.7 403.3 192 368 192l-16 0c-17.66 0-32 14.34-32 32.04L320 335.9C320 353.7 334.3 368 352 368H368z">
-                            </path>
-                        </svg>
-                        <!-- <div class="text-gray-300 text-sm text-center">Join as listener</div> -->
                     </button>
                 </div>
                 <div>
