@@ -57,12 +57,14 @@ class Schedule extends Resource
                 ->searchable()
                 ->options(\App\Models\Room::all()->pluck('slug', 'id'))
                 ->displayUsingLabels()
-                ->onlyOnForms(),
+                ->onlyOnForms()
+                ->nullable(),
             Select::make('Talk', 'talk_id')
                 ->searchable()
                 ->options(\App\Models\Talk::all()->pluck('name', 'id'))
                 ->displayUsingLabels()
-                ->onlyOnForms(),
+                ->onlyOnForms()
+                ->nullable(),
         ];
     }
 
