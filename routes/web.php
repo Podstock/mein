@@ -65,14 +65,12 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         }
     );
 
-    Route::post('/webrtc/{room}/sdp', function (Room $room) {
-        $room->baresip->inc_users();
-        BaresipWebrtc::sdp($room->baresip->id, request()->getContent());
+    Route::post('/webrtc/{room_slug}/sdp', function ($room_slug) {
+        BaresipWebrtc::sdp($room_slug, request()->getContent());
     });
 
-    Route::get('/webrtc/{room}/disconnect', function (Room $room) {
-        $room->baresip->dec_users();
-        BaresipWebrtc::disconnect($room->baresip->id);
+    Route::get('/webrtc/{room_slug}/disconnect', function ($room_slug) {
+        BaresipWebrtc::disconnect($room_slug);
     });
 
     Route::get('/room/{room:slug}', App\Http\Livewire\Room\Index::class);

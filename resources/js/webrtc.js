@@ -1,12 +1,10 @@
 import axios from "axios";
 
 let pc; /* PeerConnection */
-let localStream; /* MediaStream */
 
 function pc_offer() {
     const offerOptions = {
         iceRestart: false,
-        voiceActivityDetection: true,
     };
     pc.createOffer(offerOptions)
         .then(function (desc) {
@@ -27,8 +25,29 @@ function pc_offer() {
         });
 }
 
-export default () => ({
+export default {
     isListening: false,
+    stream: null,
+    audio_input_id: null,
+    audio_output_id: null,
+    audio_inputs: [],
+    audio_outputs: undefined,
+    room_slug: undefined,
+    echo: false,
+    echo_failed: false,
+
+    mediaConstraints: {
+        audio: {
+            echoCancellation: false, // disabling audio processing
+            autoGainControl: false,
+            noiseSuppression: false,
+            channelCount: 1, //Firefox needs this for mono downsampling
+            latency: 0.02, //20ms
+            deviceId: undefined,
+            sampleRate: 48000,
+        },
+        video: false,
+    },
 
     init() {
         console.log("webrtc:init");
@@ -40,6 +59,142 @@ export default () => ({
         );
     },
 
+    echo_connect() {
+        this.room_slug = "echo";
+        this.hangup();
+        this.start();
+        this.echo = true;
+        this.echo_failed = false;
+    },
+
+    echo_yes() {
+        Livewire.emit("webrtcReady");
+        this.hangup();
+        this.room_connect();
+        this.echo = false;
+        this.echo_failed = false;
+    },
+
+    echo_no() {
+        this.hangup();
+        this.echo = false;
+        this.echo_failed = true;
+    },
+
+    room_connect() {
+        this.room_slug = window.room_slug;
+        this.start();
+    },
+
+    async setup() {
+        console.log("webrtc:setup");
+
+        try {
+            this.stream = await navigator.mediaDevices.getUserMedia(
+                this.mediaConstraints
+            );
+        } catch (e) {
+            console.log("webrtc: microphone permission denied...");
+        }
+
+        let deviceInfos = await navigator.mediaDevices.enumerateDevices();
+        this.gotDevices(deviceInfos);
+
+        this.audio_input_id = this.stream
+            .getAudioTracks()[0]
+            .getSettings().deviceId;
+
+        if ("wakeLock" in navigator) {
+            navigator.wakeLock.request("screen").then((wakeLock) => {
+                console.log("webrtc: Wake Lock active.");
+            });
+        }
+    },
+
+    async audio_input_changed() {
+        console.log("webrtc: try audio %s", this.audio_input_id);
+        this.mediaConstraints.audio.deviceId = { exact: this.audio_input_id };
+        this.stream.getAudioTracks()[0].stop();
+
+        try {
+            let new_stream = await navigator.mediaDevices.getUserMedia(
+                this.mediaConstraints
+            );
+
+            this.stream = new_stream;
+            let track = this.stream.getAudioTracks()[0];
+
+            console.log(
+                "webrtc: changed audio: " + track.getSettings().deviceId
+            );
+
+            if (pc) {
+                let sender = pc.getSenders().find(function (s) {
+                    return s.track.kind == track.kind;
+                });
+
+                sender.replaceTrack(track);
+            }
+        } catch (e) {
+            console.log("webrtc: microphone permission denied...");
+        }
+    },
+
+    audio_output_changed() {
+        if (typeof this.audio_output_id === "undefined") return;
+        let audio = document.querySelector("audio#audio");
+
+        if (
+            typeof audio === "undefined" ||
+            typeof audio.setSinkId === "undefined"
+        ) {
+            console.log(
+                "webrtc: audio element not found or setSinkId not supported"
+            );
+            return;
+        }
+
+        audio.setSinkId(this.audio_output_id);
+        console.log("webrtc: changed output");
+    },
+
+    gotDevices(deviceInfos) {
+        for (let i = 0; i !== deviceInfos.length; ++i) {
+            const deviceInfo = deviceInfos[i];
+
+            if (deviceInfo.kind === "audioinput") {
+                let text = deviceInfo.label || `microphone ${i}`;
+                let value = { key: deviceInfo.deviceId, value: text };
+                this.audio_inputs.push(value);
+                console.log("webrtc: audio_input", value.key, value.value);
+            } else if (deviceInfo.kind === "audiooutput") {
+                if (typeof this.audio_outputs === "undefined") {
+                    this.audio_outputs = [];
+                    this.audio_output_id = "default";
+                }
+                let text = deviceInfo.label || `speaker ${i}`;
+                let value = { key: deviceInfo.deviceId, value: text };
+                this.audio_outputs.push(value);
+                console.log("webrtc: audio_output", value.key, value.value);
+            }
+        }
+    },
+
+    hangup() {
+        axios.get("/webrtc/" + this.room_slug + "/disconnect").then(() => {
+            this.isListening = false;
+        });
+        if (pc) {
+            pc.close();
+            pc = null;
+        }
+    },
+
+    restart() {
+        this.hangup();
+        this.start();
+    },
+
     start() {
         console.log("webrtc:start");
         this.isListening = true;
@@ -48,21 +203,15 @@ export default () => ({
 
             iceCandidatePoolSize: 0,
             iceTransportPolicy: "relay",
-            // iceServers: [
-            //     {
-            //         urls: "stun:stun.l.google.com:19302",
-            //     },
-            // ],
+            // iceTransportPolicy: "all",
             iceServers: [
                 {
                     urls: "turn:195.201.63.86:3478",
                     username: "turn200301",
-                    credential: "choh4zeem3foh1"
-                }
+                    credential: "choh4zeem3foh1",
+                },
             ],
-            // iceTransportPolicy: "all",
         };
-        const constraints = { audio: true, video: false };
 
         pc = new RTCPeerConnection(configuration);
 
@@ -71,7 +220,7 @@ export default () => ({
                 const sd = pc.localDescription;
                 const json = JSON.stringify(sd);
 
-                axios.post("/webrtc/"+window.room_id+"/sdp", json);
+                axios.post("/webrtc/" + this.room_slug + "/sdp", json);
             }
         };
 
@@ -90,7 +239,7 @@ export default () => ({
 
         pc.ontrack = function (event) {
             const track = event.track;
-            let audio = document.querySelector('audio#audio');
+            let audio = document.querySelector("audio#audio");
             console.log("got remote track: kind=%s", track.kind);
 
             if (audio.srcObject !== event.streams[0]) {
@@ -104,38 +253,11 @@ export default () => ({
             // }
         };
 
-        navigator.mediaDevices
-            .getUserMedia(constraints)
-            .then(function (stream) {
-                // save the stream
-                localStream = stream;
+        this.stream
+            .getTracks()
+            .forEach((track) => pc.addTrack(track, this.stream));
 
-                // type: MediaStreamTrack
-                const audioTracks = localStream.getAudioTracks();
-                // const videoTracks = localStream.getVideoTracks();
-
-                if (audioTracks.length > 0) {
-                    console.log(
-                        "Using Audio device: '%s'",
-                        audioTracks[0].label
-                    );
-                }
-                // if (videoTracks.length > 0) {
-                //     console.log(
-                //         "Using Video device: '%s'",
-                //         videoTracks[0].label
-                //     );
-                // }
-
-                localStream
-                    .getTracks()
-                    .forEach((track) => pc.addTrack(track, localStream));
-
-                pc_offer();
-            })
-            .catch(function (error) {
-                alert("Get User Media: " + error);
-            });
+        pc_offer();
     },
 
     sdp(json) {
@@ -153,15 +275,15 @@ export default () => ({
         );
     },
 
-    toggle_listen() {
-        if (this.isListening) {
-            axios.get("/webrtc/"+window.room_id+"/disconnect").then(() => {
-                this.isListening = false;
-            });
-            return;
-        }
+    // toggle_listen() {
+    //     if (this.isListening) {
+    //         axios.get("/webrtc/" + this.room_slug + "/disconnect").then(() => {
+    //             this.isListening = false;
+    //         });
+    //         return;
+    //     }
 
-        this.start();
-        //this.isListening = true;
-    },
-});
+    //     this.start();
+    //     //this.isListening = true;
+    // },
+};

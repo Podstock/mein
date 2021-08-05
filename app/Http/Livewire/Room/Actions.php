@@ -12,6 +12,7 @@ class Actions extends Component
     public $chat;
     public $play;
     public $hand;
+    public $handVisible;
     public $roomId;
 
     protected function getListeners()
@@ -40,6 +41,7 @@ class Actions extends Component
         $this->chat = false;
         $this->play = false;
         $this->hand = false;
+        $this->handVisible = true;
         $this->roomId = $room->id;
     }
 

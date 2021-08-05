@@ -73,7 +73,7 @@ class RoomTest extends TestCase
             '{"command":"webrtc_sdp","params":"' . $user->id
                 . ',{\"sdp\":\"test\"}","token":"' . $user->id . '"}'
         );
-        $this->json('post', '/webrtc/' . $room->id . '/sdp', ['sdp' => 'test'])
+        $this->json('post', '/webrtc/' . $room->slug . '/sdp', ['sdp' => 'test'])
             ->assertStatus(200);
 
         $this->assertDatabaseHas('baresips', ['users_count' => 1]);
@@ -93,9 +93,44 @@ class RoomTest extends TestCase
                 . '","token":"' . $user->id . '"}'
         );
 
-        $this->get('/webrtc/' . $room->id . '/disconnect')
+        $this->get('/webrtc/' . $room->slug . '/disconnect')
             ->assertStatus(200);
 
         $this->assertDatabaseHas('baresips', ['users_count' => 0]);
+    }
+
+    /** @test */
+    public function webrtc_room_test_echo()
+    {
+        $user = $this->signIn();
+
+        MQTT::shouldReceive('publish')->once()->with(
+            "/baresip/echo/command/",
+            '{"command":"webrtc_sdp","params":"' . $user->id
+                . ',{\"sdp\":\"test\"}","token":"' . $user->id . '"}'
+        );
+        $this->json('post', '/webrtc/echo/sdp', ['sdp' => 'test'])
+            ->assertStatus(200);
+
+        MQTT::shouldReceive('publish')->once()->with(
+            "/baresip/echo/command/",
+            '{"command":"webrtc_disconnect","params":"' . $user->id
+                . '","token":"' . $user->id . '"}'
+        );
+
+        $this->get('/webrtc/echo/disconnect')
+            ->assertStatus(200);
+    }
+
+    /** @test */
+    public function webrtc_room_test_404()
+    {
+        $this->signIn();
+
+        $this->json('post', '/webrtc/notexists/sdp', ['sdp' => 'test'])
+            ->assertStatus(404);
+
+        $this->get('/webrtc/notexists/disconnect')
+            ->assertStatus(404);
     }
 }
