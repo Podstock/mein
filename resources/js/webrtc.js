@@ -255,15 +255,15 @@ export default {
         );
     },
 
-    toggle_listen() {
-        if (this.isListening) {
-            axios.get("/webrtc/" + this.room_slug + "/disconnect").then(() => {
-                this.isListening = false;
-            });
-            return;
-        }
+    // toggle_listen() {
+    //     if (this.isListening) {
+    //         axios.get("/webrtc/" + this.room_slug + "/disconnect").then(() => {
+    //             this.isListening = false;
+    //         });
+    //         return;
+    //     }
 
-        this.start();
-        //this.isListening = true;
-    },
+    //     this.start();
+    //     //this.isListening = true;
+    // },
 };
