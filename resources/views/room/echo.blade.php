@@ -24,6 +24,12 @@
                     </template>
                 </select>
             </div>
+
+            <div x-show="$store.webrtc.echo_failed" class="text-red-600 mt-2">
+                Bitte überprüfe ob du das richtige Mikrofon und Headset ausgewählt hast
+                und starte den Test erneut...
+
+            </div>
             <div x-show="!$store.webrtc.echo" class="pt-5">
                 <div class="flex justify-end">
                     <button @click="$store.webrtc.echo_connect()" type="submit"

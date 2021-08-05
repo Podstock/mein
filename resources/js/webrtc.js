@@ -34,6 +34,7 @@ export default {
     audio_outputs: undefined,
     room_slug: undefined,
     echo: false,
+    echo_failed: false,
 
     mediaConstraints: {
         audio: {
@@ -59,10 +60,25 @@ export default {
     },
 
     echo_connect() {
-        this.room_slug = 'echo';
-        // this.room_slug = window.room_slug;
+        this.room_slug = "echo";
+        this.hangup();
         this.start();
         this.echo = true;
+        this.echo_failed = false;
+    },
+
+    echo_yes() {
+        Livewire.emit("webrtcReady");
+        this.hangup();
+        this.room_connect();
+        this.echo = false;
+        this.echo_failed = false;
+    },
+
+    echo_no() {
+        this.hangup();
+        this.echo = false;
+        this.echo_failed = true;
     },
 
     room_connect() {
@@ -108,7 +124,9 @@ export default {
             this.stream = new_stream;
             let track = this.stream.getAudioTracks()[0];
 
-            console.log("webrtc: changed audo: " + track.getSettings().deviceId);
+            console.log(
+                "webrtc: changed audio: " + track.getSettings().deviceId
+            );
 
             if (pc) {
                 let sender = pc.getSenders().find(function (s) {
@@ -137,6 +155,7 @@ export default {
         }
 
         audio.setSinkId(this.audio_output_id);
+        console.log("webrtc: changed output");
     },
 
     gotDevices(deviceInfos) {
@@ -165,9 +184,10 @@ export default {
         axios.get("/webrtc/" + this.room_slug + "/disconnect").then(() => {
             this.isListening = false;
         });
-
-        pc.close();
-        pc = null;
+        if (pc) {
+            pc.close();
+            pc = null;
+        }
     },
 
     restart() {

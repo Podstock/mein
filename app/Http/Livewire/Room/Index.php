@@ -10,19 +10,13 @@ class Index extends Component
     public $room;
     public $connect;
     public $echo;
-    public $status;
-
-    const STATUS_OFFLINE = 0;
-    const STATUS_STREAM_AUDIO = 10;
-    const STATUS_STREAM_VIDEO = 20;
-    const STATUS_WEBRTC_ECHO = 30;
-    const STATUS_WEBRTC_OFFER = 40;
-    const STATUS_WEBRTC_CONNECTED = 50;
+    public $webrtc;
 
     protected function getListeners()
     {
         return [
             'toggleListen',
+            'webrtcReady',
         ];
     }
 
@@ -37,12 +31,18 @@ class Index extends Component
         $this->echo = true;
     }
 
+    public function webrtcReady()
+    {
+        $this->echo = false;
+        $this->webrtc = true;
+    }
+
     public function mount(Room $room)
     {
         $this->room = $room;
         $this->connect = false;
-        $this->echo = true;
-        $this->status = $this::STATUS_OFFLINE;
+        $this->echo = false;
+        $this->webrtc = false;
     }
 
     public function render()

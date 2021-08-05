@@ -8,6 +8,19 @@ use PhpMqtt\Client\Facades\MQTT;
 
 class BaresipWebrtc
 {
+    protected static function room_baresip_id($room_slug, $operator)
+    {
+        if ($room_slug === 'echo')
+            return 'echo';
+
+        $room = Room::whereSlug($room_slug)->firstOrFail();
+        if ($operator === 'inc')
+            $room->baresip?->inc_users();
+        else
+            $room->baresip?->dec_users();
+        return $room->baresip?->id;
+    }
+
     public static function command($id, $cmd, $arg = NULL)
     {
         $params = "";
@@ -24,17 +37,15 @@ class BaresipWebrtc
         MQTT::publish("/baresip/$id/command/", json_encode($json));
     }
 
-    public static function disconnect($id)
+    public static function disconnect($room_slug)
     {
-        if (empty($id))
-            return;
+        $id = BaresipWebrtc::room_baresip_id($room_slug, 'dec');
         BaresipWebrtc::command($id, 'disconnect');
     }
 
-    public static function sdp($id, $params)
+    public static function sdp($room_slug, $params)
     {
-        if (empty($id))
-            return;
+        $id = BaresipWebrtc::room_baresip_id($room_slug, 'inc');
         BaresipWebrtc::command($id, 'sdp', $params);
     }
 
