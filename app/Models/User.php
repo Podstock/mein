@@ -164,6 +164,9 @@ class User extends Authenticatable
 
     public function is_moderator($room_id)
     {
+        if ($this->isAdmin())
+            return true;
+
         if ($this->isOrga())
             return true;
 
