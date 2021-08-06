@@ -26,7 +26,7 @@ function pc_offer() {
 }
 
 export default {
-    isListening: false,
+    webrtc: false,
     stream: null,
     audio_input_id: null,
     audio_output_id: null,
@@ -81,6 +81,7 @@ export default {
     },
 
     room_connect() {
+        this.webrtc = true;
         this.room_slug = window.room_slug;
         this.start();
     },
@@ -181,6 +182,7 @@ export default {
 
     hangup() {
         console.log("webrtc: hangup");
+        this.webrtc = false;
         axios.get("/webrtc/" + this.room_slug + "/disconnect").then(() => {
             this.isListening = false;
         });

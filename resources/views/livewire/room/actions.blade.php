@@ -57,16 +57,41 @@
                         </span>
                     </div>
                 </div>
-                <div>
-                    <button type="button" wire:click="$emit('toggleListen')"
+                <div x-data>
+                    <button x-show="!$wire.webrtc" type="button" wire:click="$emit('toggleListen')"
                         class="hover:bg-gray-700 text-gray-300 group items-center px-2 py-2 text-base font-medium rounded-md block">
-                        <svg class="h-12 w-12 mx-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                            fill="currentColor">
-                            <path fill-rule="evenodd"
-                                d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
-                                clip-rule="evenodd" />
+
+                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle-play"
+                            class="h-12 w-12 mx-auto" role="img" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 512 512">
+                            <path fill="currentColor"
+                                d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM372.5 276.5l-144 88C224.7 366.8 220.3 368 216 368c-13.69 0-24-11.2-24-24V168C192 155.3 202.2 144 216 144c4.344 0 8.678 1.176 12.51 3.516l144 88C379.6 239.9 384 247.6 384 256C384 264.4 379.6 272.1 372.5 276.5z">
+                            </path>
                         </svg>
                     </button>
+                    <div x-show="$wire.webrtc" x-cloak class="flex space-x-6">
+                        <button type="button" @click="$store.webrtc.mute()"
+                            class="hover:bg-gray-700 text-gray-300 group items-center px-2 py-2 text-base font-medium rounded-md block">
+                            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="microphone-slash"
+                                class="h-12 w-12 mx-auto" role="img" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 640 512">
+                                <path fill="currentColor"
+                                    d="M383.1 464l-39.1-.0001v-33.77c20.6-2.824 39.98-9.402 57.69-18.72l-43.26-33.91c-14.66 4.65-30.28 7.179-46.68 6.144C245.7 379.6 191.1 317.1 191.1 250.9V247.2L143.1 209.5l.0001 38.61c0 89.65 63.97 169.6 151.1 181.7v34.15l-40 .0001c-17.67 0-31.1 14.33-31.1 31.1C223.1 504.8 231.2 512 239.1 512h159.1c8.838 0 15.1-7.164 15.1-15.1C415.1 478.3 401.7 464 383.1 464zM630.8 469.1l-159.3-124.9c15.37-25.94 24.53-55.91 24.53-88.21V216c0-13.25-10.75-24-23.1-24c-13.25 0-24 10.75-24 24l-.0001 39.1c0 21.12-5.559 40.77-14.77 58.24l-25.72-20.16c5.234-11.68 8.493-24.42 8.493-38.08l-.001-155.1c0-52.57-40.52-98.41-93.07-99.97c-54.37-1.617-98.93 41.95-98.93 95.95l0 54.25L38.81 5.111C34.41 1.673 29.19 0 24.03 0C16.91 0 9.839 3.158 5.12 9.189c-8.187 10.44-6.37 25.53 4.068 33.7l591.1 463.1c10.5 8.203 25.57 6.328 33.69-4.078C643.1 492.4 641.2 477.3 630.8 469.1z">
+                                </path>
+                            </svg>
+                        </button>
+                        <button type="button" @click="$store.webrtc.hangup()"
+                            onclick="confirm('Raum wirklich verlassen?') || event.stopImmediatePropagation()"
+                            class="hover:bg-gray-300 text-gray-500 group items-center px-2 py-2 text-base font-medium rounded-md block">
+                            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle-stop"
+                                class="h-10 w-10 mx-auto" role="img" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 512 512">
+                                <path fill="currentColor"
+                                    d="M256 0C114.6 0 0 114.6 0 256c0 141.4 114.6 256 256 256s256-114.6 256-256C512 114.6 397.4 0 256 0zM352 328c0 13.2-10.8 24-24 24h-144C170.8 352 160 341.2 160 328v-144C160 170.8 170.8 160 184 160h144C341.2 160 352 170.8 352 184V328z">
+                                </path>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
                 <div>
                     <button wire:click="$emit('toggleChat')" type="button" title="Chat/Next/Rooms"

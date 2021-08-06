@@ -30,7 +30,7 @@
                 und starte den Test erneut...
 
             </div>
-            <div x-show="!$store.webrtc.echo" class="pt-5">
+            <div x-show="!$store.webrtc.echo && !$store.webrtc.webrtc" class="pt-5">
                 <div class="flex justify-end">
                     <button @click="$store.webrtc.echo_connect()" type="submit"
                         class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-700">

@@ -14,17 +14,30 @@ class Actions extends Component
     public $hand;
     public $handVisible;
     public $room_slug;
+    public $webrtc;
 
     protected function getListeners()
     {
         return [
             'toggleChat',
+            'webrtcReady',
+            'webrtcOffline'
         ];
     }
 
     public function toggleChat()
     {
         $this->chat = !$this->chat;
+    }
+
+    public function webrtcReady()
+    {
+        $this->webrtc = true;
+    }
+
+    public function webrtcOffline()
+    {
+        $this->webrtc = false;
     }
 
     public function raiseHand()
@@ -41,6 +54,7 @@ class Actions extends Component
         $this->chat = false;
         $this->play = false;
         $this->hand = false;
+        $this->webrtc = false;
         $this->handVisible = true;
         $this->room_slug = $room->slug;
     }
