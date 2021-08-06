@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Room;
 
 use App\Events\UserRejoin;
 use App\Models\Room;
+use App\Models\User;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 
@@ -13,6 +14,8 @@ class Index extends Component
     public $connect;
     public $echo;
     public $webrtc;
+    public $modal_user;
+    public User $user;
 
     protected function getListeners()
     {
@@ -20,7 +23,14 @@ class Index extends Component
             'toggleListen',
             'webrtcReady',
             'webrtcOffline',
+            'modalUser'
         ];
+    }
+
+    public function modalUser(User $user)
+    {
+        $this->modal_user = $user->id;
+        $this->user = $user;
     }
 
     public function toggleListen()
@@ -53,12 +63,27 @@ class Index extends Component
         }
     }
 
+    public function makeListener()
+    {
+        $this->room->users()->detach($this->user->id);
+        $this->modal_user = false;
+        UserRejoin::dispatch($this->room->slug, $this->user->id);
+    }
+
+    public function makeSpeaker()
+    {
+        $this->room->users()->attach($this->user->id, ['role' => Room::SPEAKER]);
+        $this->modal_user = false;
+        UserRejoin::dispatch($this->room->slug, $this->user->id);
+    }
+
     public function mount(Room $room)
     {
         $this->room = $room;
         $this->connect = false;
         $this->echo = false;
         $this->webrtc = false;
+        $this->modal_user = false;
         Cache::put('online-' . $this->room->slug . '-' . auth()->user()->id, false);
         $this->room->user_offline();
     }

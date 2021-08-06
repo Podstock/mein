@@ -3,7 +3,7 @@
         <div class="space-y-8 sm:space-y-10">
             <div class="space-y-5 sm:mx-auto sm:max-w-xl sm:space-y-4 lg:max-w-5xl">
                 <h2 class="text-xl font-extrabold tracking-tight">
-                    Publikum 
+                    Publikum
                 </h2>
             </div>
             <ul
@@ -13,9 +13,10 @@
                         <div class="space-y-2">
                             <span class="inline-block relative">
                                 <div class="">
-                                    <img class="mx-auto h-16 w-16 rounded-full lg:w-20 lg:h-20"
-                                        :class="user.connected ? '' : 'opacity-30'"
-                                        :src="user.image" alt="" />
+                                    <button @click="$wire.emit('modalUser', user.id)">
+                                        <img class="mx-auto h-16 w-16 rounded-full lg:w-20 lg:h-20"
+                                            :class="user.connected ? '' : 'opacity-30'" :src="user.image" alt="" />
+                                    </button>
                                     <span x-show="user.hand"
                                         class="absolute -top-1 -right-1 bg-indigo-600 rounded-lg text-gray-200">
                                         <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"

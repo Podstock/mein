@@ -22,9 +22,11 @@ class UserRejoin implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct($roomSlug)
+    public function __construct($roomSlug, $user_id = null)
     {
-        $this->userId = auth()->user()->id;
+        if (empty($user_id))
+            $user_id = auth()->user()->id;
+        $this->userId = $user_id;
         $this->roomSlug = $roomSlug;
     }
 

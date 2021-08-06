@@ -11,6 +11,7 @@
     <audio id="audio" autoplay></audio>
     @include('room.connect')
     @include('room.echo')
+    @include('room.user')
     </div>
 
     <script>

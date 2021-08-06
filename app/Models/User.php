@@ -161,4 +161,17 @@ class User extends Authenticatable
 
         return false;
     }
+
+    public function is_moderator($room_id)
+    {
+        if ($this->isOrga())
+            return true;
+
+        $role = (int)$this->rooms()
+            ->whereRoomId($room_id)->first()?->pivot->role;
+        if ($role >= Room::MODERATOR)
+            return true;
+
+        return false;
+    }
 }

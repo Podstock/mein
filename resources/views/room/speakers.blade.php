@@ -12,8 +12,11 @@
                     <li>
                         <div class="space-y-2">
                             <span class="inline-block relative">
-                                <img :class="user.connected ? '' : 'opacity-30'"
-                                    class="mx-auto h-20 w-20 rounded-full lg:w-24 lg:h-24" :src="user.image" alt="" />
+                                <button @click="$wire.emit('modalUser', user.id)">
+                                    <img :class="user.connected ? '' : 'opacity-30'"
+                                        class="mx-auto h-20 w-20 rounded-full lg:w-24 lg:h-24" :src="user.image"
+                                        alt="" />
+                                </button>
                                 <span x-show="user.hand" class="absolute -top-1 -right-1 rounded-lg text-gray-600">
                                     <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                                         fill="currentColor">
