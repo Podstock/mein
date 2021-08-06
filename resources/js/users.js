@@ -2,10 +2,10 @@ export default () => ({
     users: [],
 
     speakers() {
-        return this.users.filter((user) => user.type == 'speaker');
+        return this.users.filter((user) => user.type == "speaker");
     },
     listeners() {
-        return this.users.filter((user) => user.type == 'listener');
+        return this.users.filter((user) => user.type == "listener");
     },
     raiseHand(userId) {
         this.users.forEach((u) => {
@@ -23,12 +23,13 @@ export default () => ({
             }
         });
     },
-    listen(roomId) {
-        Echo.join("users." + roomId)
+    listen(roomSlug) {
+        Echo.join("users." + roomSlug)
             .here((users) => {
                 this.users = users;
             })
             .joining((user) => {
+                console.log(user);
                 this.users.push(user);
             })
             .leaving((user) => {
@@ -40,8 +41,17 @@ export default () => ({
             .listen("UnraiseHand", (e) => {
                 this.unraiseHand(e.userId);
             })
+            .listen("UserRejoin", (e) => {
+                if (e.userId == window.user_id)
+                    this.rejoin(e.roomSlug);
+            })
             .error((error) => {
                 console.error(error);
             });
+    },
+    rejoin(roomSlug) {
+        console.log("users: rejoin " + roomSlug);
+        Echo.leave("users." + roomSlug);
+        this.listen(roomSlug);
     },
 });

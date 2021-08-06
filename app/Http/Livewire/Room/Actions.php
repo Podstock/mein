@@ -13,7 +13,7 @@ class Actions extends Component
     public $play;
     public $hand;
     public $handVisible;
-    public $roomId;
+    public $room_slug;
 
     protected function getListeners()
     {
@@ -31,9 +31,9 @@ class Actions extends Component
     {
         $this->hand = !$this->hand;
         if ($this->hand)
-            RaiseHand::dispatch($this->roomId);
+            RaiseHand::dispatch($this->room_slug);
         else
-            UnraiseHand::dispatch($this->roomId);
+            UnraiseHand::dispatch($this->room_slug);
     }
 
     public function mount(Room $room)
@@ -42,7 +42,7 @@ class Actions extends Component
         $this->play = false;
         $this->hand = false;
         $this->handVisible = true;
-        $this->roomId = $room->id;
+        $this->room_slug = $room->slug;
     }
 
     public function render()

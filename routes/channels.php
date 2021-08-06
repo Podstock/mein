@@ -2,6 +2,7 @@
 
 use App\Models\Room;
 use Illuminate\Support\Facades\Broadcast;
+use Illuminate\Support\Facades\Cache;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +20,8 @@ Broadcast::channel('chat.{roomId}', function ($user) {
     return !empty($user->id);
 });
 
-Broadcast::channel('users.{room}', function ($user, Room $room) {
+Broadcast::channel('users.{room_slug}', function ($user, $room_slug) {
+    $room = Room::whereSlug($room_slug)->firstOrFail();
     if (!empty($user->id)) {
         return [
             'id' => $user->id,
@@ -27,6 +29,7 @@ Broadcast::channel('users.{room}', function ($user, Room $room) {
             'nickname' => $user->nickname,
             'image' => $user->ProfilePhotoUrl,
             'hand' => false,
+            'connected' => $room->is_user_online(),
             'type' => $user->is_speaker($room->id) ? 'speaker' : 'listener'
         ];
     }

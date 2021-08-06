@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class Room extends Model
 {
@@ -45,5 +46,20 @@ class Room extends Model
     public function baresip()
     {
         return $this->hasOne(Baresip::class);
+    }
+
+    public function is_user_online()
+    {
+        return Cache::get('online-' . $this->slug . '-' . auth()->user()->id, false);
+    }
+
+    public function user_online()
+    {
+        Cache::put('online-' . $this->slug . '-' . auth()->user()->id, true);
+    }
+
+    public function user_offline()
+    {
+        Cache::forget('online-' . $this->slug . '-' . auth()->user()->id);
     }
 }

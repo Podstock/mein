@@ -8,6 +8,7 @@ use App\Models\BaresipWebrtc;
 use App\Models\Room;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
 use PhpMqtt\Client\Facades\MQTT;
 use Tests\TestCase;
@@ -33,13 +34,21 @@ class RoomTest extends TestCase
         $room = Room::factory(['slug' => 'test'])->create();
         $room->users()->attach($user->id, ['role' => Room::SPEAKER]);
 
+        Cache::put("online-$room->slug-" . $user->id, true);
+
         $response = $this->post(
             '/broadcasting/auth',
-            ['channel_name' => 'presence-users.' . $room->id]
+            ['channel_name' => 'presence-users.' . $room->slug]
         );
         $response->assertSee('\"id\":1', false);
         $response->assertSee('\"type\":\"speaker\"', false);
+        $response->assertSee('\"connected\":true', false);
         $response->assertStatus(200);
+
+        $this->post(
+            '/broadcasting/auth',
+            ['channel_name' => 'presence-users.unused']
+        )->assertStatus(404);
     }
 
     /** @test */
@@ -60,6 +69,7 @@ class RoomTest extends TestCase
         $user = $this->signIn();
         $room = Room::factory(['slug' => 'test'])->create();
         $baresip = Baresip::factory(['room_id' => $room->id])->create();
+        Cache::put("online-$room->slug-" . $user->id, true);
 
         //Laravel Echo Auth
         $this->post(
@@ -93,8 +103,16 @@ class RoomTest extends TestCase
                 . '","token":"' . $user->id . '"}'
         );
 
+        $room->user_offline();
         $this->get('/webrtc/' . $room->slug . '/disconnect')
             ->assertStatus(200);
+
+        $response = $this->post(
+            '/broadcasting/auth',
+            ['channel_name' => 'presence-users.' . $room->slug]
+        );
+        $response->assertSee('\"connected\":false', false);
+        $response->assertStatus(200);
 
         $this->assertDatabaseHas('baresips', ['users_count' => 0]);
     }

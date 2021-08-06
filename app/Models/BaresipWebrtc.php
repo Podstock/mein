@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Events\WebrtcSDP;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use PhpMqtt\Client\Facades\MQTT;
 

@@ -2,7 +2,9 @@
 
 namespace App\Http\Livewire\Room;
 
+use App\Events\UserRejoin;
 use App\Models\Room;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 
 class Index extends Component
@@ -17,6 +19,7 @@ class Index extends Component
         return [
             'toggleListen',
             'webrtcReady',
+            'webrtcOffline',
         ];
     }
 
@@ -35,6 +38,19 @@ class Index extends Component
     {
         $this->echo = false;
         $this->webrtc = true;
+
+        $this->room->user_online();
+        UserRejoin::dispatch($this->room->slug);
+    }
+
+    public function webrtcOffline()
+    {
+        $this->webrtc = false;
+
+        if ($this->room->is_user_online()) {
+            $this->room->user_offline();
+            UserRejoin::dispatch($this->room->slug);
+        }
     }
 
     public function mount(Room $room)
@@ -43,6 +59,8 @@ class Index extends Component
         $this->connect = false;
         $this->echo = false;
         $this->webrtc = false;
+        Cache::put('online-' . $this->room->slug . '-' . auth()->user()->id, false);
+        $this->room->user_offline();
     }
 
     public function render()

@@ -68,7 +68,6 @@ export default {
     },
 
     echo_yes() {
-        Livewire.emit("webrtcReady");
         this.hangup();
         this.room_connect();
         this.echo = false;
@@ -181,6 +180,7 @@ export default {
     },
 
     hangup() {
+        console.log("webrtc: hangup");
         axios.get("/webrtc/" + this.room_slug + "/disconnect").then(() => {
             this.isListening = false;
         });
@@ -188,6 +188,7 @@ export default {
             pc.close();
             pc = null;
         }
+        Livewire.emit("webrtcOffline");
     },
 
     restart() {
@@ -203,7 +204,6 @@ export default {
 
             iceCandidatePoolSize: 0,
             iceTransportPolicy: "relay",
-            // iceTransportPolicy: "all",
             iceServers: [
                 {
                     urls: "turn:195.201.63.86:3478",
@@ -221,20 +221,35 @@ export default {
                 const json = JSON.stringify(sd);
 
                 axios.post("/webrtc/" + this.room_slug + "/sdp", json);
+            } else {
+                console.log(
+                    "webrtc/icecandidate: " +
+                        event.candidate.type +
+                        " IP: " +
+                        event.candidate.candidate
+                );
             }
         };
 
-        pc.onicecandidateerror = function (event) {
-            // disconnect_call();
-            // axios.get("/webrtc/disconnect");
+        pc.onicegatheringstatechange = (event) => {
+            console.log(
+                "webrtc/iceGatheringState: " + event.target.iceGatheringState
+            );
+        };
 
+        pc.onsignalingstatechange = (event) => {
+            console.log(
+                "webrtc/signalingState: " + event.target.signalingState
+            );
+        };
+
+        pc.onicecandidateerror = function (event) {
             console.log(
                 "ICE Candidate Error: " +
                     event.errorCode +
                     " " +
                     event.errorText
             );
-            // console.log(event);
         };
 
         pc.ontrack = function (event) {
@@ -251,6 +266,19 @@ export default {
             //     remoteVideo.srcObject = event.streams[0];
             //     console.log("received remote video stream");
             // }
+        };
+
+        pc.oniceconnectionstatechange = (event) => {
+            console.log(
+                "webrtc/iceConnectionState: " + event.target.iceConnectionState
+            );
+            if (event.target.iceConnectionState === "connected") {
+                console.log("webrtc: online, room: " + this.room_slug);
+                if (this.room_slug != "echo") Livewire.emit("webrtcReady");
+            } else {
+                console.log("webrtc: offline, room: " + this.room_slug);
+                if (this.room_slug != "echo") Livewire.emit("webrtcOffline");
+            }
         };
 
         this.stream

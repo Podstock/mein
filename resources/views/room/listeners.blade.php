@@ -13,7 +13,8 @@
                         <div class="space-y-2">
                             <span class="inline-block relative">
                                 <div class="">
-                                    <img class="mx-auto h-16 w-16 rounded-full lg:w-20 lg:h-20 opacity-40"
+                                    <img class="mx-auto h-16 w-16 rounded-full lg:w-20 lg:h-20"
+                                        :class="user.connected ? '' : 'opacity-30'"
                                         :src="user.image" alt="" />
                                     <span x-show="user.hand"
                                         class="absolute -top-1 -right-1 bg-indigo-600 rounded-lg text-gray-200">

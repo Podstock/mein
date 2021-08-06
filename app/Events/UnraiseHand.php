@@ -16,17 +16,17 @@ class UnraiseHand implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $userId;
-    protected $roomId;
+    public $roomSlug;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($roomId)
+    public function __construct($roomSlug)
     {
         $this->userId = auth()->user()->id;
-        $this->roomId = $roomId;
+        $this->roomSlug = $roomSlug;
     }
 
     /**
@@ -36,6 +36,6 @@ class UnraiseHand implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PresenceChannel('users.' . $this->roomId);
+        return new PresenceChannel('users.' . $this->roomSlug);
     }
 }
