@@ -140,7 +140,7 @@ export default {
         }
     },
 
-    audio_output_changed() {
+    async audio_output_changed() {
         if (typeof this.audio_output_id === "undefined") return;
         let audio = document.querySelector("audio#audio");
 
@@ -154,7 +154,7 @@ export default {
             return;
         }
 
-        audio.setSinkId(this.audio_output_id);
+        await audio.setSinkId(this.audio_output_id);
         console.log("webrtc: changed output");
     },
 
