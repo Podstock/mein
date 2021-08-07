@@ -55,8 +55,17 @@ class BaresipWebrtc
 
     public static function sdp($room_slug, $params)
     {
+        $_params = "true," . $params;
+
         $id = BaresipWebrtc::room_baresip_id($room_slug, 'inc');
-        BaresipWebrtc::command($id, 'webrtc_sdp', $params);
+        if ($room_slug !== 'echo') {
+            $room = Room::whereSlug($room_slug)->firstOrFail();
+            if (auth()->user()->is_speaker($room->id)) {
+                $_params = "false," . $params;
+            }
+        }
+
+        BaresipWebrtc::command($id, 'webrtc_sdp', $_params);
     }
 
     public static function sdp_answer($message)

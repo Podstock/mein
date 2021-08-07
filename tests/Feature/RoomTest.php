@@ -77,11 +77,13 @@ class RoomTest extends TestCase
             ['channel_name' => 'private-webrtc.sdp.' . $user->id]
         )->assertStatus(200);
 
+        $user->room_speaker($room);
+
         //WebRTC Connect - SDP offer
         MQTT::shouldReceive('publish')->once()->with(
             "/baresip/$baresip->id/command/",
             '{"command":"webrtc_sdp","params":"' . $user->id
-                . ',{\"sdp\":\"test\"}","token":"' . $user->id . '"}'
+                . ',false,{\"sdp\":\"test\"}","token":"' . $user->id . '"}'
         );
         $this->json('post', '/webrtc/' . $room->slug . '/sdp', ['sdp' => 'test'])
             ->assertStatus(200);
@@ -125,7 +127,7 @@ class RoomTest extends TestCase
         MQTT::shouldReceive('publish')->once()->with(
             "/baresip/echo/command/",
             '{"command":"webrtc_sdp","params":"' . $user->id
-                . ',{\"sdp\":\"test\"}","token":"' . $user->id . '"}'
+                . ',true,{\"sdp\":\"test\"}","token":"' . $user->id . '"}'
         );
         $this->json('post', '/webrtc/echo/sdp', ['sdp' => 'test'])
             ->assertStatus(200);

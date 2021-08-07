@@ -275,8 +275,7 @@ export default {
                 "webrtc/iceConnectionState: " + event.target.iceConnectionState
             );
 
-            if (event.target.iceConnectionState === "completed")
-                return;
+            if (event.target.iceConnectionState === "completed") return;
             if (event.target.iceConnectionState === "connected") {
                 console.log("webrtc: online, room: " + this.room_slug);
                 if (this.room_slug != "echo") Livewire.emit("webrtcReady");
