@@ -151,4 +151,37 @@ class RoomTest extends TestCase
         $this->get('/webrtc/notexists/disconnect')
             ->assertStatus(404);
     }
+
+    /** @test */
+    public function webrtc_room_test_speaker_audio()
+    {
+        $user = $this->signIn();
+        $room = Room::factory(['slug' => 'test'])->create();
+        $baresip = Baresip::factory(['room_id' => $room->id])->create();
+
+        MQTT::shouldReceive('publish')->once()->with(
+            "/baresip/$baresip->id/command/",
+            '{"command":"aumix_enable","params":"'
+                . $user->id . ',false","token":"' . $user->id . '"}'
+        );
+        BaresipWebrtc::update_audio($room->id, $user);
+
+        $user->room_speaker($room);
+
+        MQTT::shouldReceive('publish')->once()->with(
+            "/baresip/$baresip->id/command/",
+            '{"command":"aumix_enable","params":"'
+                . $user->id . ',true","token":"' . $user->id . '"}'
+        );
+        BaresipWebrtc::update_audio($room->id, $user);
+
+        $user->room_listener($room);
+
+        MQTT::shouldReceive('publish')->once()->with(
+            "/baresip/$baresip->id/command/",
+            '{"command":"aumix_enable","params":"'
+                . $user->id . ',false","token":"' . $user->id . '"}'
+        );
+        BaresipWebrtc::update_audio($room->id, $user);
+    }
 }

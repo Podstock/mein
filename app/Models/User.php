@@ -162,6 +162,16 @@ class User extends Authenticatable
         return false;
     }
 
+    public function room_speaker(Room $room)
+    {
+        $room->users()->attach($this->id, ['role' => Room::SPEAKER]);
+    }
+
+    public function room_listener(Room $room)
+    {
+        $room->users()->detach($this->id);
+    }
+
     public function is_moderator($room_id)
     {
         if ($this->isAdmin())

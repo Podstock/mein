@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Room;
 
 use App\Events\UserRejoin;
+use App\Models\BaresipWebrtc;
 use App\Models\Room;
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;
@@ -50,6 +51,8 @@ class Index extends Component
         $this->webrtc = true;
 
         $this->room->user_online();
+        BaresipWebrtc::update_audio($this->room->id, auth()->user());
+
         UserRejoin::dispatch($this->room->slug);
     }
 
@@ -65,16 +68,18 @@ class Index extends Component
 
     public function makeListener()
     {
-        $this->room->users()->detach($this->user->id);
+        $this->user->room_listener($this->room);
         $this->modal_user = false;
         UserRejoin::dispatch($this->room->slug, $this->user->id);
+        BaresipWebrtc::update_audio($this->room->id, $this->user);
     }
 
     public function makeSpeaker()
     {
-        $this->room->users()->attach($this->user->id, ['role' => Room::SPEAKER]);
+        $this->user->room_speaker($this->room);
         $this->modal_user = false;
         UserRejoin::dispatch($this->room->slug, $this->user->id);
+        BaresipWebrtc::update_audio($this->room->id, $this->user);
     }
 
     public function mount(Room $room)

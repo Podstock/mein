@@ -17,21 +17,22 @@ class BaresipWebrtc
         $room = Room::whereSlug($room_slug)->firstOrFail();
         if ($operator === 'inc')
             $room->baresip?->inc_users();
-        else
+        if ($operator === 'dec')
             $room->baresip?->dec_users();
         return $room->baresip?->id;
     }
 
-    public static function command($id, $cmd, $arg = NULL)
+    public static function command($id, $cmd, $arg = NULL, $user_id = NULL)
     {
         $params = "";
         if (!empty($arg))
             $params = "," . $arg;
 
-        $user_id = auth()->user()->id;
+        if (empty($user_id))
+            $user_id = auth()->user()->id;
 
         $json = [
-            'command' => "webrtc_$cmd",
+            'command' => "$cmd",
             'params' => $user_id . $params,
             'token' => strval(auth()->user()->id)
         ];
@@ -41,13 +42,21 @@ class BaresipWebrtc
     public static function disconnect($room_slug)
     {
         $id = BaresipWebrtc::room_baresip_id($room_slug, 'dec');
-        BaresipWebrtc::command($id, 'disconnect');
+        BaresipWebrtc::command($id, 'webrtc_disconnect');
+    }
+
+    public static function update_audio($room_id, User $user)
+    {
+        if ($user->is_speaker($room_id))
+            BaresipWebrtc::command($room_id, 'aumix_enable', 'true', $user->id);
+        else
+            BaresipWebrtc::command($room_id, 'aumix_enable', 'false', $user->id);
     }
 
     public static function sdp($room_slug, $params)
     {
         $id = BaresipWebrtc::room_baresip_id($room_slug, 'inc');
-        BaresipWebrtc::command($id, 'sdp', $params);
+        BaresipWebrtc::command($id, 'webrtc_sdp', $params);
     }
 
     public static function sdp_answer($message)
