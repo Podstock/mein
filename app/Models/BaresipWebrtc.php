@@ -48,9 +48,9 @@ class BaresipWebrtc
     public static function update_audio($room_id, User $user)
     {
         if ($user->is_speaker($room_id))
-            BaresipWebrtc::command($room_id, 'aumix_enable', 'true', $user->id);
+            BaresipWebrtc::command($room_id, 'aumix_mute', 'false', $user->id);
         else
-            BaresipWebrtc::command($room_id, 'aumix_enable', 'false', $user->id);
+            BaresipWebrtc::command($room_id, 'aumix_mute', 'true', $user->id);
     }
 
     public static function sdp($room_slug, $params)

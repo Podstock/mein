@@ -52,7 +52,6 @@ class Index extends Component
 
         $this->room->user_online();
         BaresipWebrtc::update_audio($this->room->id, auth()->user());
-
         UserRejoin::dispatch($this->room->slug);
     }
 
