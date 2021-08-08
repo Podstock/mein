@@ -8,12 +8,12 @@
             <div class="absolute inset-0 group-hover:bg-gray-50" aria-hidden="true"></div>
             <div class="flex-1 flex items-top min-w-0 relative">
                 <span class="flex-shrink-0 inline-block relative">
-                    <img class="h-10 w-10 rounded-full" src="{{$message->user->ProfilePhotoUrl}}"
-                        alt="{{$message->user->name}}">
+                    <img class="h-10 w-10 rounded-full" src="{{$message->user?->ProfilePhotoUrl}}"
+                        alt="{{$message->user?->name}}">
                 </span>
                 <div class="ml-4">
-                    <p class="text-sm font-medium text-gray-900 truncate">{{$message->user->name}}
-                        <span class="text-gray-500">{{'@'.$message->user->nickname}}</span></p>
+                    <p class="text-sm font-medium text-gray-900 truncate">{{$message->user?->name}}
+                        <span class="text-gray-500">{{'@'.$message->user?->nickname}}</span></p>
                     <p>
                         {!! Str::markdown($message->body) !!}
                     </p>
