@@ -35,6 +35,7 @@ export default {
     room_slug: undefined,
     echo: false,
     echo_failed: false,
+    muted: true,
 
     mediaConstraints: {
         audio: {
@@ -59,8 +60,23 @@ export default {
         );
     },
 
+    mute() {
+        this.muted = true;
+        this.stream.getAudioTracks().forEach((track) => {
+            track.enabled = !this.muted;
+        });
+    },
+
+    unmute() {
+        this.muted = false;
+        this.stream.getAudioTracks().forEach((track) => {
+            track.enabled = !this.muted;
+        });
+    },
+
     echo_connect() {
         this.room_slug = "echo";
+        this.unmute();
         this.hangup();
         this.start();
         this.echo = true;
@@ -69,6 +85,7 @@ export default {
 
     echo_yes() {
         this.hangup();
+        this.mute();
         this.room_connect();
         this.echo = false;
         this.echo_failed = false;
@@ -97,6 +114,8 @@ export default {
             console.log("webrtc: microphone permission denied...");
         }
 
+        this.mute();
+
         let deviceInfos = await navigator.mediaDevices.enumerateDevices();
         this.gotDevices(deviceInfos);
 
@@ -122,6 +141,11 @@ export default {
             );
 
             this.stream = new_stream;
+
+            this.stream.getAudioTracks().forEach((track) => {
+                track.enabled = !this.muted;
+            });
+
             let track = this.stream.getAudioTracks()[0];
 
             console.log(

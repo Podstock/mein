@@ -69,9 +69,21 @@
                             </path>
                         </svg>
                     </button>
-                    <div x-show="$wire.webrtc" x-cloak class="flex space-x-6">
-                        <button type="button" @click="$store.webrtc.mute()"
-                            class="hover:bg-gray-700 text-gray-300 group items-center px-2 py-2 text-base font-medium rounded-md block">
+                    <div x-show="$wire.webrtc" x-cloak class="flex">
+                        <button type="button" x-show="!$store.webrtc.muted" @click="$store.webrtc.mute()"
+                            class="hover:bg-gray-700 text-gray-300 group items-center px-2 py-2 text-base font-medium rounded-md block"
+                            title="Mikrofon deaktivieren">
+                            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="microphone"
+                                class="h-12 w-12 mx-auto" role="img" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 384 512">
+                                <path fill="currentColor"
+                                    d="M192 352c53.03 0 96-42.97 96-96v-160c0-53.03-42.97-96-96-96s-96 42.97-96 96v160C96 309 138.1 352 192 352zM344 192C330.7 192 320 202.7 320 215.1V256c0 73.33-61.97 132.4-136.3 127.7c-66.08-4.169-119.7-66.59-119.7-132.8L64 215.1C64 202.7 53.25 192 40 192S16 202.7 16 215.1v32.15c0 89.66 63.97 169.6 152 181.7V464H128c-18.19 0-32.84 15.18-31.96 33.57C96.43 505.8 103.8 512 112 512h160c8.222 0 15.57-6.216 15.96-14.43C288.8 479.2 274.2 464 256 464h-40v-33.77C301.7 418.5 368 344.9 368 256V215.1C368 202.7 357.3 192 344 192z">
+                                </path>
+                            </svg>
+                        </button>
+                        <button type="button" x-show="$store.webrtc.muted" @click="$store.webrtc.unmute()"
+                            class="hover:bg-gray-700 text-red-400 group items-center px-2 py-2 text-base font-medium rounded-md block"
+                            title="Mikrofon aktivieren">
                             <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="microphone-slash"
                                 class="h-12 w-12 mx-auto" role="img" xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 640 512">
@@ -82,7 +94,7 @@
                         </button>
                         <button type="button" @click="$store.webrtc.hangup()"
                             onclick="confirm('Raum wirklich verlassen?') || event.stopImmediatePropagation()"
-                            class="hover:bg-gray-300 text-gray-500 group items-center px-2 py-2 text-base font-medium rounded-md block">
+                            class="hover:bg-gray-300 text-gray-500 group items-center px-2 py-2 text-base font-medium rounded-md block ml-5">
                             <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle-stop"
                                 class="h-10 w-10 mx-auto" role="img" xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 512 512">
