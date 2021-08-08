@@ -93,7 +93,7 @@
                             </svg>
                         </button>
                         <button type="button" @click="$store.webrtc.hangup()"
-                            onclick="confirm('Raum wirklich verlassen?') || event.stopImmediatePropagation()"
+                            onclick="window.top.confirm('Raum wirklich verlassen?') || event.stopImmediatePropagation()"
                             class="hover:bg-gray-300 text-gray-500 group items-center px-2 py-2 text-base font-medium rounded-md block ml-5">
                             <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle-stop"
                                 class="h-10 w-10 mx-auto" role="img" xmlns="http://www.w3.org/2000/svg"
