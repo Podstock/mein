@@ -1,5 +1,5 @@
 <div>
-    <div x-show="window.self !== window.top" x-cloak class="absolute right-0 text-gray-300 mt-2 mr-2">
+    <div x-data x-show="window.self !== window.top" x-cloak class="absolute right-0 text-gray-300 mt-2 mr-2">
         <a href="https://mein.podstock.de/room/{{$room->slug}}" target="_blank">
             <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="arrow-up-right-from-square"
                 class="h-12 w-12" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
