@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return redirect(route('mytalks'));
+    return redirect(route('dashboard'));
 });
 
 Route::get('/user/card/{user}', function (User $user) {

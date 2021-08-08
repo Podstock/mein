@@ -12,7 +12,6 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    @if(false)
                     <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="map-signs"
                             class="text-gray-400 group-hover:text-gray-500 -ml-0.5 mr-2 h-5 w-5" role="img"
@@ -23,7 +22,6 @@
                         </svg>
                         <span>{{ __('Wegweiser') }}</span>
                     </x-jet-nav-link>
-                    @endif
                     <x-jet-nav-link href="{{ route('camping') }}" :active="request()->routeIs('camping')">
 
                         <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="campground"
@@ -202,11 +200,9 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            @if(false)
             <x-jet-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                 {{ __('Wegweiser') }}
             </x-jet-responsive-nav-link>
-            @endif
             <x-jet-responsive-nav-link href="{{ route('camping') }}" :active="request()->routeIs('camping')">
                 {{ __('Zelten') }}
             </x-jet-responsive-nav-link>
