@@ -22,7 +22,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
     {
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
-            'nickname' => ['nullable', 'string', 'max:16', 'alpha_dash'],
+            'nickname' => ['nullable', 'string', 'max:18', 'alpha_dash'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:2048'],
             'sendegate' => ['nullable', 'string', 'regex:/^\S*$/u'],
