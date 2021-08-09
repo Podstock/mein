@@ -3,6 +3,7 @@ import Alpine from "alpinejs";
 import intersect from "@alpinejs/intersect";
 
 import webrtc from "./webrtc.js";
+import webrtc_video from "./webrtc_video.js";
 import users from "./users.js";
 
 window.Alpine = Alpine;
@@ -13,6 +14,7 @@ Alpine.data("app", () => ({
 }));
 
 Alpine.store("webrtc", webrtc);
+Alpine.store("webrtc_video", webrtc_video);
 Alpine.data("users", users);
 
 Alpine.start();

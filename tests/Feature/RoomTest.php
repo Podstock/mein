@@ -83,7 +83,7 @@ class RoomTest extends TestCase
         MQTT::shouldReceive('publish')->once()->with(
             "/baresip/$baresip->id/command/",
             '{"command":"webrtc_sdp","params":"' . $user->id
-                . ',false,{\"sdp\":\"test\"}","token":"' . $user->id . '"}'
+                . ',false,audio,{\"sdp\":\"test\"}","token":"' . $user->id . '"}'
         );
         $this->json('post', '/webrtc/' . $room->slug . '/sdp', ['sdp' => 'test'])
             ->assertStatus(200);
@@ -92,7 +92,7 @@ class RoomTest extends TestCase
 
         //WebRTC - SDP answer
         Event::fake();
-        BaresipWebrtc::sdp_answer('{"param": "webrtc,sdp,' . $user->id . ',{\"type\":\"answer\"}"}');
+        BaresipWebrtc::sdp_answer('{"param": "webrtc,sdp,' . $user->id . ',audio,{\"type\":\"answer\"}"}');
         Event::assertDispatched(function (WebrtcSDP $event) use ($user) {
             return (string)$event->broadcastOn() === "private-webrtc.sdp." . $user->id &&
                 $event->sdp->type === 'answer';
@@ -127,7 +127,7 @@ class RoomTest extends TestCase
         MQTT::shouldReceive('publish')->once()->with(
             "/baresip/echo/command/",
             '{"command":"webrtc_sdp","params":"' . $user->id
-                . ',true,{\"sdp\":\"test\"}","token":"' . $user->id . '"}'
+                . ',true,audio,{\"sdp\":\"test\"}","token":"' . $user->id . '"}'
         );
         $this->json('post', '/webrtc/echo/sdp', ['sdp' => 'test'])
             ->assertStatus(200);
