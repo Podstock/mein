@@ -92,9 +92,19 @@
                                 </path>
                             </svg>
                         </button>
+                        <button type="button" wire:click="$emit('toggleOptions')"
+                            class="hover:bg-gray-700 text-gray-300 group items-center px-2 py-2 text-base font-medium rounded-md block ml-3">
+                            <svg class="h-10 w-10 mx-auto" aria-hidden="true" focusable="false" data-prefix="fas"
+                                data-icon="ellipsis" role="img" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 512 512">
+                                <path fill="currentColor"
+                                    d="M64 192C28.61 192 0 220.6 0 256s28.61 64 64 64s64-28.62 64-64S99.39 192 64 192zM256 192C220.6 192 192 220.6 192 256s28.61 64 64 64s64-28.62 64-64S291.4 192 256 192zM448 192c-35.39 0-64 28.62-64 64s28.61 64 64 64s64-28.62 64-64S483.4 192 448 192z">
+                                </path>
+                            </svg>
+                        </button>
                         <button type="button" @click="$store.webrtc.hangup()"
                             onclick="window.top.confirm('Raum wirklich verlassen?') || event.stopImmediatePropagation()"
-                            class="hover:bg-gray-300 text-gray-500 group items-center px-2 py-2 text-base font-medium rounded-md block ml-5">
+                            class="hidden hover:bg-gray-300 text-gray-500 group items-center px-2 py-2 text-base font-medium rounded-md block ml-5">
                             <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle-stop"
                                 class="h-10 w-10 mx-auto" role="img" xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 512 512">

@@ -16,12 +16,14 @@ class Index extends Component
     public $echo;
     public $webrtc;
     public $modal_user;
+    public $modal_options;
     public User $user;
 
     protected function getListeners()
     {
         return [
             'toggleListen',
+            'toggleOptions',
             'webrtcReady',
             'webrtcOffline',
             'modalUser'
@@ -37,6 +39,11 @@ class Index extends Component
     public function toggleListen()
     {
         $this->connect = true;
+    }
+
+    public function toggleOptions()
+    {
+        $this->modal_options = true;
     }
 
     public function webrtc()
@@ -58,6 +65,7 @@ class Index extends Component
     public function webrtcOffline()
     {
         $this->webrtc = false;
+        $this->modal_options = false;
 
         if ($this->room->is_user_online()) {
             $this->room->user_offline();
@@ -88,6 +96,7 @@ class Index extends Component
         $this->echo = false;
         $this->webrtc = false;
         $this->modal_user = false;
+        $this->modal_options = false;
         Cache::put('online-' . $this->room->slug . '-' . auth()->user()->id, false);
         $this->room->user_offline();
     }

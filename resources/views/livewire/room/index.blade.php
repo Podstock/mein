@@ -24,6 +24,7 @@
         @include('room.connect')
         @include('room.echo')
         @include('room.user')
+        @include('room.options')
     </div>
 
     {{-- Empty div to fix height (action menu) --}}
