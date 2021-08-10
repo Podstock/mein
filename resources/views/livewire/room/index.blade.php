@@ -11,7 +11,7 @@
     </div>
     <div class="flex">
         <main class="w-full">
-            <video id="video" playsinline autoplay controls class="mx-auto px-4 mt-2" height="640"
+            <video id="live" playsinline autoplay controls class="mx-auto px-4 mt-2" height="640"
                 width="480"></video>
             @include('room.users')
         </main>
@@ -25,6 +25,7 @@
         @include('room.echo')
         @include('room.user')
         @include('room.options')
+        @include('room.cam')
     </div>
 
     {{-- Empty div to fix height (action menu) --}}

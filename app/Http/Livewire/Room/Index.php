@@ -17,6 +17,7 @@ class Index extends Component
     public $webrtc;
     public $modal_user;
     public $modal_options;
+    public $modal_cam;
     public User $user;
 
     protected function getListeners()
@@ -24,6 +25,7 @@ class Index extends Component
         return [
             'toggleListen',
             'toggleOptions',
+            'toggleCam',
             'webrtcReady',
             'webrtcOffline',
             'modalUser'
@@ -45,6 +47,14 @@ class Index extends Component
     {
         $this->modal_options = true;
     }
+
+
+    public function toggleCam()
+    {
+        $this->modal_options = false;
+        $this->modal_cam = !$this->modal_cam;
+    }
+
 
     public function webrtc()
     {
@@ -97,6 +107,7 @@ class Index extends Component
         $this->webrtc = false;
         $this->modal_user = false;
         $this->modal_options = false;
+        $this->modal_cam = true;
         Cache::put('online-' . $this->room->slug . '-' . auth()->user()->id, false);
         $this->room->user_offline();
     }

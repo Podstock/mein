@@ -93,7 +93,7 @@
                             </svg>
                         </button>
                         <button type="button" wire:click="$emit('toggleOptions')"
-                            class="hover:bg-gray-700 text-gray-300 group items-center px-2 py-2 text-base font-medium rounded-md block ml-3">
+                            class="hover:bg-gray-700 text-gray-300 group items-center px-2 py-2 text-base font-medium rounded-md block ml-5">
                             <svg class="h-10 w-10 mx-auto" aria-hidden="true" focusable="false" data-prefix="fas"
                                 data-icon="ellipsis" role="img" xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 512 512">

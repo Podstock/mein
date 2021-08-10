@@ -28,11 +28,10 @@ function pc_offer() {
 export default {
     webrtc_video: false,
     stream: null,
-    video_id: null,
-    video_inputs: [],
+    input_id: null,
+    inputs: [],
     room_slug: undefined,
     echo: false,
-    echo_failed: false,
 
     mediaConstraints: {
         audio: false,
@@ -56,7 +55,7 @@ export default {
         );
 
         // this.room_connect();
-        this.setup();
+        // this.setup();
     },
 
     echo_connect() {
@@ -64,20 +63,6 @@ export default {
         this.hangup();
         this.start();
         this.echo = true;
-        this.echo_failed = false;
-    },
-
-    echo_yes() {
-        this.hangup();
-        this.room_connect();
-        this.echo = false;
-        this.echo_failed = false;
-    },
-
-    echo_no() {
-        this.hangup();
-        this.echo = false;
-        this.echo_failed = true;
     },
 
     room_connect() {
@@ -95,10 +80,45 @@ export default {
             );
         } catch (e) {
             console.log("webrtc_video: permission denied...");
+            return;
         }
 
         let deviceInfos = await navigator.mediaDevices.enumerateDevices();
         this.gotDevices(deviceInfos);
+        this.input_id = this.stream.getVideoTracks()[0].getSettings().deviceId;
+        this.echo_connect();
+    },
+
+    async input_changed() {
+        console.log("webrtc_video: try %s", this.input_id);
+        if (this.input_id == this.stream.getVideoTracks()[0].getSettings().deviceId)
+            return;
+        this.mediaConstraints.video.deviceId = { exact: this.input_id };
+        this.stream.getVideoTracks()[0].stop();
+
+        try {
+            let new_stream = await navigator.mediaDevices.getUserMedia(
+                this.mediaConstraints
+            );
+
+            this.stream = new_stream;
+
+            let track = this.stream.getVideoTracks()[0];
+
+            console.log(
+                "webrtc: changed video: " + track.getSettings().deviceId
+            );
+
+            if (pc) {
+                let sender = pc.getSenders().find(function (s) {
+                    return s.track.kind == track.kind;
+                });
+
+                sender.replaceTrack(track);
+            }
+        } catch (e) {
+            console.log("webrtc: camera permission denied...");
+        }
     },
 
     gotDevices(deviceInfos) {
@@ -108,7 +128,7 @@ export default {
             if (deviceInfo.kind === "videoinput") {
                 let text = deviceInfo.label || `camera ${i}`;
                 let value = { key: deviceInfo.deviceId, value: text };
-                this.video_inputs.push(value);
+                this.inputs.push(value);
             }
         }
     },
@@ -131,7 +151,6 @@ export default {
 
     start() {
         console.log("webrtc_video:start");
-        this.isListening = true;
         const configuration = {
             bundlePolicy: "balanced",
 
@@ -188,7 +207,7 @@ export default {
 
         pc.ontrack = function (event) {
             const track = event.track;
-            let remoteVideo = document.querySelector("video#video");
+            let remoteVideo = document.querySelector("video#echo");
             console.log("got remote track: kind=%s", track.kind);
 
             if (remoteVideo.srcObject !== event.streams[0]) {
@@ -214,10 +233,12 @@ export default {
         };
 
         if (this.stream) {
+            console.log("use stream");
             this.stream
                 .getTracks()
                 .forEach((track) => pc.addTrack(track, this.stream));
         } else {
+            console.log("recvonly");
             pc.addTransceiver("video", { direction: "recvonly" });
         }
 

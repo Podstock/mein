@@ -102,8 +102,9 @@ class BaresipWebrtc
         });
 
         $mqtt->subscribe('/baresip/+/event', function (string $topic, string $message) {
-            Log::info("Received QoS level 0 message on topic [$topic]: $message");
+            // Log::info("Received QoS level 0 message on topic [$topic]: $message");
             BaresipWebrtc::sdp_answer($message);
+            $message = null;
         }, 0);
         $mqtt->loop(true);
         $mqtt->disconnect();
