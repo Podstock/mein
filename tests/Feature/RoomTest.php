@@ -92,7 +92,7 @@ class RoomTest extends TestCase
 
         //WebRTC - SDP answer
         Event::fake();
-        BaresipWebrtc::sdp_answer('{"param": "webrtc,sdp,' . $user->id . ',audio,{\"type\":\"answer\"}"}');
+        BaresipWebrtc::sdp_answer('{"param": "webrtc,sdp,' . $user->id . '_audio,audio,{\"type\":\"answer\"}"}');
         Event::assertDispatched(function (WebrtcSDP $event) use ($user) {
             return (string)$event->broadcastOn() === "private-webrtc.sdp." . $user->id &&
                 $event->sdp->type === 'answer';
@@ -102,7 +102,7 @@ class RoomTest extends TestCase
         MQTT::shouldReceive('publish')->once()->with(
             "/baresip/$baresip->id/command/",
             '{"command":"webrtc_disconnect","params":"' . $user->id
-                . '","token":"' . $user->id . '"}'
+                . '_audio","token":"' . $user->id . '"}'
         );
 
         $room->user_offline();
@@ -135,7 +135,7 @@ class RoomTest extends TestCase
         MQTT::shouldReceive('publish')->once()->with(
             "/baresip/echo/command/",
             '{"command":"webrtc_disconnect","params":"' . $user->id
-                . '","token":"' . $user->id . '"}'
+                . '_audio","token":"' . $user->id . '"}'
         );
 
         $this->get('/webrtc/echo/disconnect')

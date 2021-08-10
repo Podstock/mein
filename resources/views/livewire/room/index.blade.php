@@ -11,7 +11,7 @@
     </div>
     <div class="flex">
         <main class="w-full">
-            <video id="video" playsinline autoplay controls class="aspect-w-16 aspect-h-9 mx-auto px-4 mt-2" height="640"
+            <video id="video" playsinline autoplay controls class="mx-auto px-4 mt-2" height="640"
                 width="480"></video>
             @include('room.users')
         </main>

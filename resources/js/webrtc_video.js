@@ -55,7 +55,8 @@ export default {
             }
         );
 
-        this.room_connect();
+        // this.room_connect();
+        this.setup();
     },
 
     echo_connect() {
@@ -94,6 +95,21 @@ export default {
             );
         } catch (e) {
             console.log("webrtc_video: permission denied...");
+        }
+
+        let deviceInfos = await navigator.mediaDevices.enumerateDevices();
+        this.gotDevices(deviceInfos);
+    },
+
+    gotDevices(deviceInfos) {
+        for (let i = 0; i !== deviceInfos.length; ++i) {
+            const deviceInfo = deviceInfos[i];
+
+            if (deviceInfo.kind === "videoinput") {
+                let text = deviceInfo.label || `camera ${i}`;
+                let value = { key: deviceInfo.deviceId, value: text };
+                this.video_inputs.push(value);
+            }
         }
     },
 
@@ -197,11 +213,13 @@ export default {
             }
         };
 
-        // this.stream
-        //     .getTracks()
-        //     .forEach((track) => pc.addTrack(track, this.stream));
-
-        pc.addTransceiver("video", { direction: "recvonly" });
+        if (this.stream) {
+            this.stream
+                .getTracks()
+                .forEach((track) => pc.addTrack(track, this.stream));
+        } else {
+            pc.addTransceiver("video", { direction: "recvonly" });
+        }
 
         pc_offer();
     },

@@ -40,10 +40,11 @@ class BaresipWebrtc
         MQTT::publish("/baresip/$id/command/", json_encode($json));
     }
 
-    public static function disconnect($room_slug)
+    public static function disconnect($room_slug, $type)
     {
         $id = BaresipWebrtc::room_baresip_id($room_slug, 'dec');
-        BaresipWebrtc::command($id, 'webrtc_disconnect');
+        $user_id = auth()->user()->id . '_' . $type;
+        BaresipWebrtc::command($id, 'webrtc_disconnect', null, $user_id);
     }
 
     public static function update_audio($room_id, User $user)
@@ -80,7 +81,8 @@ class BaresipWebrtc
             return;
 
         $param = explode(',', $json->param, 5);
-        $user_id = $param[2];
+        $sess_id = $param[2];
+        $user_id = explode('_', $sess_id, 2)[0];
         $type = $param[3];
         $sdp = json_decode($param[4]);
         if ($type === 'video')

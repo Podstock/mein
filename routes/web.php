@@ -74,7 +74,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     });
 
     Route::get('/webrtc/{room_slug}/disconnect', function ($room_slug) {
-        BaresipWebrtc::disconnect($room_slug);
+        BaresipWebrtc::disconnect($room_slug, 'audio');
+    });
+
+    Route::get('/webrtc_video/{room_slug}/disconnect', function ($room_slug) {
+        BaresipWebrtc::disconnect($room_slug, 'video');
     });
 
     Route::get('/room/{room:slug}', App\Http\Livewire\Room\Index::class);
