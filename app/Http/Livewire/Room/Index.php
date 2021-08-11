@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Room;
 
 use App\Events\UserRejoin;
+use App\Events\WebrtcVideoReady;
 use App\Models\BaresipWebrtc;
 use App\Models\Room;
 use App\Models\User;
@@ -15,6 +16,7 @@ class Index extends Component
     public $connect;
     public $echo;
     public $webrtc;
+    public $webrtc_video;
     public $modal_user;
     public $modal_options;
     public $modal_cam;
@@ -27,6 +29,9 @@ class Index extends Component
             'toggleOptions',
             'toggleCam',
             'webrtcReady',
+            'webrtcVideoReady',
+            'webrtcVideoOffline',
+            'webrtcVideoCamDisabled',
             'webrtcOffline',
             'modalUser'
         ];
@@ -55,6 +60,24 @@ class Index extends Component
         $this->modal_cam = !$this->modal_cam;
     }
 
+    public function webrtcVideoReady()
+    {
+        $this->modal_cam = false;
+        $this->webrtc_video = true;
+        WebrtcVideoReady::dispatch($this->room->slug);
+    }
+
+    public function webrtcVideoOffline()
+    {
+        $this->webrtc_video = false;
+        $this->modal_options = false;
+    }
+
+    public function webrtcVideoCamDisabled()
+    {
+        $this->webrtc_video = false;
+        $this->modal_options = false;
+    }
 
     public function webrtc()
     {
@@ -105,9 +128,10 @@ class Index extends Component
         $this->connect = false;
         $this->echo = false;
         $this->webrtc = false;
+        $this->webrtc_video = false;
         $this->modal_user = false;
         $this->modal_options = false;
-        $this->modal_cam = true;
+        $this->modal_cam = false;
         Cache::put('online-' . $this->room->slug . '-' . auth()->user()->id, false);
         $this->room->user_offline();
     }

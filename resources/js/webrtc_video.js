@@ -35,7 +35,7 @@ export default {
 
     mediaConstraints: {
         audio: false,
-        video: { width: 640, height: 480, framerate: 30 },
+        video: { width: 640, height: 480, framerate: 15 },
     },
 
     init() {
@@ -47,25 +47,29 @@ export default {
             }
         );
 
-        Echo.private("webrtc_video.ready." + window.user_id).listen(
+        Echo.private("webrtc_video.ready." + window.room_slug).listen(
             "WebrtcVideoReady",
             (e) => {
-                this.room_connect();
+                if (!this.webrtc_video) this.room_connect();
             }
         );
-
-        // this.room_connect();
-        // this.setup();
     },
 
     echo_connect() {
         this.room_slug = "echo";
+        this.echo = true;
         this.hangup();
         this.start();
-        this.echo = true;
+    },
+
+    echo_ready() {
+        this.room_connect();
+        Livewire.emit("webrtcVideoReady");
     },
 
     room_connect() {
+        this.hangup();
+        this.echo = false;
         this.webrtc_video = true;
         this.room_slug = window.room_slug;
         this.start();
@@ -91,10 +95,15 @@ export default {
 
     async input_changed() {
         console.log("webrtc_video: try %s", this.input_id);
-        if (this.input_id == this.stream.getVideoTracks()[0].getSettings().deviceId)
-            return;
+        if (this.stream) {
+            if (
+                this.input_id ==
+                this.stream.getVideoTracks()[0].getSettings().deviceId
+            )
+                return;
+            this.stream.getVideoTracks()[0].stop();
+        }
         this.mediaConstraints.video.deviceId = { exact: this.input_id };
-        this.stream.getVideoTracks()[0].stop();
 
         try {
             let new_stream = await navigator.mediaDevices.getUserMedia(
@@ -133,15 +142,28 @@ export default {
         }
     },
 
+    disable() {
+        console.log("webrtc_video: cam disabled");
+        if (this.stream) {
+            this.stream.getVideoTracks().forEach((track) => {
+                track.enabled = false;
+            });
+        }
+        Livewire.emit("webrtcVideoCamDisabled");
+    },
+
     hangup() {
         console.log("webrtc_video: hangup");
+        if (this.stream) this.stream.getVideoTracks()[0].stop();
+        this.stream = null;
         this.webrtc_video = false;
         axios.get("/webrtc_video/" + this.room_slug + "/disconnect");
         if (pc) {
             pc.close();
             pc = null;
         }
-        // Livewire.emit("webrtc_videoOffline");
+
+        if (this.room_slug != "echo") Livewire.emit("webrtcVideoOffline");
     },
 
     restart() {
@@ -205,9 +227,14 @@ export default {
             );
         };
 
-        pc.ontrack = function (event) {
+        pc.ontrack = (event) => {
+            let remoteVideo;
             const track = event.track;
-            let remoteVideo = document.querySelector("video#echo");
+            if (this.echo) {
+                remoteVideo = document.querySelector("video#echo");
+            } else {
+                remoteVideo = document.querySelector("video#live");
+            }
             console.log("got remote track: kind=%s", track.kind);
 
             if (remoteVideo.srcObject !== event.streams[0]) {
@@ -225,10 +252,11 @@ export default {
             if (event.target.iceConnectionState === "completed") return;
             if (event.target.iceConnectionState === "connected") {
                 console.log("webrtc_video: online, room: " + this.room_slug);
-                // if (this.room_slug != "echo") Livewire.emit("webrtc_videoReady");
+                if (this.room_slug != "echo") Livewire.emit("webrtcVideoReady");
             } else {
                 console.log("webrtc_video: offline, room: " + this.room_slug);
-                // if (this.room_slug != "echo") Livewire.emit("webrtc_videoOffline");
+                if (this.room_slug != "echo")
+                    Livewire.emit("webrtcVideoOffline");
             }
         };
 
