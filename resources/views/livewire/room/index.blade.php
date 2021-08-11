@@ -11,7 +11,7 @@
     </div>
     <div class="flex">
         <main class="w-full">
-            <video id="live" playsinline autoplay controls class="mx-auto px-4 mt-2" height="640"
+            <video x-data x-show="$store.webrtc_video.webrtc_video" x-cloak id="live" playsinline autoplay class="mx-auto px-4 mt-2" height="640"
                 width="480"></video>
             @include('room.users')
         </main>

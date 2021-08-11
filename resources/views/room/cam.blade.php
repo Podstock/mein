@@ -14,12 +14,12 @@
                 </template>
             </select>
 
-            <video id="echo" playsinline controls autoplay class="mx-auto px-4 mt-2" height="640" width="480"></video>
+            <video id="echo" playsinline autoplay class="mx-auto px-4 mt-2" height="640" width="480"></video>
         </div>
     </x-slot>
 
     <x-slot name="footer">
-        <x-jet-button @click="$store.webrtc_video.echo_ready()">Schließen</x-jet-button>
+        <x-jet-button @click="$store.webrtc_video.echo_ready()">Übernehmen</x-jet-button>
     </x-slot>
 
 </x-jet-dialog-modal>
