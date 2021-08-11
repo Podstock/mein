@@ -156,7 +156,8 @@ export default {
         if (this.stream) this.stream.getVideoTracks()[0].stop();
         this.stream = null;
         this.webrtc_video = false;
-        axios.get("/webrtc_video/" + this.room_slug + "/disconnect");
+        if (this.room_slug)
+            axios.get("/webrtc_video/" + this.room_slug + "/disconnect");
         if (pc) {
             pc.close();
             pc = null;
