@@ -149,7 +149,6 @@ export default {
                 track.enabled = false;
             });
         }
-        Livewire.emit("webrtcVideoCamDisabled");
     },
 
     hangup() {

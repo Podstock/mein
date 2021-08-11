@@ -31,7 +31,6 @@ class Index extends Component
             'webrtcReady',
             'webrtcVideoReady',
             'webrtcVideoOffline',
-            'webrtcVideoCamDisabled',
             'webrtcOffline',
             'modalUser'
         ];
@@ -68,12 +67,6 @@ class Index extends Component
     }
 
     public function webrtcVideoOffline()
-    {
-        $this->webrtc_video = false;
-        $this->modal_options = false;
-    }
-
-    public function webrtcVideoCamDisabled()
     {
         $this->webrtc_video = false;
         $this->modal_options = false;

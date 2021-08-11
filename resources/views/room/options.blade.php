@@ -7,7 +7,7 @@
         <!-- This example requires Tailwind CSS v2.0+ -->
         <div>
             <dl x-data
-                class="mt-5 grid grid-cols-1 rounded-lg bg-white overflow-hidden shadow divide-y divide-gray-200 max-w-md mx-auto sm:grid-cols-3 sm:divide-y-0 sm:divide-x">
+                class="mt-5 grid grid-cols-1 rounded-lg bg-white overflow-hidden shadow divide-y divide-gray-200 max-w-md mx-auto sm:grid-cols-2 sm:divide-y-0 sm:divide-x">
 
                 <button x-show="!$wire.webrtc_video" wire:click="$emit('toggleCam')" type="button"
                     class="px-4 py-5 sm:p-6 hover:bg-gray-300">
@@ -27,7 +27,7 @@
                     </dd>
                 </button>
 
-                <button x-show="$wire.webrtc_video" @click="$store.webrtc_video.disable()" type="button"
+                <button x-show="$wire.webrtc_video" @click="$store.webrtc_video.restart()" type="button"
                     class="px-4 py-5 sm:p-6 hover:bg-gray-300">
                     <dt class="text-base font-bold text-gray-900 text-center mb-2">
                         Kamera deaktivieren
