@@ -66,11 +66,19 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     );
 
     Route::post('/webrtc/{room_slug}/sdp', function ($room_slug) {
-        BaresipWebrtc::sdp($room_slug, request()->getContent());
+        BaresipWebrtc::sdp($room_slug, request()->getContent(), false);
+    });
+
+    Route::post('/webrtc_video/{room_slug}/sdp', function ($room_slug) {
+        BaresipWebrtc::sdp($room_slug, request()->getContent(), true);
     });
 
     Route::get('/webrtc/{room_slug}/disconnect', function ($room_slug) {
-        BaresipWebrtc::disconnect($room_slug);
+        BaresipWebrtc::disconnect($room_slug, 'audio');
+    });
+
+    Route::get('/webrtc_video/{room_slug}/disconnect', function ($room_slug) {
+        BaresipWebrtc::disconnect($room_slug, 'video');
     });
 
     Route::get('/room/{room:slug}', App\Http\Livewire\Room\Index::class);

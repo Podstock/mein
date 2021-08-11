@@ -62,4 +62,9 @@ class Room extends Model
     {
         Cache::forget('online-' . $this->slug . '-' . auth()->user()->id);
     }
+
+    public function video()
+    {
+        return Cache::get('room-video-' . $this->slug, true);
+    }
 }

@@ -27,6 +27,12 @@ export default () => ({
         Echo.join("users." + roomSlug)
             .here((users) => {
                 this.users = users;
+
+                this.users.forEach((u) => {
+                    if (u.id == window.user_id) {
+                        window.user = u;
+                    }
+                });
             })
             .joining((user) => {
                 console.log(user);
@@ -42,8 +48,7 @@ export default () => ({
                 this.unraiseHand(e.userId);
             })
             .listen("UserRejoin", (e) => {
-                if (e.userId == window.user_id)
-                    this.rejoin(e.roomSlug);
+                if (e.userId == window.user_id) this.rejoin(e.roomSlug);
             })
             .error((error) => {
                 console.error(error);

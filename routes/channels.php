@@ -30,6 +30,7 @@ Broadcast::channel('users.{room_slug}', function ($user, $room_slug) {
             'image' => $user->ProfilePhotoUrl,
             'hand' => false,
             'connected' => $room->is_user_online(),
+            'room_video' => $room->video(),
             'type' => $user->is_speaker($room->id) ? 'speaker' : 'listener'
         ];
     }
@@ -37,4 +38,12 @@ Broadcast::channel('users.{room_slug}', function ($user, $room_slug) {
 
 Broadcast::channel('webrtc.sdp.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
+});
+
+Broadcast::channel('webrtc_video.sdp.{id}', function ($user, $id) {
+    return (int) $user->id === (int) $id;
+});
+
+Broadcast::channel('webrtc_video.ready.{room_slug}', function ($user, $room_slug) {
+    return !empty($user->id);
 });
