@@ -52,7 +52,6 @@ class Index extends Component
         $this->modal_options = true;
     }
 
-
     public function toggleCam()
     {
         $this->modal_options = false;

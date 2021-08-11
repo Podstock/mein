@@ -27,7 +27,7 @@
                     </dd>
                 </button>
 
-                <button x-show="$wire.webrtc_video" @click="$store.webrtc_video.restart()" type="button"
+                <button x-show="$wire.webrtc_video" @click="$store.webrtc_video.disable()" type="button"
                     class="px-4 py-5 sm:p-6 hover:bg-gray-300">
                     <dt class="text-base font-bold text-gray-900 text-center mb-2">
                         Kamera deaktivieren
