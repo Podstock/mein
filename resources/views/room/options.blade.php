@@ -56,7 +56,7 @@
                         </svg>
                     </dd>
                 </button> --}}
-                <button @click="$store.webrtc.hangup(); $store.webrtc_video.hangup()" type="button" class="px-4 py-5 sm:p-6 hover:bg-gray-300">
+                <button @click="$store.webrtc.hangup(); $store.webrtc_video.disable()" type="button" class="px-4 py-5 sm:p-6 hover:bg-gray-300">
                     <dt class="text-base font-bold text-gray-900 text-center mb-2">
                         Verbindung beenden
                     </dt>
