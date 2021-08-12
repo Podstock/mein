@@ -153,7 +153,7 @@ class RoomTest extends TestCase
     {
         $user = $this->signIn();
         $room = Room::factory(['slug' => 'test'])->create();
-        $baresip = Baresip::factory(['room_id' => $room->id])->create();
+        $baresip = Baresip::factory(['room_id' => $room->id, 'id' => 22])->create();
 
         MQTT::shouldReceive('publish')->once()->with(
             "/baresip/$baresip->id/command/",
