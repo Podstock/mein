@@ -215,7 +215,7 @@ class RoomTest extends TestCase
         Event::fake();
 
         //SDP Answer
-        $message = '{"type":"MODULE","class":"other","param":"webrtc,sdp,'.$user->id.'_audio,audio,{\"type\":\"answer\"}"}';
+        $message = '{"type":"MODULE","class":"other","param":"webrtc,sdp,' . $user->id . '_audio,audio,{\"type\":\"answer\"}"}';
         BaresipWebrtc::mqtt_event($topic, $message);
 
         Event::assertDispatched(function (WebrtcSDP $event) use ($user) {
@@ -239,14 +239,25 @@ class RoomTest extends TestCase
         $room = Room::factory(['slug' => 'test'])->create();
         $baresip = Baresip::factory()->create();
 
+
         $this->json('post', '/webrtc_video/test/sdp', ['sdp' => 'test'])
             ->assertStatus(404);
-    
+
+        MQTT::shouldReceive('publish')->once()->with(
+            "/baresip/$baresip->id/command/",
+            '{"command":"webrtc_sdp","params":"' . $user->id
+                . ',true,video,{\"sdp\":\"test\"}","token":"' . $user->id . '"}'
+        );
         $this->json('post', '/webrtc_video/test/sdp/cam', ['sdp' => 'test'])
             ->assertStatus(200);
 
         $room->set_video_available(true);
 
+        MQTT::shouldReceive('publish')->once()->with(
+            "/baresip/$baresip->id/command/",
+            '{"command":"webrtc_sdp","params":"' . $user->id
+                . ',true,video,{\"sdp\":\"test\"}","token":"' . $user->id . '"}'
+        );
         $this->json('post', '/webrtc_video/test/sdp', ['sdp' => 'test'])
             ->assertStatus(200);
     }
