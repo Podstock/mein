@@ -13,7 +13,11 @@
                         <div class="space-y-2">
                             <span class="inline-block relative">
                                 <button @click="$wire.emit('modalUser', user.id)">
-                                    <img :class="user.connected ? '' : 'opacity-30'"
+                                    {{-- <img :class="user.connected ? '' : 'opacity-30'"
+                                    :class="user.talk ? '' : 'rounded-none'"
+                                        class="mx-auto h-20 w-20 rounded-full lg:w-24 lg:h-24" :src="user.image"
+                                        alt="" /> --}}
+                                    <img :class="{'ring ring-green-500': user.talk, 'opacity-30': ! user.connected}"
                                         class="mx-auto h-20 w-20 rounded-full lg:w-24 lg:h-24" :src="user.image"
                                         alt="" />
                                 </button>

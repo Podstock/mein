@@ -28,7 +28,8 @@ Broadcast::channel('users.{room_slug}', function ($user, $room_slug) {
             'name' => $user->name,
             'nickname' => $user->nickname,
             'image' => $user->ProfilePhotoUrl,
-            'hand' => false,
+            'hand' => false, //updated by event
+            'talk' => false, //updated by event
             'connected' => $room->is_user_online(),
             'type' => $user->is_speaker($room->id) ? 'speaker' : 'listener'
         ];

@@ -4,22 +4,32 @@ namespace App\Models;
 
 use App\Events\WebrtcSDP;
 use App\Events\WebrtcSDPVideo;
+use App\Events\WebrtcTalk;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use PhpMqtt\Client\Facades\MQTT;
 
 class BaresipWebrtc
 {
-    protected static function room_baresip_id($room_slug, $operator)
+    public static function room_baresip_id($room_slug, $operator)
     {
         if ($room_slug === 'echo')
             return 'echo';
 
         $room = Room::whereSlug($room_slug)->firstOrFail();
+
+        if (empty($room->baresip)) {
+            $baresip = Baresip::whereNull('room_id')->firstOrFail();
+            $baresip->room_id = $room->id;
+            $baresip->save();
+            $room = $room->fresh();
+        }
+
         if ($operator === 'inc')
             $room->baresip?->inc_users();
         if ($operator === 'dec')
             $room->baresip?->dec_users();
+
         return $room->baresip?->id;
     }
 
@@ -74,12 +84,8 @@ class BaresipWebrtc
         BaresipWebrtc::command($id, 'webrtc_sdp', $_params);
     }
 
-    public static function sdp_answer($message)
+    public static function sdp_answer($baresip_id, $json)
     {
-        $json = json_decode($message);
-        if (empty($json->param))
-            return;
-
         $param = explode(',', $json->param, 5);
         $sess_id = $param[2];
         $user_id = explode('_', $sess_id, 2)[0];
@@ -89,6 +95,35 @@ class BaresipWebrtc
             WebrtcSDPVideo::dispatch($user_id, $sdp);
         if ($type === 'audio')
             WebrtcSDP::dispatch($user_id, $sdp);
+    }
+
+    public static function talk_event($baresip_id, $json)
+    {
+        $param = explode(',', $json->param, 5);
+        $sess_id = $param[2];
+        $user_id = explode('_', $sess_id, 2)[0];
+        WebrtcTalk::dispatch($baresip_id, $user_id);
+    }
+
+    public static function mqtt_event($topic, $message)
+    {
+        $json = json_decode($message);
+        if (empty($json->param))
+            return;
+
+        $baresip_id = explode('/', $topic, 4)[2];
+
+        $param = explode(',', $json->param, 3);
+        $module = $param[0];
+        $event = $param[1];
+
+        if ($module == "webrtc" && $event == "sdp")
+            BaresipWebrtc::sdp_answer($baresip_id, $json);
+
+        if ($module == "aumix" && $event == "talk")
+            BaresipWebrtc::talk_event($baresip_id, $json);
+
+        $json = null;
     }
 
     public static function listen()
@@ -103,7 +138,9 @@ class BaresipWebrtc
 
         $mqtt->subscribe('/baresip/+/event', function (string $topic, string $message) {
             // Log::info("Received QoS level 0 message on topic [$topic]: $message");
-            BaresipWebrtc::sdp_answer($message);
+
+            BaresipWebrtc::mqtt_event($topic, $message);
+            $topic = null;
             $message = null;
         }, 0);
         $mqtt->loop(true);

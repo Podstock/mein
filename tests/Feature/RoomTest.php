@@ -3,9 +3,11 @@
 namespace Tests\Feature;
 
 use App\Events\WebrtcSDP;
+use App\Events\WebrtcTalk;
 use App\Models\Baresip;
 use App\Models\BaresipWebrtc;
 use App\Models\Room;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Cache;
@@ -89,14 +91,6 @@ class RoomTest extends TestCase
             ->assertStatus(200);
 
         $this->assertDatabaseHas('baresips', ['users_count' => 1]);
-
-        //WebRTC - SDP answer
-        Event::fake();
-        BaresipWebrtc::sdp_answer('{"param": "webrtc,sdp,' . $user->id . '_audio,audio,{\"type\":\"answer\"}"}');
-        Event::assertDispatched(function (WebrtcSDP $event) use ($user) {
-            return (string)$event->broadcastOn() === "private-webrtc.sdp." . $user->id &&
-                $event->sdp->type === 'answer';
-        });
 
         //WebRTC - Disconnect
         MQTT::shouldReceive('publish')->once()->with(
@@ -185,5 +179,56 @@ class RoomTest extends TestCase
                 . $user->id . ',true","token":"' . $user->id . '"}'
         );
         BaresipWebrtc::update_audio($room->id, $user);
+    }
+
+    /** @test */
+    public function webrtc_room_baresip_id()
+    {
+
+        $room1 = Room::factory(['slug' => 'test1'])->create();
+        $room2 = Room::factory(['slug' => 'test2'])->create();
+        $room3 = Room::factory(['slug' => 'test3'])->create();
+        $baresip1 = Baresip::factory()->create();
+        $baresip2 = Baresip::factory(['room_id' => $room2->id])->create();
+
+        $id = BaresipWebrtc::room_baresip_id($room1->slug, 'inc');
+        $this->assertEquals($baresip1->id, $id);
+
+        $this->assertDatabaseHas('baresips', ['room_id' => $room1->id]);
+
+        $id = BaresipWebrtc::room_baresip_id($room2->slug, 'inc');
+        $this->assertEquals($baresip2->id, $id);
+
+        $this->expectException('Illuminate\Database\Eloquent\ModelNotFoundException');
+        BaresipWebrtc::room_baresip_id($room3->slug, 'inc');
+        BaresipWebrtc::room_baresip_id('test33', 'inc');
+    }
+
+    /** @test */
+    public function webrtc_mqtt_event()
+    {
+        $user = User::factory()->create();
+        $room = Room::factory(['slug' => 'test'])->create();
+        $baresip = Baresip::factory(['room_id' => $room->id])->create();
+        $topic = "/baresip/$baresip->id/event";
+
+        Event::fake();
+
+        //SDP Answer
+        $message = '{"type":"MODULE","class":"other","param":"webrtc,sdp,'.$user->id.'_audio,audio,{\"type\":\"answer\"}"}';
+        BaresipWebrtc::mqtt_event($topic, $message);
+
+        Event::assertDispatched(function (WebrtcSDP $event) use ($user) {
+            return (string)$event->broadcastOn() === "private-webrtc.sdp." . $user->id &&
+                $event->sdp->type === 'answer';
+        });
+
+        //aumix Talk
+        $message = '{"type":"MODULE","class":"other","param":"aumix,talk,11_audio"}';
+        BaresipWebrtc::mqtt_event($topic, $message);
+
+        Event::assertDispatched(function (WebrtcTalk $event) use ($room) {
+            return (string)$event->broadcastOn() === "presence-users." . $room->slug;
+        });
     }
 }

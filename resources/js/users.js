@@ -23,6 +23,14 @@ export default () => ({
             }
         });
     },
+    talk(userId) {
+        this.users.forEach((u) => {
+            u.talk = false;
+            if (u.id == userId) {
+                u.talk = true;
+            }
+        });
+    },
     listen(roomSlug) {
         Echo.join("users." + roomSlug)
             .here((users) => {
@@ -49,6 +57,9 @@ export default () => ({
             })
             .listen("UserRejoin", (e) => {
                 if (e.userId == window.user_id) this.rejoin(e.roomSlug);
+            })
+            .listen("WebrtcTalk", (e) => {
+                this.talk(e.userId);
             })
             .error((error) => {
                 console.error(error);
