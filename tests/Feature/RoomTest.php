@@ -158,7 +158,7 @@ class RoomTest extends TestCase
         MQTT::shouldReceive('publish')->once()->with(
             "/baresip/$baresip->id/command/",
             '{"command":"aumix_mute","params":"'
-                . $user->id . ',true","token":"' . $user->id . '"}'
+                . $user->id . '_audio,true","token":"' . $user->id . '"}'
         );
         BaresipWebrtc::update_audio($room->id, $user);
 
@@ -167,7 +167,7 @@ class RoomTest extends TestCase
         MQTT::shouldReceive('publish')->once()->with(
             "/baresip/$baresip->id/command/",
             '{"command":"aumix_mute","params":"'
-                . $user->id . ',false","token":"' . $user->id . '"}'
+                . $user->id . '_audio,false","token":"' . $user->id . '"}'
         );
         BaresipWebrtc::update_audio($room->id, $user);
 
@@ -176,7 +176,7 @@ class RoomTest extends TestCase
         MQTT::shouldReceive('publish')->once()->with(
             "/baresip/$baresip->id/command/",
             '{"command":"aumix_mute","params":"'
-                . $user->id . ',true","token":"' . $user->id . '"}'
+                . $user->id . '_audio,true","token":"' . $user->id . '"}'
         );
         BaresipWebrtc::update_audio($room->id, $user);
     }
