@@ -239,7 +239,6 @@ class RoomTest extends TestCase
         $room = Room::factory(['slug' => 'test'])->create();
         $baresip = Baresip::factory()->create();
 
-
         $this->json('post', '/webrtc_video/test/sdp', ['sdp' => 'test'])
             ->assertStatus(404);
 
