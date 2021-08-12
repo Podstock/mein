@@ -43,7 +43,6 @@ export default () => ({
                 });
             })
             .joining((user) => {
-                console.log(user);
                 this.users.push(user);
             })
             .leaving((user) => {
