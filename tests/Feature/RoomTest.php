@@ -42,7 +42,7 @@ class RoomTest extends TestCase
             '/broadcasting/auth',
             ['channel_name' => 'presence-users.' . $room->slug]
         );
-        $response->assertSee('\"id\":1', false);
+        $response->assertSee('\"id\":'.$user->id, false);
         $response->assertSee('\"type\":\"speaker\"', false);
         $response->assertSee('\"connected\":true', false);
         $response->assertStatus(200);

@@ -22,7 +22,7 @@ class BaresipFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'id' => $this->faker->unique()->numberBetween(1, 1000)
         ];
     }
 }

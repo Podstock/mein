@@ -22,6 +22,7 @@ class RoomFactory extends Factory
     public function definition()
     {
         return [
+            'id' => $this->faker->unique()->numberBetween(1, 1000),
             'title' => $this->faker->sentence(3),
             'slug' => $this->faker->unique()->slug()
         ];
