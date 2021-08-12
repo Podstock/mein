@@ -63,8 +63,13 @@ class Room extends Model
         Cache::forget('online-' . $this->slug . '-' . auth()->user()->id);
     }
 
-    public function video()
+    public function set_video_available($value)
     {
-        return Cache::get('room-video-' . $this->slug, true);
+        return Cache::put('room-video-' . $this->slug, $value);
+    }
+
+    public function video_available()
+    {
+        return Cache::get('room-video-' . $this->slug, false);
     }
 }

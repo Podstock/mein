@@ -30,7 +30,6 @@ Broadcast::channel('users.{room_slug}', function ($user, $room_slug) {
             'image' => $user->ProfilePhotoUrl,
             'hand' => false,
             'connected' => $room->is_user_online(),
-            'room_video' => $room->video(),
             'type' => $user->is_speaker($room->id) ? 'speaker' : 'listener'
         ];
     }

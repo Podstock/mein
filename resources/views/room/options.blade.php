@@ -9,8 +9,8 @@
             <dl x-data
                 class="mt-5 grid grid-cols-1 rounded-lg bg-white overflow-hidden shadow divide-y divide-gray-200 max-w-md mx-auto sm:grid-cols-2 sm:divide-y-0 sm:divide-x">
 
-                <button x-show="!$wire.webrtc_video" wire:click="$emit('toggleCam')" type="button"
-                    class="px-4 py-5 sm:p-6 hover:bg-gray-300">
+                <button x-show="!$wire.webrtc_video && window.user?.type == 'speaker'" wire:click="$emit('toggleCam')"
+                    type="button" class="px-4 py-5 sm:p-6 hover:bg-gray-300">
                     <dt class="text-base font-bold text-gray-900 text-center mb-2">
                         Kamera aktivieren
                     </dt>
@@ -43,6 +43,7 @@
                         </svg>
                     </dd>
                 </button>
+
                 {{-- <button type="button" class="px-4 py-5 sm:p-6 hover:bg-gray-300">
                     <dt class="text-base font-bold text-gray-900 text-center mb-2">
                         Audio Optionen
@@ -56,7 +57,8 @@
                         </svg>
                     </dd>
                 </button> --}}
-                <button @click="$store.webrtc.hangup(); $store.webrtc_video.disable()" type="button" class="px-4 py-5 sm:p-6 hover:bg-gray-300">
+                <button @click="$store.webrtc.hangup(); $store.webrtc_video.disable()" type="button"
+                    class="px-4 py-5 sm:p-6 hover:bg-gray-300">
                     <dt class="text-base font-bold text-gray-900 text-center mb-2">
                         Verbindung beenden
                     </dt>

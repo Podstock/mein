@@ -21,6 +21,7 @@ class Index extends Component
     public $modal_options;
     public $modal_cam;
     public User $user;
+    public $is_speaker;
 
     protected function getListeners()
     {
@@ -63,12 +64,14 @@ class Index extends Component
         $this->modal_cam = false;
         $this->webrtc_video = true;
         WebrtcVideoReady::dispatch($this->room->slug);
+        $this->room->set_video_available(true);
     }
 
     public function webrtcVideoOffline()
     {
         $this->webrtc_video = false;
         $this->modal_options = false;
+        $this->room->set_video_available(false);
     }
 
     public function webrtc()
@@ -85,6 +88,8 @@ class Index extends Component
         $this->room->user_online();
         BaresipWebrtc::update_audio($this->room->id, auth()->user());
         UserRejoin::dispatch($this->room->slug);
+        if ($this->room->video_available())
+            WebrtcVideoReady::dispatch($this->room->slug);
     }
 
     public function webrtcOffline()
