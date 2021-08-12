@@ -7,7 +7,7 @@
         <!-- This example requires Tailwind CSS v2.0+ -->
         <div>
             <dl x-data
-                class="mt-5 grid grid-cols-1 rounded-lg bg-white overflow-hidden shadow divide-y divide-gray-200 max-w-md mx-auto sm:grid-cols-2 sm:divide-y-0 sm:divide-x">
+                class="mt-5 grid grid-cols-1 rounded-lg bg-white overflow-hidden shadow divide-y divide-gray-200 max-w-md mx-auto">
 
                 <button x-show="!$wire.webrtc_video && window.user?.type == 'speaker'" wire:click="$emit('toggleCam')"
                     type="button" class="px-4 py-5 sm:p-6 hover:bg-gray-300">
@@ -15,8 +15,6 @@
                         Kamera aktivieren
                     </dt>
                     <dd class="text-gray-700">
-
-
                         <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="camera-web"
                             class="h-12 w-12 mx-auto" role="img" xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 448 512">
@@ -26,11 +24,27 @@
                         </svg>
                     </dd>
                 </button>
+                <button x-show="!$wire.webrtc_video && window.user?.type == 'speaker'"
+                    @click="$store.webrtc_video.setup_screen()" type="button"
+                    class="px-4 py-5 sm:p-6 hover:bg-gray-300">
+                    <dt class="text-base font-bold text-gray-900 text-center mb-2">
+                        Bildschirm freigeben
+                    </dt>
+                    <dd class="text-gray-700">
+                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="display"
+                            class="h-12 w-12 mx-auto" role="img" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 576 512">
+                            <path fill="currentColor"
+                                d="M528 0h-480C21.5 0 0 21.5 0 48v320C0 394.5 21.5 416 48 416h192L224 464H152C138.8 464 128 474.8 128 488S138.8 512 152 512h272c13.25 0 24-10.75 24-24s-10.75-24-24-24H352L336 416h192c26.5 0 48-21.5 48-48v-320C576 21.5 554.5 0 528 0zM512 352H64V64h448V352z">
+                            </path>
+                        </svg>
+                    </dd>
+                </button>
 
                 <button x-show="$wire.webrtc_video" @click="$store.webrtc_video.disable_cam()" type="button"
                     class="px-4 py-5 sm:p-6 hover:bg-gray-300">
                     <dt class="text-base font-bold text-gray-900 text-center mb-2">
-                        Kamera deaktivieren
+                        Kamera/Bildschirm Freigabe deaktivieren
                     </dt>
                     <dd class="text-gray-700">
 

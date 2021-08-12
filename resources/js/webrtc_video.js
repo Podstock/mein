@@ -94,6 +94,23 @@ export default {
         this.echo_connect();
     },
 
+    async setup_screen() {
+        this.stop();
+        const gdmOptions = {
+            video: true,
+            audio: false,
+        };
+        try {
+            this.stream = await navigator.mediaDevices.getDisplayMedia(
+                gdmOptions
+            );
+        } catch (err) {
+            console.error("webrtc_video/setup_screen: " + err);
+        }
+
+        this.room_connect();
+    },
+
     async input_changed() {
         console.log("webrtc_video: try %s", this.input_id);
         if (this.stream) {
