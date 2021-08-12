@@ -58,7 +58,7 @@
                     </div>
                 </div>
                 <div x-data>
-                    <button x-show="!$wire.webrtc" type="button" wire:click="$emit('toggleListen')"
+                    <button x-show="!$wire.webrtc" type="button" wire:click="$emit('toggleListen'); $store.webrtc_video.room_connect()"
                         class="hover:bg-gray-700 text-gray-300 group items-center px-2 py-2 text-base font-medium rounded-md block">
 
                         <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle-play"

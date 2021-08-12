@@ -65,12 +65,13 @@ class BaresipWebrtc
             BaresipWebrtc::command($room_id, 'aumix_mute', 'true', $user->id . '_audio');
     }
 
-    public static function sdp($room_slug, $params, $video = false)
+    public static function sdp($room_slug, $params, $video = false, $cam = false)
     {
         $type = 'audio';
 
         if ($video)
             $type = 'video';
+        
         $_params = "true,$type," . $params;
 
         $id = BaresipWebrtc::room_baresip_id($room_slug, 'inc');
@@ -79,6 +80,8 @@ class BaresipWebrtc
             if (auth()->user()->is_speaker($room->id)) {
                 $_params = "false,$type," . $params;
             }
+            if ($video && !$cam && !$room->video_available())
+                abort(404);
         }
 
         BaresipWebrtc::command($id, 'webrtc_sdp', $_params);

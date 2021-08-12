@@ -63,15 +63,15 @@ class Index extends Component
     {
         $this->modal_cam = false;
         $this->webrtc_video = true;
-        WebrtcVideoReady::dispatch($this->room->slug);
+        //@TODO implenent Cronjob to reset video if room empty
         $this->room->set_video_available(true);
+        WebrtcVideoReady::dispatch($this->room->slug);
     }
 
     public function webrtcVideoOffline()
     {
         $this->webrtc_video = false;
         $this->modal_options = false;
-        $this->room->set_video_available(false);
     }
 
     public function webrtc()

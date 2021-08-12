@@ -231,4 +231,23 @@ class RoomTest extends TestCase
             return (string)$event->broadcastOn() === "presence-users." . $room->slug;
         });
     }
+
+    /** @test */
+    public function webrtc_cam_video_sdp()
+    {
+        $user = $this->signIn();
+        $room = Room::factory(['slug' => 'test'])->create();
+        $baresip = Baresip::factory()->create();
+
+        $this->json('post', '/webrtc_video/test/sdp', ['sdp' => 'test'])
+            ->assertStatus(404);
+    
+        $this->json('post', '/webrtc_video/test/sdp/cam', ['sdp' => 'test'])
+            ->assertStatus(200);
+
+        $room->set_video_available(true);
+
+        $this->json('post', '/webrtc_video/test/sdp', ['sdp' => 'test'])
+            ->assertStatus(200);
+    }
 }

@@ -65,7 +65,7 @@ class Room extends Model
 
     public function set_video_available($value)
     {
-        return Cache::put('room-video-' . $this->slug, $value);
+        Cache::put('room-video-' . $this->slug, $value);
     }
 
     public function video_available()

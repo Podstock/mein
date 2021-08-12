@@ -70,7 +70,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     });
 
     Route::post('/webrtc_video/{room_slug}/sdp', function ($room_slug) {
-        BaresipWebrtc::sdp($room_slug, request()->getContent(), true);
+        BaresipWebrtc::sdp($room_slug, request()->getContent(), true, false);
+    });
+
+    Route::post('/webrtc_video/{room_slug}/sdp/cam', function ($room_slug) {
+        BaresipWebrtc::sdp($room_slug, request()->getContent(), true, true);
     });
 
     Route::get('/webrtc/{room_slug}/disconnect', function ($room_slug) {

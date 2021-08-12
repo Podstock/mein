@@ -65,8 +65,7 @@ export default {
 
     echo_ready() {
         this.room_connect();
-        if (this.stream)
-            Livewire.emit("webrtcVideoReady");
+        if (this.stream) Livewire.emit("webrtcVideoReady");
     },
 
     room_connect() {
@@ -145,21 +144,19 @@ export default {
         }
     },
 
-    // disable() {
-    //     console.log("webrtc_video: cam disabled");
-    //     if (this.stream) {
-    //         this.stream.getVideoTracks().forEach((track) => {
-    //             track.enabled = false;
-    //         });
-    //     }
-    // },
+    stop() {
+        console.log("webrtc_video: stop");
+        this.hangup();
+        this.stream?.getVideoTracks()[0].stop();
+        this.stream = null;
+    },
 
-    disable() {
+    disable_cam() {
         console.log("webrtc_video: restart_disable_cam");
         this.hangup();
-        this.stream.getVideoTracks()[0].stop();
+        this.stream?.getVideoTracks()[0].stop();
         this.stream = null;
-        this.start();
+        this.room_connect();
     },
 
     hangup() {
@@ -198,12 +195,24 @@ export default {
 
         pc = new RTCPeerConnection(configuration);
 
-        pc.onicecandidate = (event) => {
+        pc.onicecandidate = async (event) => {
             if (event.candidate === null) {
                 const sd = pc.localDescription;
                 const json = JSON.stringify(sd);
-
-                axios.post("/webrtc_video/" + this.room_slug + "/sdp", json);
+                try {
+                    if (this.stream)
+                        await axios.post(
+                            "/webrtc_video/" + this.room_slug + "/sdp/cam",
+                            json
+                        );
+                    else
+                        await axios.post(
+                            "/webrtc_video/" + this.room_slug + "/sdp",
+                            json
+                        );
+                } catch (err) {
+                    this.hangup();
+                }
             } else {
                 console.log(
                     "webrtc_video/icecandidate: " +
@@ -261,7 +270,8 @@ export default {
             if (event.target.iceConnectionState === "completed") return;
             if (event.target.iceConnectionState === "connected") {
                 console.log("webrtc_video: online, room: " + this.room_slug);
-                if (this.stream && this.room_slug != "echo") Livewire.emit("webrtcVideoReady");
+                if (this.stream && this.room_slug != "echo")
+                    Livewire.emit("webrtcVideoReady");
             } else {
                 console.log("webrtc_video: offline, room: " + this.room_slug);
                 if (this.room_slug != "echo")
