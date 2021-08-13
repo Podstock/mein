@@ -9,6 +9,7 @@ use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\BelongsToMany;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Room extends Resource
@@ -47,6 +48,7 @@ class Room extends Resource
     public function fields(Request $request)
     {
         return [
+            Boolean::make('Show'),
             Text::make('Title')->rules('required')->sortable(),
             Slug::make('Slug')->from('title')->sortable()
                 ->rules('required', 'unique:rooms,slug,{{resourceId}}'),
