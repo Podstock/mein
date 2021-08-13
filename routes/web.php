@@ -5,6 +5,7 @@ use App\Http\Livewire\Submission;
 use App\Models\BaresipWebrtc;
 use App\Models\Page;
 use App\Models\Room;
+use App\Models\Tent;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
@@ -83,6 +84,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::get('/webrtc_video/{room_slug}/disconnect', function ($room_slug) {
         BaresipWebrtc::disconnect($room_slug, 'video');
+    });
+
+    Route::get('/camping/{tent:number}', function (Tent $tent) {
+        return view('tent', ['tent' => $tent]);
     });
 
     Route::get('/room/{room:slug}', App\Http\Livewire\Room\Index::class);
