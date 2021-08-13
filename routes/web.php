@@ -93,4 +93,5 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/room/{room:slug}', App\Http\Livewire\Room\Index::class);
     Route::get('/talks/submission', Submission::class)->name('submission');
     Route::get('/talks/submission/{talk}', Submission::class)->name('submission.edit');
+    Route::get('/stream/{room:slug}', App\Http\Livewire\Room\Stream::class);
 });

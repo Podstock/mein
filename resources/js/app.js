@@ -1,4 +1,9 @@
 require("./bootstrap");
+import videojs from "video.js";
+require("videojs-contrib-quality-levels");
+require("videojs-http-source-selector");
+require("!style-loader!css-loader!video.js/dist/video-js.css");
+
 import Alpine from "alpinejs";
 import intersect from "@alpinejs/intersect";
 
@@ -7,6 +12,7 @@ import webrtc_video from "./webrtc_video.js";
 import users from "./users.js";
 
 window.Alpine = Alpine;
+window.videojs = videojs;
 
 Alpine.plugin(intersect);
 Alpine.data("app", () => ({
