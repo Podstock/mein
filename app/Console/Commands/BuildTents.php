@@ -45,8 +45,12 @@ class BuildTents extends Command
         foreach ($tents as $tent) {
             $number = sprintf("%04d", $tent->number);
             $this->info("Zelt $number");
+            $logo = $tent->user?->projects?->first()?->logo;
+            if (empty($logo))
+                continue;
+
             Image::resize_copy(
-                storage_path('/app/public/' . $tent->user?->projects->first()->logo),
+                storage_path('/app/public/' . $logo),
                 "/tmp/zelte/output$number.png",
                 32
             );

@@ -1,6 +1,7 @@
 <?php
 $dir = dirname($_SERVER['DOCUMENT_ROOT']) . "/storage/app/public/flachwitze";
-$random = sprintf('%02d', mt_rand(1, 39));
+// $random = sprintf('%02d', mt_rand(1, 39));
+$random =  mt_rand(1, 274);
 $file = $dir . "/" . $random . '.mp3';
 
 if (file_exists($file)) {
