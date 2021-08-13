@@ -32,6 +32,8 @@
     <meta name="application-name" content="Mein Podstock">
     <meta name="msapplication-TileColor" content="#81a540">
     <meta name="theme-color" content="#ffffff">
+
+    <base target="_blank">
 </head>
 
 <body class="bg-gray-100">

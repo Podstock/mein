@@ -34,8 +34,8 @@
                         <div class="px-6">
                             <nav class="-mb-px flex space-x-4">
                                 <!-- Current: "border-indigo-500 text-indigo-600", Default: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" -->
-                                <a href="#"
-                                    class="border-green-700 text-green-700 whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm">Chat</a>
+                                <span
+                                    class="border-green-700 text-green-700 whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm">Chat</span>
 
                                 {{-- <a href="#"
                                     class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm">Als nächstes</a>
