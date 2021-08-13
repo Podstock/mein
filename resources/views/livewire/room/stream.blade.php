@@ -1,7 +1,7 @@
-<div class="pb-8 mb-4 border-b lg:w-2/3 mx-auto">
+<div class="pb-8 mt-4 mb-4 border-b w-full">
     <video
         id="stream"
-        class="video-js vjs-default-skin"
+        class="video-js vjs-default-skin mx-auto"
         controls
         preload="auto"
         poster="/preview_livestream.png"
@@ -17,14 +17,15 @@
             >
         </p>
         <source
-            src="https://live.podstock.de/hls/aussen_src.m3u8"
+            src="https://live.podstock.de/hls/{{$room->slug}}_src.m3u8"
             type="application/x-mpegURL"
         />
         <source
-            src="https://stream-master.studio-link.de/podstock2021aussen.mp3"
+            src="https://stream-master.studio-link.de/podstock2021{{$room->slug}}.mp3"
             type="audio/mp3"
         />
     </video>
+
     <!-- <script>
         document.addEventListener("livewire:load", function () {
             var options = {
