@@ -101,11 +101,10 @@ class User extends Authenticatable
      */
     public function getProfilePhotoUrlAttribute()
     {
-        if (filter_var($this->profile_photo_path, FILTER_VALIDATE_URL)) {
-            return $this->profile_photo_path;
-        }
+        if (!empty($this->profile_photo_path))
+            return "/storage/small/" . $this->profile_photo_path;
 
-        return $this->getPhotoUrl();
+        return "/avatar.png";
     }
 
     public function talks()

@@ -14,7 +14,7 @@
                     <div class="p-4">
                         <div class="flex items-start justify-between">
                             <h2 class="text-lg font-medium text-gray-900" id="slide-over-title">
-                                Room xyz
+                                Room {{$room->title}}
                             </h2>
                             <div class="ml-3 h-4 flex items-center">
                                 <button wire:click="$emit('toggleChat')"
@@ -37,11 +37,11 @@
                                 <a href="#"
                                     class="border-green-700 text-green-700 whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm">Chat</a>
 
-                                <a href="#"
+                                {{-- <a href="#"
                                     class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm">Als nächstes</a>
 
                                 <a href="#"
-                                    class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm">Andere Räume</a>
+                                    class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm">Andere Räume</a> --}}
                             </nav>
                         </div>
                     </div>
