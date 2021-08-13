@@ -16,17 +16,19 @@ class UserTest extends TestCase
     public function user_has_room_type()
     {
         $user = User::factory()->create();
-        $room = Room::factory(['slug' => 'test'])->create();
+        $room = Room::factory(['slug' => 'test', 'show' => true])->create();
         $room->users()->attach($user->id, ['role' => Room::SPEAKER]);
         $this->assertDatabaseHas('room_user', [
             'user_id' => $user->id,
             'role' => Room::SPEAKER
         ]);
         $user2 = User::factory()->create();
-        $room2 = Room::factory(['slug' => 'test2'])->create();
+        $room2 = Room::factory(['slug' => 'test2', 'show' => true])->create();
+        $room3 = Room::factory(['slug' => 'test3'])->create();
 
         $this->assertTrue($user->is_speaker($room->id));
         $this->assertFalse($user2->is_speaker($room->id));
         $this->assertFalse($user2->is_speaker($room2->id));
+        $this->assertTrue($user2->is_speaker($room3->id));
     }
 }

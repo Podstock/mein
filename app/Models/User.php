@@ -153,6 +153,10 @@ class User extends Authenticatable
 
     public function is_speaker($room_id)
     {
+        $room = Room::find($room_id);
+        if (!$room->show)
+            return true;
+        
         $role = (int)$this->rooms()
             ->whereRoomId($room_id)->first()?->pivot->role;
         if ($role >= Room::SPEAKER)

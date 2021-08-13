@@ -152,7 +152,7 @@ class RoomTest extends TestCase
     public function webrtc_room_test_speaker_audio()
     {
         $user = $this->signIn();
-        $room = Room::factory(['slug' => 'test'])->create();
+        $room = Room::factory(['slug' => 'test', 'show' => true])->create();
         $baresip = Baresip::factory(['room_id' => $room->id, 'id' => 22])->create();
 
         MQTT::shouldReceive('publish')->once()->with(
@@ -236,7 +236,7 @@ class RoomTest extends TestCase
     public function webrtc_cam_video_sdp()
     {
         $user = $this->signIn();
-        $room = Room::factory(['slug' => 'test'])->create();
+        $room = Room::factory(['slug' => 'test', 'show' => true])->create();
         $baresip = Baresip::factory()->create();
 
         $this->json('post', '/webrtc_video/test/sdp', ['sdp' => 'test'])
