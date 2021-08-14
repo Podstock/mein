@@ -37,7 +37,7 @@
 
                 <div class="mt-8">
                     <h3 class="text-lg font-medium">
-                        <a href="#" class="focus:outline-none">
+                        <a href="/stream/aussenbuehne" class="focus:outline-none">
                             <!-- Extend touch target to entire panel -->
                             <span class="absolute inset-0" aria-hidden="true"></span>
                             Livestreams
