@@ -13,7 +13,7 @@
                 </span>
                 <div class="ml-4">
                     <p class="text-xs font-medium text-gray-900 truncate">
-                        {{$message?->created_at?->format('d.m.Y h:i:s')}}
+                        {{$message?->created_at?->format('d.m.Y H:i:s')}}
                     </p>
 
                     <p class="text-sm font-medium text-gray-900 truncate">
