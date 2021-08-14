@@ -12,8 +12,14 @@
                         alt="{{$message->user?->name}}">
                 </span>
                 <div class="ml-4">
-                    <p class="text-sm font-medium text-gray-900 truncate">{{$message->user?->name}}
-                        <span class="text-gray-500">{{'@'.$message->user?->nickname}}</span></p>
+                    <p class="text-xs font-medium text-gray-900 truncate">
+                        {{$message?->created_at?->format('d.m.Y h:i:s')}}
+                    </p>
+
+                    <p class="text-sm font-medium text-gray-900 truncate">
+                        {{$message->user?->name}}
+                        <span class="text-gray-500">{{'@'.$message->user?->nickname}}</span>
+                    </p>
                     <p>
                         {!! Str::markdown($message->body) !!}
                     </p>
@@ -61,8 +67,7 @@
                         placeholder="Add a comment"></textarea>
                 </div>
                 <div class="mt-3 flex items-center justify-between">
-                    <span
-                        class="group inline-flex items-start text-sm space-x-2 text-gray-500 hover:text-gray-900">
+                    <span class="group inline-flex items-start text-sm space-x-2 text-gray-500 hover:text-gray-900">
                         <span>
                             You can use markdown
                         </span>
