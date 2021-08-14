@@ -2,7 +2,7 @@
     <h2 class="text-2xl font-bold text-center mt-2">Fahrplan</h2>
     <ul class="list-reset flex flex-wrap mt-8 mb-4 justify-center">
         <li class="mr-3">
-            <a href="/fahrplan" @class(['p-2 rounded-lg', 'bg-green-700 text-white'=> $day === 1])>Fr, 13.08.</a>
+            <a href="/fahrplan?day=1" @class(['p-2 rounded-lg', 'bg-green-700 text-white'=> $day === 1])>Fr, 13.08.</a>
         </li>
         <li class="mr-3">
             <a href="/fahrplan?day=2" @class(['p-2 rounded-lg', 'bg-green-700 text-white'=> $day === 2])>Sa, 14.08.</a>
