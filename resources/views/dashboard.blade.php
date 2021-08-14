@@ -68,7 +68,7 @@
                     </h3>
                     <p class="mt-2 text-sm text-gray-500">
                         Falls du deine Technik testen möchtest, sind in diesem Raum immer mal wieder Personen um dir zu helfen.
-                        Evtl. kurz beim Infodeskt bescheid sagen.
+                        Evtl. kurz beim Infodesk bescheid sagen.
                     </p>
                 </div>
                 <span class="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400"
