@@ -38,7 +38,7 @@
                 <div>
                     <div class="text-gray-700 text-base"><span
                             class="text-gray-500 font-bold">{{Str::limit($schedule->time, 5, '')}}h</span>
-                        <a href="/room/{{$schedule->room?->slug}}" class="hover:text-green-800">{{$schedule->room?->title}}</a></div>
+                        <a href="/stream/{{$schedule->room?->slug}}" class="hover:text-green-800">{{$schedule->room?->title}}</a></div>
                     <div class="text-black text-lg font-bold sm:line-clamp-1 hover:line-clamp-none">
                         {{$schedule->talk?->name}}</div>
                     @if($schedule->talk?->description)
