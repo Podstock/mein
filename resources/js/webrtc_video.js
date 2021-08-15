@@ -78,8 +78,7 @@ export default {
 
     async setup() {
         console.log("webrtc_video:setup");
-        if (this.stream)
-            this.stop();
+        if (this.stream) this.stop();
 
         try {
             this.stream = await navigator.mediaDevices.getUserMedia(
@@ -168,7 +167,12 @@ export default {
         this.hangup();
         this.stream?.getVideoTracks()[0].stop();
         this.stream = null;
+        this.input_id = null;
         this.inputs = [];
+        this.mediaConstraints = {
+            audio: false,
+            video: { width: 640, height: 480, framerate: 15 },
+        };
     },
 
     disable_cam() {
