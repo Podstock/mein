@@ -39,6 +39,7 @@
                             :alt="message.user.name">
                     </span>
                     <div class="ml-4">
+                        <p x-text="message.user.time" class="text-xs font-medium text-gray-900 truncate"></p>
                         <p class="text-sm font-medium text-gray-900 truncate">
                             <span x-text="message.user.name"></span>
                             <span x-html="'@'+message.user.nickname" class="text-gray-500"></span></p>

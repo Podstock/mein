@@ -34,6 +34,8 @@ class MessageAdded implements ShouldBroadcast
             $message->user->toArray(),
             ['name', 'nickname', 'profile_photo_url']
         );
+
+        $this->message['user']['time'] = $message->created_at->format('d.m.Y H:i:s');
     }
 
 
