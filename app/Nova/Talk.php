@@ -12,6 +12,7 @@ use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Illuminate\Support\Str;
+use Laravel\Nova\Fields\Boolean;
 
 class Talk extends Resource
 {
@@ -63,7 +64,7 @@ class Talk extends Resource
             Select::make('Type')
                 ->options(ModelsTalk::getTypes())
                 ->displayUsingLabels()->rules('required'),
-
+            Boolean::make('Record'),
             BelongsTo::make('Schedule')->exceptOnForms()->sortable(),
             Textarea::make('description')->hideFromIndex()->alwaysShow(),
             Textarea::make('comment')->hideFromIndex()->alwaysShow(),
