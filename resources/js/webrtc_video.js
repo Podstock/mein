@@ -35,7 +35,7 @@ export default {
 
     mediaConstraints: {
         audio: false,
-        video: { width: 640, height: 480, framerate: 15 },
+        video: { width: 1024, height: 720, framerate: 15 },
     },
 
     init() {
@@ -171,7 +171,7 @@ export default {
         this.inputs = [];
         this.mediaConstraints = {
             audio: false,
-            video: { width: 640, height: 480, framerate: 15 },
+            video: { width: 1024, height: 720, framerate: 15 },
         };
     },
 
