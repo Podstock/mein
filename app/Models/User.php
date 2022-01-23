@@ -127,7 +127,8 @@ class User extends Authenticatable
         if (!empty($this->attributes['nickname']))
             return $this->attributes['nickname'];
 
-        $accs = $this->connectedAccounts()->get();
+        $accs = $this->connectedAccounts;
+
         foreach ($accs as $acc) {
             if ($acc->nickname)
                 return $acc->nickname;
@@ -156,7 +157,7 @@ class User extends Authenticatable
         $room = Room::find($room_id);
         if (!$room->show)
             return true;
-        
+
         $role = (int)$this->rooms()
             ->whereRoomId($room_id)->first()?->pivot->role;
         if ($role >= Room::SPEAKER)

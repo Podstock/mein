@@ -3,7 +3,6 @@
 namespace App\Http\Livewire\Room;
 
 use App\Events\MessageAdded;
-use App\Models\Message;
 use App\Models\Room;
 use Livewire\Component;
 
@@ -29,7 +28,8 @@ class Chat extends Component
     {
         $this->show = false;
         $this->room = $room;
-        $this->room_messages = $room->messages;
+        $this->room_messages = $room->messages()->limit(100)
+            ->with(['user'])->get();
     }
 
     public function toggleChat()
@@ -44,7 +44,7 @@ class Chat extends Component
             'body' => $this->body,
             'user_id' => auth()->user()->id
         ]);
-        
+
         $message->load('user');
         MessageAdded::dispatch($this->room, $message);
 
