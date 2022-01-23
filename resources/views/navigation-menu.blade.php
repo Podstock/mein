@@ -5,7 +5,7 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
-                    <a href="{{ route('mytalks') }}">
+                    <a href="{{ route('dashboard') }}">
                         <x-jet-application-mark class="block h-9 w-auto" />
                     </a>
                 </div>
@@ -21,7 +21,8 @@
                             </path>
                         </svg>
                         <span>{{ __('Wegweiser') }}</span>
-                    </x-jet-nav-link>
+		    </x-jet-nav-link>
+{{--
                     <x-jet-nav-link href="{{ route('camping') }}" :active="request()->routeIs('camping')">
 
                         <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="campground"
@@ -32,7 +33,7 @@
                             </path>
                         </svg>
                         <span>{{ __('Zelten') }}</span>
-                    </x-jet-nav-link>
+		    </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('mytalks') }}" :active="request()->is('talks/*')">
 
                         <svg aria-hidden="true" focusable="false" data-prefix="fad" data-icon="signal-stream"
@@ -49,7 +50,7 @@
                         </svg>
                         <span>{{ __('Call for Podcasts') }}</span>
                     </x-jet-nav-link>
-                    {{-- <x-jet-nav-link href="{{ route('merch') }}" :active="request()->routeIs('merch')">
+                    <x-jet-nav-link href="{{ route('merch') }}" :active="request()->routeIs('merch')">
 
                         <svg class="text-gray-400 group-hover:text-gray-500 -ml-0.5 mr-2 h-5 w-5" aria-hidden="true"
                             focusable="false" data-prefix="fas" data-icon="file-image" role="img"
@@ -59,7 +60,8 @@
                             </path>
                         </svg>
                         <span>{{ __('Sticker') }}</span>
-                    </x-jet-nav-link> --}}
+                    </x-jet-nav-link>
+--}}
                     <x-jet-nav-link href="{{ route('fahrplan') }}" :active="request()->routeIs('fahrplan')">
                         <svg aria-hidden="true" focusable="false" data-prefix="fad" data-icon="rocket-launch" class="text-gray-400 group-hover:text-gray-500 -ml-0.5 mr-2 h-5 w-5" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><g class="fa-group"><path class="fa-secondary" fill="currentColor" d="M52.05 154.5L2.65 253.2C1.15 256.6 .225 260.3 .1 264c0 13.25 10.8 24 24.05 24h85.17c46.64-79.44 72.15-124.5 87.53-151.5C198.4 133.7 199.6 130.8 201.2 128H94.92C78.55 128 59.3 139.9 52.05 154.5zM375.5 314.9c-26.92 15.39-71.95 40.95-151.5 87.76L224 488c0 13.25 10.75 24 23.1 24c3.75-.125 7.375-1.05 10.75-2.55l98.69-49.38c14.62-7.375 26.5-26.45 26.5-42.83l0-106.7C381.2 312.1 378.3 313.3 375.5 314.9zM35.62 352.1c-25.75 25.75-38.62 90.5-34.1 159.3c69.12 3.625 133.6-9.375 159.4-35.13c40.25-40.25 42.87-93.87 6.25-130.5C129.6 309.3 75.1 311.8 35.62 352.1zM117.4 436.1c-8.625 8.5-30.12 12.88-53.12 11.62c-1.25-22.88 2.1-44.5 11.62-53c13.5-13.5 31.37-14.38 43.5-2.125C131.6 404.8 130.7 422.6 117.4 436.1z"></path><path class="fa-primary" fill="currentColor" d="M505.2 19.66c-1.228-5.684-7.273-11.71-12.96-12.91C460.4 0 435.4 0 410.4 0C332.1 0 278.8 31.08 237 77.31C209.6 107.7 222.6 95.06 109.3 288c63.29 0 114.7 51.32 114.7 114.6c192.9-113.5 180.1-100.4 210.5-127.9c46.21-41.8 77.44-95.99 77.44-172.1C512.1 76.64 512.1 51.53 505.2 19.66zM383.1 168c-22 0-39.1-17.88-39.1-40s18.06-40 40.06-40C406.2 88 423.1 105.9 423.1 128S406.1 168 383.1 168zM75.87 394.8c-8.625 8.5-12.87 30.12-11.62 53c22.1 1.25 44.5-3.125 53.12-11.62c13.37-13.5 14.25-31.38 1.1-43.5C107.2 380.4 89.37 381.3 75.87 394.8z"></path></g></svg>
                         <span>{{ __('Fahrplan') }}</span>
@@ -202,16 +204,18 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-jet-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                 {{ __('Wegweiser') }}
-            </x-jet-responsive-nav-link>
+	    </x-jet-responsive-nav-link>
+{{--
             <x-jet-responsive-nav-link href="{{ route('camping') }}" :active="request()->routeIs('camping')">
                 {{ __('Zelten') }}
             </x-jet-responsive-nav-link>
             <x-jet-responsive-nav-link href="{{ route('mytalks') }}" :active="request()->is('talks/*')">
                 {{ __('Call for Podcasts') }}
             </x-jet-responsive-nav-link>
-            {{-- <x-jet-responsive-nav-link href="{{ route('merch') }}" :active="request()->routeIs('merch')">
+            <x-jet-responsive-nav-link href="{{ route('merch') }}" :active="request()->routeIs('merch')">
                 {{ __('Merch/Sticker') }}
-            </x-jet-responsive-nav-link> --}}
+	    </x-jet-responsive-nav-link>
+--}}
             <x-jet-responsive-nav-link href="{{ route('fahrplan') }}" :active="request()->routeIs('fahrplan')">
                 {{ __('Fahrplan') }}
             </x-jet-responsive-nav-link>
