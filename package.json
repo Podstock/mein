@@ -10,23 +10,24 @@
         "production": "mix --production"
     },
     "devDependencies": {
-        "@tailwindcss/forms": "^0.3.1",
-        "@tailwindcss/typography": "^0.4.0",
-        "alpinejs": "^3.2.3",
-        "axios": "^0.21",
-        "laravel-echo": "^1.11.1",
         "laravel-mix": "^6.0.27",
-        "lodash": "^4.17.19",
-        "mix-env-file": "^0.1.1",
-        "postcss": "^8.3.6",
-        "postcss-import": "^14.0.1",
-        "pusher-js": "^7.0.3",
-        "tailwindcss": "^2.2.7"
+        "mix-env-file": "^0.1.1"
     },
     "dependencies": {
         "@alpinejs/intersect": "^3.2.3",
-        "@tailwindcss/aspect-ratio": "^0.2.1",
-        "@tailwindcss/line-clamp": "^0.2.1",
+        "@tailwindcss/aspect-ratio": "^0.4.0",
+        "@tailwindcss/forms": "^0.4.0",
+        "@tailwindcss/line-clamp": "^0.3.1",
+        "@tailwindcss/typography": "^0.5.0",
+        "alpinejs": "^3.2.3",
+        "autoprefixer": "^10.4.2",
+        "axios": "^0.25",
+        "laravel-echo": "^1.11.1",
+        "lodash": "^4.17.19",
+        "postcss": "^8.4.5",
+        "postcss-import": "^14.0.1",
+        "pusher-js": "^7.0.3",
+        "tailwindcss": "^3.0.15",
         "video.js": "^7.14.3",
         "videojs-contrib-quality-levels": "^2.1.0",
         "videojs-http-source-selector": "^1.1.6"
