@@ -14,7 +14,6 @@
         "fruitcake/laravel-cors": "^2.0",
         "gregoriohc/laravel-nova-theme-responsive": "^0.8.1",
         "guzzlehttp/guzzle": "^7.0.1",
-        "league/oauth1-client": "^1.9.1",
         "joelbutcher/socialstream": "^3.0",
         "laravel/framework": "^8.40",
         "laravel/horizon": "^5.7",
@@ -24,8 +23,10 @@
         "laravel/sanctum": "^2.6",
         "laravel/telescope": "^4.4",
         "laravel/tinker": "^2.5",
+        "league/oauth1-client": "^1.9.1",
         "livewire/livewire": "^2.0",
-        "php-mqtt/laravel-client": "^1.0"
+        "php-mqtt/laravel-client": "^1.0",
+        "spiral/roadrunner": "^2.0"
     },
     "require-dev": {
         "brianium/paratest": "^6.3",
