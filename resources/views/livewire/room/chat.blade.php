@@ -53,7 +53,7 @@
     </div>
 
     <script>
-        document.addEventListener("load", () => {
+        window.addEventListener("load", () => {
         Echo.private("chat.{{$room->id}}")
             .listen('MessageAdded', (e) => {
                 let event = new CustomEvent("chatmessage", {
