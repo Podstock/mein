@@ -35,7 +35,7 @@ export default {
 
     mediaConstraints: {
         audio: false,
-        video: { width: 1024, height: 720, framerate: 15 },
+        video: { width: 640, height: 360 },
     },
 
     init() {
@@ -171,7 +171,7 @@ export default {
         this.inputs = [];
         this.mediaConstraints = {
             audio: false,
-            video: { width: 1024, height: 720, framerate: 15 },
+            video: { width: 640, height: 360 },
         };
     },
 
@@ -229,7 +229,7 @@ export default {
                             "/webrtc_video/" + this.room_slug + "/sdp/cam",
                             json
                         );
-                    else
+                    else // Receive only
                         await axios.post(
                             "/webrtc_video/" + this.room_slug + "/sdp",
                             json

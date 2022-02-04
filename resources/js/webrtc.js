@@ -63,14 +63,14 @@ export default {
     mute() {
         this.muted = true;
         this.stream.getAudioTracks().forEach((track) => {
-            track.enabled = !this.muted;
+            track.enabled = false;
         });
     },
 
     unmute() {
         this.muted = false;
         this.stream.getAudioTracks().forEach((track) => {
-            track.enabled = !this.muted;
+            track.enabled = true;
         });
     },
 
