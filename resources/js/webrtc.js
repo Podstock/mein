@@ -37,17 +37,17 @@ export default {
     echo_failed: false,
     muted: true,
 
-    mediaConstraints: {
+    mediaConstraints_default: {
         audio: {
             echoCancellation: false, // disabling audio processing
             autoGainControl: false,
             noiseSuppression: false,
             latency: 0.02, //20ms
-            deviceId: undefined,
             sampleRate: 48000,
         },
         video: false,
     },
+    mediaConstraints: self.mediaConstraints_default,
 
     init() {
         console.log("webrtc:init");
@@ -82,7 +82,7 @@ export default {
         this.echo_failed = false;
     },
 
-    echo_yes() {
+    echo_success() {
         this.hangup();
         this.mute();
         this.room_connect();
@@ -90,20 +90,24 @@ export default {
         this.echo_failed = false;
     },
 
-    echo_no() {
+    echo_fail() {
         this.hangup();
         this.echo = false;
         this.echo_failed = true;
     },
 
     room_connect() {
-        this.webrtc = true;
+        this.echo = false;
+        this.echo_failed = false;
+	this.webrtc = true;
         this.room_slug = window.room_slug;
         this.start();
     },
 
     async setup() {
         console.log("webrtc:setup");
+
+	this.stop();
 
         try {
             this.stream = await navigator.mediaDevices.getUserMedia(
@@ -130,9 +134,10 @@ export default {
     },
 
     async audio_input_changed() {
+	if (!this.audio_input_id) return;
         console.log("webrtc: try audio %s", this.audio_input_id);
         this.mediaConstraints.audio.deviceId = { exact: this.audio_input_id };
-        this.stream.getAudioTracks()[0].stop();
+        this.stream?.getAudioTracks()[0].stop();
 
         try {
             let new_stream = await navigator.mediaDevices.getUserMedia(
@@ -164,7 +169,7 @@ export default {
     },
 
     async audio_output_changed() {
-        if (typeof this.audio_output_id === "undefined") return;
+        if (!this.audio_output_id) return;
         console.log("webrtc: try change output");
         let audio = document.querySelector("audio#audio");
 
@@ -177,10 +182,7 @@ export default {
             );
             return;
         }
-
-	//Workaround for DOMException
-	audio.src = null;
-
+	
         await audio.setSinkId(this.audio_output_id);
         console.log("webrtc: changed output");
     },
@@ -207,17 +209,32 @@ export default {
         }
     },
 
+    stop() {
+        console.log("webrtc: stop");
+	this.hangup();
+        this.stream?.getAudioTracks()[0].stop();
+        this.stream = null;
+        this.audio_input_id =  null;
+	this.audio_output_id = null;
+	this.audio_inputs = [];
+	this.audio_outputs = undefined;
+        this.mediaConstraints = this.mediaConstraints_default;
+    },
+
     hangup() {
         console.log("webrtc: hangup");
+	
         this.webrtc = false;
-        axios.get("/webrtc/" + this.room_slug + "/disconnect").then(() => {
-            this.isListening = false;
-        });
+	if (this.room_slug) {
+		axios.get("/webrtc/" + this.room_slug + "/disconnect").then(() => {
+		    this.isListening = false;
+		});
+	}
         if (pc) {
             pc.close();
             pc = null;
         }
-        Livewire.emit("webrtcOffline");
+        if (this.room_slug != "echo") Livewire.emit("webrtcOffline");
     },
 
     restart() {
@@ -290,11 +307,6 @@ export default {
                 audio.srcObject = event.streams[0];
                 console.log("received remote audio stream");
             }
-
-            // if (remoteVideo.srcObject !== event.streams[0]) {
-            //     remoteVideo.srcObject = event.streams[0];
-            //     console.log("received remote video stream");
-            // }
         };
 
         pc.oniceconnectionstatechange = (event) => {
@@ -303,6 +315,7 @@ export default {
             );
 
             if (event.target.iceConnectionState === "completed") return;
+
             if (event.target.iceConnectionState === "connected") {
                 console.log("webrtc: online, room: " + this.room_slug);
                 if (this.room_slug != "echo") Livewire.emit("webrtcReady");
@@ -333,16 +346,4 @@ export default {
             }
         );
     },
-
-    // toggle_listen() {
-    //     if (this.isListening) {
-    //         axios.get("/webrtc/" + this.room_slug + "/disconnect").then(() => {
-    //             this.isListening = false;
-    //         });
-    //         return;
-    //     }
-
-    //     this.start();
-    //     //this.isListening = true;
-    // },
 };

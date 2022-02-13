@@ -116,6 +116,7 @@ export default {
     },
 
     async input_changed() {
+	if (!this.input_id) return;
         console.log("webrtc_video: try %s", this.input_id);
         if (this.stream) {
             if (

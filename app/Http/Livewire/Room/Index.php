@@ -45,7 +45,7 @@ class Index extends Component
 
     public function toggleListen()
     {
-        $this->connect = true;
+        $this->echo = true;
     }
 
     public function toggleOptions()

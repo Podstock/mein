@@ -4,7 +4,7 @@
         <div class="text-center">Teste deine Verbindung</div>
     </x-slot>
     <x-slot name="content">
-        <div x-data x-intersect.once="$store.webrtc.setup()"
+        <div x-data x-intersect="$store.webrtc.setup()"
             x-init="$watch('$store.webrtc.audio_input_id', () => $store.webrtc.audio_input_changed()); $watch('$store.webrtc.audio_output_id', () => $store.webrtc.audio_output_changed());"
             class="w-2/3 mx-auto">
             <label for="microphone" class="text-left block text-sm font-bold text-gray-700">Microphone</label>
@@ -44,11 +44,11 @@
                     Hörst du deine eigene Stimme?
                 </div>
                 <div class="flex justify-start">
-                    <button @click="$store.webrtc.echo_yes()" type="submit"
+                    <button @click="$store.webrtc.echo_success()" type="submit"
                         class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-700">
                         Ja
                     </button>
-                    <button @click="$store.webrtc.echo_no()" type="submit"
+                    <button @click="$store.webrtc.echo_fail()" type="submit"
                         class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-700">
                         Nein
                     </button>
