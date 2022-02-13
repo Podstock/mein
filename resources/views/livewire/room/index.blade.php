@@ -1,6 +1,6 @@
 <div>
     <div x-data x-show="window.self !== window.top" x-cloak class="absolute right-0 text-gray-300 mt-4 mr-4">
-        <a href="https://mein.podstock.de/room/{{$room->slug}}" target="_blank">
+        <a href="#" onclick="window.open('/room/{{$room->slug}}', 'popUpWindow', 'height=700,width=800,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes')";>
             <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="arrow-up-right-from-square"
                 class="h-8 w-8" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                 <path fill="currentColor"
