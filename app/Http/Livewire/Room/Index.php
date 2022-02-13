@@ -12,7 +12,7 @@ use Livewire\Component;
 
 class Index extends Component
 {
-    public $room;
+    public Room $room;
     public $connect;
     public $echo;
     public $webrtc;

@@ -32,7 +32,7 @@
                 </span>
             </div>
 
-            <div
+            {{--<div
                 class="sm:rounded-tr-lg relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
 
                 <div class="mt-8">
@@ -55,6 +55,7 @@
                     </svg>
                 </span>
             </div>
+            --}}
 
             <div
                 class="relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">

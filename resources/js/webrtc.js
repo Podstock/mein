@@ -166,6 +166,7 @@ export default {
 
     async audio_output_changed() {
         if (typeof this.audio_output_id === "undefined") return;
+        console.log("webrtc: try change output");
         let audio = document.querySelector("audio#audio");
 
         if (
@@ -177,6 +178,9 @@ export default {
             );
             return;
         }
+
+	//Workaround for DOMException
+	audio.src = null;
 
         await audio.setSinkId(this.audio_output_id);
         console.log("webrtc: changed output");

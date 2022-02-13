@@ -4,7 +4,7 @@
         <div class="text-center">Kamera wählen/testen</div>
     </x-slot>
     <x-slot name="content">
-        <div x-data x-intersect.once="$store.webrtc_video.setup()"
+        <div x-data x-intersect="$store.webrtc_video.setup()"
             x-init="$watch('$store.webrtc_video.input_id', () => $store.webrtc_video.input_changed())">
             <label for="cam" class="text-left block text-sm font-bold text-gray-700">Kamera</label>
             <select x-model="$store.webrtc_video.input_id" id="cam" name="cam"

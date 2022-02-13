@@ -32,11 +32,11 @@ export default {
     inputs: [],
     room_slug: undefined,
     echo: false,
-
-    mediaConstraints: {
+    mediaConstraints_default: {
         audio: false,
         video: { width: 640, height: 360 },
     },
+    mediaConstraints: self.mediaConstraints_default,
 
     init() {
         console.log("webrtc_video:init");
@@ -77,15 +77,17 @@ export default {
     },
 
     async setup() {
-        console.log("webrtc_video:setup");
-        if (this.stream) this.stop();
+	this.mediaConstraints = this.mediaConstraints_default;
+        console.log("webrtc_video:setup cam", this.mediaConstraints);
+
+        this.stop();
 
         try {
             this.stream = await navigator.mediaDevices.getUserMedia(
                 this.mediaConstraints
             );
         } catch (e) {
-            console.log("webrtc_video: permission denied...");
+            console.error("webrtc_video: permission denied...", e.name, e.message);
             return;
         }
 
@@ -96,6 +98,7 @@ export default {
     },
 
     async setup_screen() {
+        console.log("webrtc_video:setup screen");
         this.stop();
         const gdmOptions = {
             video: true,
@@ -123,7 +126,9 @@ export default {
             }
             this.stream.getVideoTracks()[0].stop();
         }
-        this.mediaConstraints.video.deviceId = { exact: this.input_id };
+
+	if (this.input_id)
+        	this.mediaConstraints.video.deviceId = { exact: this.input_id };
 
         try {
             let new_stream = await navigator.mediaDevices.getUserMedia(
@@ -135,7 +140,7 @@ export default {
             let track = this.stream.getVideoTracks()[0];
 
             console.log(
-                "webrtc: changed video: " + track.getSettings().deviceId
+                "webrtc_video: changed video: " + track.getSettings().deviceId
             );
 
             if (pc) {
@@ -146,11 +151,12 @@ export default {
                 sender.replaceTrack(track);
             }
         } catch (e) {
-            console.log("webrtc: camera permission denied...");
+            console.log("webrtc_video: camera permission denied...", e.name, e.message);
         }
     },
 
     gotDevices(deviceInfos) {
+        this.inputs = [];
         for (let i = 0; i !== deviceInfos.length; ++i) {
             const deviceInfo = deviceInfos[i];
 
@@ -169,25 +175,15 @@ export default {
         this.stream = null;
         this.input_id = null;
         this.inputs = [];
-        this.mediaConstraints = {
-            audio: false,
-            video: { width: 640, height: 360 },
-        };
-    },
-
-    disable_cam() {
-        console.log("webrtc_video: restart_disable_cam");
-        this.hangup();
-        this.stream?.getVideoTracks()[0].stop();
-        this.stream = null;
-        this.room_connect();
+        this.mediaConstraints = this.mediaConstraints_default;
     },
 
     hangup() {
         console.log("webrtc_video: hangup");
         this.webrtc_video = false;
-        if (this.room_slug)
+        if (this.room_slug) {
             axios.get("/webrtc_video/" + this.room_slug + "/disconnect");
+	}
         if (pc) {
             pc.close();
             pc = null;
