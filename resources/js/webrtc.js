@@ -42,7 +42,6 @@ export default {
             echoCancellation: false, // disabling audio processing
             autoGainControl: false,
             noiseSuppression: false,
-            channelCount: 1, //Firefox needs this for mono downsampling
             latency: 0.02, //20ms
             deviceId: undefined,
             sampleRate: 48000,
