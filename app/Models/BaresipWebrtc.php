@@ -67,6 +67,21 @@ class BaresipWebrtc
             BaresipWebrtc::command($id, 'aumix_mute', 'true', $user->id . '_audio');
     }
 
+    public static function record($room_id, $bool)
+    {
+        $id = Room::find($room_id)->baresip?->id;
+        $json = [
+            'command' => "vidmix_record",
+            'params' => $bool ? 'true' : 'false',
+            'token' => strval(auth()->user()->id) . "_video"
+        ];
+        MQTT::publish("/baresip/$id/command/", json_encode($json));
+
+        $json['command'] = "aumix_record";
+        $json['token'] = strval(auth()->user()->id) . "_audio";
+        MQTT::publish("/baresip/$id/command/", json_encode($json));
+    }
+
     public static function sdp($room_slug, $params, $video = false, $cam = false)
     {
         $type = 'audio';

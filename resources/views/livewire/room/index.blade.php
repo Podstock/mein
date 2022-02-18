@@ -9,6 +9,9 @@
             </svg>
         </button>
     </div>
+        @if(auth()->user()->isAdmin())
+        <button wire:click="room_record" class="px-4 py-2 font-semibold text-sm {{$record ? 'bg-red-500': 'bg-cyan-500'}} text-white rounded-full shadow-sm">Record</button>
+        @endif
     <div class="flex">
         <main class="w-full">
             @include('room.video')

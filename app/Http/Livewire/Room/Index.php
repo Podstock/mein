@@ -22,6 +22,7 @@ class Index extends Component
     public $modal_cam;
     public User $user;
     public $is_speaker;
+    public $record;
 
     protected function getListeners()
     {
@@ -92,6 +93,17 @@ class Index extends Component
             WebrtcVideoReady::dispatch($this->room->slug);
     }
 
+    public function room_record()
+    {
+        if ($this->record) {
+                $this->record = false;
+        } else {
+                $this->record = true;
+        }
+        BaresipWebrtc::record($this->room->id, $this->record);
+        Cache::put('record-'.$this->room->slug, $this->record);
+    }
+
     public function webrtcOffline()
     {
         $this->webrtc = false;
@@ -129,6 +141,7 @@ class Index extends Component
         $this->modal_user = false;
         $this->modal_options = false;
         $this->modal_cam = false;
+        $this->record = Cache::get('record-'.$this->room->slug, false);
         Cache::put('online-' . $this->room->slug . '-' . auth()->user()->id, false);
         $this->room->user_offline();
     }
