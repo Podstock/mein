@@ -103,7 +103,75 @@
                     </svg>
                 </span>
             </div>
+            <div
+                class="relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
+                <div class="mt-8">
+                    <h3 class="text-lg font-medium">
+                        <a href="/room/lagerfeuer" class="focus:outline-none">
+                            <!-- Extend touch target to entire panel -->
+                            <span class="absolute inset-0" aria-hidden="true"></span>
+                            Lagerfeuer
+                        </a>
+                    </h3>
+                    <p class="mt-2 text-sm text-gray-500">
+                        Sitze mit anderen gemütlich am Lagerfeuer
+                    </p>
+                </div>
+                <span class="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400"
+                    aria-hidden="true">
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z" />
+                    </svg>
+                </span>
+            </div>
+            <div
+                class="relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
+                <div class="mt-8">
+                    <h3 class="text-lg font-medium">
+                        <a href="/room/innenbuehne" class="focus:outline-none">
+                            <!-- Extend touch target to entire panel -->
+                            <span class="absolute inset-0" aria-hidden="true"></span>
+                            Innenbühne
+                        </a>
+                    </h3>
+                    <p class="mt-2 text-sm text-gray-500">
+                        Hier findest du das Hauptprogramm.
+                    </p>
+                </div>
+                <span class="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400"
+                    aria-hidden="true">
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z" />
+                    </svg>
+                </span>
+            </div>
 
+           @for ($i = 1; $i < 10; $i++)
+            <div
+                class="relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
+                <div class="mt-8">
+                    <h3 class="text-lg font-medium">
+                        <a href="/room/tisch-{{sprintf('%02d', $i)}}" class="focus:outline-none">
+                            <!-- Extend touch target to entire panel -->
+                            <span class="absolute inset-0" aria-hidden="true"></span>
+                            Tisch {{$i}}
+                        </a>
+                    </h3>
+                    <p class="mt-2 text-sm text-gray-500">
+                        Session Raum
+                    </p>
+                </div>
+                <span class="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400"
+                    aria-hidden="true">
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z" />
+                    </svg>
+                </span>
+            </div>
+            @endfor
 
 
         </div>
