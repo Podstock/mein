@@ -5,7 +5,7 @@
                 <div x-data x-show="$wire.handVisible" x-cloak>
                     <div class="inline-flex relative">
                         <button wire:click="raiseHand()" type="button"
-                            class="text-gray-300 hover:bg-gray-700 hover:text-white block px-2 py-2 text-base font-medium rounded-md">
+                            class="{{ $hand ? 'bg-indigo-600' : '' }} text-gray-300 hover:text-white block px-2 py-2 text-base font-medium rounded-md">
                             <svg class="h-9 w-9 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
