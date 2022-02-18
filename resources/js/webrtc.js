@@ -33,6 +33,7 @@ export default {
     audio_inputs: [],
     audio_outputs: undefined,
     room_slug: undefined,
+    headset: true,
     echo: false,
     echo_failed: false,
     muted: true,
@@ -137,6 +138,9 @@ export default {
 	if (!this.audio_input_id) return;
         console.log("webrtc: try audio %s", this.audio_input_id);
         this.mediaConstraints.audio.deviceId = { exact: this.audio_input_id };
+        this.mediaConstraints.audio.echoCancellation = !this.headset;
+
+	// console.log(this.mediaConstraints.audio);
         this.stream?.getAudioTracks()[0].stop();
 
         try {
@@ -219,6 +223,7 @@ export default {
 	this.audio_inputs = [];
 	this.audio_outputs = undefined;
         this.mediaConstraints = this.mediaConstraints_default;
+	this.headset = true;
     },
 
     hangup() {

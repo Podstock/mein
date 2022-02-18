@@ -25,6 +25,16 @@
                 </select>
             </div>
 
+ <div class="relative flex items-start mt-5">
+    <div class="flex items-center h-5">
+      <input @click="$nextTick(() => {$store.webrtc.audio_input_changed()});" x-model="$store.webrtc.headset" id="headset" name="headset" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+    </div>
+    <div class="ml-3 text-base">
+      <label for="headset" class="text-gray-700">Ich trage ein Headset</label>
+    </div>
+  </div>
+
+
             <div x-show="$store.webrtc.echo_failed" class="text-red-600 mt-2">
                 Bitte überprüfe ob du das richtige Mikrofon und Headset ausgewählt hast
                 und starte den Test erneut...
