@@ -1,11 +1,13 @@
 <div class="mt-10 sm:mt-12">
     <div class="max-w-7xl mx-auto px-4 text-center sm:px-6 lg:px-8">
         <div class="space-y-8 sm:space-y-10">
+            @if($room->show)
             <div class="space-y-5 sm:mx-auto sm:max-w-xl sm:space-y-4 lg:max-w-5xl">
                 <h2 class="text-xl font-extrabold tracking-tight">
                     Publikum
                 </h2>
             </div>
+            @endif
             <ul
                 class="mx-auto grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-3 lg:grid-cols-4 md:gap-x-6 lg:max-w-5xl lg:gap-x-8 lg:gap-y-12 xl:grid-cols-6">
                 <template x-for="user in listeners()">

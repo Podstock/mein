@@ -3,7 +3,7 @@
         <div class="space-y-3 sm:space-y-5">
             <div class="space-y-5 sm:mx-auto sm:max-w-xl sm:space-y-4 lg:max-w-5xl">
                 <h2 class="text-2xl font-extrabold tracking-tight">
-                    Bühne
+                    Raum {{$room->title}}
                 </h2>
             </div>
             <ul
