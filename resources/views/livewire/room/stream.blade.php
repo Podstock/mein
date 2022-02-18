@@ -7,15 +7,13 @@
             <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
         </p>
         <source src="https://live.podstock.de/hls/{{$room->slug}}_src.m3u8" type="application/x-mpegURL" />
+<!--
         <source src="https://stream-master.studio-link.de/podstock2021{{$room->slug}}.mp3" type="audio/mp3" />
+-->
     </video>
 
 
     <ul class="list-reset flex flex-wrap mt-8 mb-4 justify-center text-lg">
-        <li class="mr-3">
-            <a href="/stream/aussenbuehne" @class(['p-2 rounded-lg', 'bg-green-700 text-white'=> $room->slug ===
-                'aussenbuehne'])>Außenbühne</a>
-        </li>
         <li class="mr-3">
             <a href="/stream/innenbuehne" @class(['p-2 rounded-lg', 'bg-green-700 text-white'=> $room->slug ===
                 'innenbuehne'])>Innenbühne</a>

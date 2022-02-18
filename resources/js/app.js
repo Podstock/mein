@@ -1,8 +1,8 @@
 require("./bootstrap");
-// import videojs from "video.js";
-// require("videojs-contrib-quality-levels");
-// require("videojs-http-source-selector");
-// require("!style-loader!css-loader!video.js/dist/video-js.css");
+import videojs from "video.js";
+require("videojs-contrib-quality-levels");
+require("videojs-http-source-selector");
+require("!style-loader!css-loader!video.js/dist/video-js.css");
 
 import Alpine from "alpinejs";
 import intersect from "@alpinejs/intersect";
