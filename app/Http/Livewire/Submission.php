@@ -26,7 +26,7 @@ class Submission extends Component
             'talk.name' => 'required|string',
             'talk.type' => ['required', new TalkType],
             'talk.wishtime' => ['required', new TalkWishtime],
-            'talk.description' => 'required|min:25|string',
+            'talk.description' => 'required|min:10|string',
             'talk.comment' => 'nullable|string',
             'talk.record' => 'required|boolean',
         ];
