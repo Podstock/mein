@@ -52,11 +52,11 @@ class Talk extends Model
     public static function getTypes($key = null)
     {
         $options = [
-            self::TYPE_LIVESTREAM => 'Livestream - Audio',
-            self::TYPE_LIVESTREAM_VIDEO => 'Livestream - Video',
-            self::TYPE_WORKSHOP => 'Workshop Audio/Video',
-            self::TYPE_RECORDING_AUDIO => 'Aufzeichnung - Audio',
-            self::TYPE_RECORDING_VIDEO => 'Aufzeichnung - Video',
+            self::TYPE_LIVESTREAM => 'Session', 
+            /* self::TYPE_LIVESTREAM_VIDEO => 'Livestream - Video', */
+            /* self::TYPE_WORKSHOP => 'Workshop Audio/Video', */
+            /* self::TYPE_RECORDING_AUDIO => 'Aufzeichnung - Audio', */
+            /* self::TYPE_RECORDING_VIDEO => 'Aufzeichnung - Video', */
         ];
 
         if ($key !== null) {
@@ -69,11 +69,8 @@ class Talk extends Model
     public static function getWishtimes($key = null)
     {
         $options = [
-            self::WISHTIME_DAY2_1 => 'Sa 14.08. - Morgens',
-            self::WISHTIME_DAY2_2 => 'Sa 14.08. - Nachmittags',
-            self::WISHTIME_DAY2_3 => 'Sa 14.08. - Abends',
-            self::WISHTIME_DAY3_1 => 'So 15.08. - Morgens',
-            self::WISHTIME_DAY3_2 => 'So 15.08. - Nachmittags',
+            self::WISHTIME_DAY2_1 => 'Sa 19.02.',
+            self::WISHTIME_DAY3_1 => 'So 20.02.',
         ];
 
         if ($key !== null) {

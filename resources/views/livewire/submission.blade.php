@@ -6,24 +6,6 @@
                 <p class="mt-1 text-sm text-gray-600">
                     "Podstock ist, was Du daraus machst!"
                 </p>
-                <div class="mt-3 text-sm text-gray-600 leading-6">
-                    <p>
-                        Die Formate sollten am Podstock-Wochenende (13.-15.08.2021) am besten live durchgeführt und Teil
-                        des
-                        Festivalprogramms werden. Wir werden dazu BigBlueButton (oder ähnliches) bzw. StudioLink
-                        benutzen,
-                        so dass ihr entscheiden könnt, ob ihr per Video oder nur per Audio dabei sein wollt.
-                    </p>
-                    <p class="mt-2">
-                        Euer Podcast
-                        sollte 45 Minuten Länge nicht überschreiten, damit wir die digitale Bühne für die oder den
-                        nächsten
-                        vorbereiten können. Workshops dürfen gerne auch länger sein. Ihr habt Rückfragen dazu? Ihr
-                        erreicht
-                        uns unter <a class="text-green-800" href="mailto:mail@podstock.de">mail@podstock.de</a> oder auf Twitter unter <a class="text-green-800" href="https://twitter.com/PodstockDE">@PodstockDE</a>.
-                    </p>
-                </div>
-
             </div>
         </div>
         <div class="mt-5 md:mt-0 md:col-span-2">
