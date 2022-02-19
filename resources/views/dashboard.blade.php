@@ -32,15 +32,15 @@
                 </span>
             </div>
 
-            {{--<div
+            <div
                 class="sm:rounded-tr-lg relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
 
                 <div class="mt-8">
                     <h3 class="text-lg font-medium">
-                        <a href="/stream/aussenbuehne" class="focus:outline-none">
+                        <a href="/room/ballebad" class="focus:outline-none">
                             <!-- Extend touch target to entire panel -->
                             <span class="absolute inset-0" aria-hidden="true"></span>
-                            Livestreams
+                            Bällebad
                         </a>
                     </h3>
                     <p class="mt-2 text-sm text-gray-500">
@@ -55,7 +55,6 @@
                     </svg>
                 </span>
             </div>
-            --}}
 
             <div
                 class="relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
