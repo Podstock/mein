@@ -59,7 +59,7 @@ class Talk extends Resource
 
             Select::make('Status')
                 ->options(ModelsTalk::getStatus())
-                ->displayUsingLabels(),
+                ->displayUsingLabels()->sortable(),
 
             Select::make('Type')
                 ->options(ModelsTalk::getTypes())
