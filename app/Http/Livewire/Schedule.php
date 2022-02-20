@@ -8,7 +8,7 @@ use Livewire\Component;
 class Schedule extends Component
 {
     public $schedules;
-    public $day = 2;
+    public $day = 3;
     protected $queryString = ['day'];
 
     public function render()
