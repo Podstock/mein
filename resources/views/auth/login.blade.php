@@ -43,9 +43,11 @@
                     {{ __('Login') }}
                 </x-jet-button>
             </div>
+<!--
                     <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('register') }}">
                         {{ __('Noch nicht registriert?') }}
                     </a>
+-->
         </form>
 
         @if (JoelButcher\Socialstream\Socialstream::show())
